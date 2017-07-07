@@ -63,12 +63,12 @@ namespace CodingConnected.TLCProF.Management
             _Processing = true;
 
             // Time
-            double time = Math.Truncate(timeAmount + missed_time);
+            var time = Math.Truncate(timeAmount + missed_time);
             missed_time = (timeAmount + missed_time) - time;
             Controller.Clock.Update((int)time);
-            for(int i = 0; i < Timers.Count; ++i)
+            foreach (var t in Timers)
             {
-                Timers[i].Step((int)time);
+                t.Step((int)time);
             }
 
             foreach(var sg in Controller.SignalGroups)

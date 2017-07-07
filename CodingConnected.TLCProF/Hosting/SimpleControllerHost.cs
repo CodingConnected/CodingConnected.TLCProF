@@ -28,6 +28,7 @@ namespace CodingConnected.TLCProF.Hosting
 
         #region Properties
 
+        [UsedImplicitly]
         public SimpleControllerSim Simulator { private get; set; }
 
         public bool Stepdelay
@@ -52,6 +53,7 @@ namespace CodingConnected.TLCProF.Hosting
 
         #region Public methods
 
+        [UsedImplicitly]
         public void StartController()
         {
             _running = true;
@@ -63,28 +65,30 @@ namespace CodingConnected.TLCProF.Hosting
 
         #region Private methods
 
+        [UsedImplicitly]
         private void RunController()
         {
             _logger.Info("RunController started.");
             try
             {
                 _previousTime = DateTime.Now;
+                double elapsed, del;
                 while (true)
                 {
                     if (_stepdelay)
                     {
-                        var i = DateTime.Now.Subtract(_previousTime).TotalMilliseconds;
+                        elapsed = DateTime.Now.Subtract(_previousTime).TotalMilliseconds;
                         _previousTime = DateTime.Now;
-                        if (i > _stepsize * 2)
+                        if (elapsed > _stepsize * 2)
                         {
-                            _logger.Warn("Control loop cycle took longer than twice the desired step size: {0} ms", i);
+                            _logger.Warn("Control loop cycle took longer than twice the desired step size: {0} ms", elapsed);
                         }
 
-                        Simulator?.SimulationStep(i);
-                        _manager.ExecuteStep(i);
+                        Simulator?.SimulationStep(elapsed);
+                        _manager.ExecuteStep(elapsed);
                         StepTaken?.Invoke(this, EventArgs.Empty);
 
-                        var del = _stepsize - DateTime.Now.Subtract(_previousTime).TotalMilliseconds;
+                        del = _stepsize - elapsed;
                         if (del > 0)
                         {
                             Thread.Sleep((int) del);
@@ -108,6 +112,7 @@ namespace CodingConnected.TLCProF.Hosting
             }
         }
 
+        [UsedImplicitly]
         public void StopController()
         {
             if (_runThread == null)

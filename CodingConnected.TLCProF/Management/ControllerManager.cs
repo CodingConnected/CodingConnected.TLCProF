@@ -107,21 +107,19 @@ namespace CodingConnected.TLCProF.Management
 
             // Find all functionality
             _Managers = new List<ManagerBase>();
-            Assembly tlcprof = typeof(ControllerManager).Assembly;
-            foreach (Type type in tlcprof.GetTypes())
+            var tlcprof = typeof(ControllerManager).Assembly;
+            foreach (var type in tlcprof.GetTypes())
             {
                 var attr = (ControllerManagerAttribute)Attribute.GetCustomAttribute(type, typeof(ControllerManagerAttribute));
-                if (attr != null)
+                if (attr == null) continue;
+                try
                 {
-                    try
-                    {
-                        var v = Activator.CreateInstance(type, new object[] { this, controller }) as ManagerBase;
-                        _Managers.Add(v);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Error creating manager of type " + type.ToString() + ".\n\nException: \n" + e.ToString());
-                    }
+                    var v = Activator.CreateInstance(type, new object[] { this, controller }) as ManagerBase;
+                    _Managers.Add(v);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error creating manager of type " + type.ToString() + ".\n\nException: \n" + e.ToString());
                 }
             }
 
@@ -130,8 +128,6 @@ namespace CodingConnected.TLCProF.Management
             {
                 sg.StateChanged += controller.OnSignalGroupStateChanged;
             }
-
-            controller.Clock.CurrentTime = new DateTime(2000, 1, 1, 12, 0, 0, 0);
         }
 
         private List<TimerModel> GetAllTimers(object obj)

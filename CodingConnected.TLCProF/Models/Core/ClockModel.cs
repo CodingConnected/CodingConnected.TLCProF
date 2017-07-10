@@ -5,7 +5,7 @@ namespace CodingConnected.TLCProF.Models
 {
     [Serializable]
     [DataContract(Name = "Clock", Namespace = "http://www.codingconnected.eu/TLC_PROF.Models")]
-    public class ClockModel
+    public class ClockModel : ITLCProFModelBase
     {
         #region Properties
 
@@ -23,10 +23,20 @@ namespace CodingConnected.TLCProF.Models
 
         #endregion // Public Methods
 
+        #region ITLCProFModelBase
+
+        public void Reset()
+        {
+            CurrentTime = new DateTime(2000, 1, 1, 12, 0, 0, 0);
+        }
+
+        #endregion
+
         #region Constructor
 
         public ClockModel()
         {
+            Reset();
         }
 
         #endregion // Constructor

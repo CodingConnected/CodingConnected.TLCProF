@@ -5,22 +5,25 @@ namespace CodingConnected.TLCProF.Models
 {
     [Serializable]
     [DataContract(Name = "SignalGroupSafetyGreen", Namespace = "http://www.codingconnected.eu/TLC_PROF.Models")]
-    public class SignalGroupSafetyGreenModel
+    public class SignalGroupSafetyGreenModel : ITLCProFModelBase
     {
         #region Properties
 
-        [DataMember]
-        public string SignalGroupName { get; private set; }
-        [DataMember]
-        public string DetectorName { get; private set; }
+        // State
         [DataMember]
         public TimerModel GapTimer { get; private set; }
         [DataMember]
         public TimerModel ExtendTimer { get; private set; }
-
         [IgnoreDataMember]
         public bool NeedsExtending { get; private set; }
 
+        // Settings
+        [DataMember]
+        public string SignalGroupName { get; private set; }
+        [DataMember]
+        public string DetectorName { get; private set; }
+
+        // References
         private SignalGroupModel _signalGroup;
         [IgnoreDataMember]
         public SignalGroupModel SignalGroup
@@ -28,7 +31,6 @@ namespace CodingConnected.TLCProF.Models
             get => _signalGroup;
             set => _signalGroup = value;
         }
-
         private DetectorModel _detector;
         [IgnoreDataMember]
         public DetectorModel Detector
@@ -58,6 +60,16 @@ namespace CodingConnected.TLCProF.Models
         }
 
         #endregion // Properties
+
+        #region ITLCProFModelBase
+
+        public void Reset()
+        {
+            GapTimer.Reset();
+            ExtendTimer.Reset();
+        }
+
+        #endregion // ITLCProFModelBase
 
         #region Constructor
 

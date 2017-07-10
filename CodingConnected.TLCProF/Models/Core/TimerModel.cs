@@ -5,7 +5,7 @@ namespace CodingConnected.TLCProF.Models
 {
     [Serializable]
     [DataContract(Name = "Timer", Namespace = "http://www.codingconnected.eu/TLC_PROF.Models")]
-    public class TimerModel
+    public class TimerModel : ITLCProFModelBase
     {
         #region Properties
 
@@ -100,6 +100,17 @@ namespace CodingConnected.TLCProF.Models
         }
 
         #endregion // Public Methods
+
+        #region ITLCProFModelBase
+
+        public void Reset()
+        {
+            Current = 0;
+            Remaining = 0;
+            Running = false;
+        }
+
+        #endregion // ITLCProFModelBase
 
         #region Constructors
 

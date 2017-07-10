@@ -10,7 +10,7 @@ namespace CodingConnected.TLCProF.Models
 {
     [Serializable]
     [DataContract(Name = "Module", Namespace = "http://www.codingconnected.eu/TLC_PROF.Models")]
-    public class ModuleModel
+    public class ModuleModel : ITLCProFModelBase
     {
         #region Properties
 
@@ -49,6 +49,15 @@ namespace CodingConnected.TLCProF.Models
         }
 
         #endregion // Private Methods
+
+        #region ITLCProFModelBase
+
+        public void Reset()
+        {
+            SignalGroups.ForEach(x => x.Reset());
+        }
+
+        #endregion // ITLCProFModelBase
 
         #region Constructor
 

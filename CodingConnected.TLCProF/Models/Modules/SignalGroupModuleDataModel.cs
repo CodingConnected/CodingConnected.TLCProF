@@ -10,7 +10,7 @@ namespace CodingConnected.TLCProF.Models
 {
     [Serializable]
     [DataContract(Name = "SignalGroupModuleData", Namespace = "http://www.codingconnected.eu/TLC_PROF.Models")]
-    public class SignalGroupModuleDataModel
+    public class SignalGroupModuleDataModel : ITLCProFModelBase
     {
         #region Properties
 
@@ -26,6 +26,16 @@ namespace CodingConnected.TLCProF.Models
         public SignalGroupModel SignalGroup { get; set; }
 
         #endregion // Properties
+
+        #region ITLCProFModelBase
+
+        public void Reset()
+        {
+            HadPrimaryRealisation = false;
+            SkippedPrimaryRealisation = false;
+        }
+
+        #endregion // ITLCProFModelBase
 
         #region Constructor
 

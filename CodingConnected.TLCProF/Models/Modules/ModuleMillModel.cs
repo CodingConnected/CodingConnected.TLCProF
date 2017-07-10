@@ -7,7 +7,7 @@ namespace CodingConnected.TLCProF.Models
 {
     [Serializable]
     [DataContract(Name = "ModuleMill", Namespace = "http://www.codingconnected.eu/TLC_PROF.Models")]
-    public class ModuleMillModel
+    public class ModuleMillModel : ITLCProFModelBase
     {
         #region Fields
 
@@ -20,6 +20,7 @@ namespace CodingConnected.TLCProF.Models
         [DataMember(IsRequired = true)]
         public string WaitingModuleName { get; set; }
         
+
         [IgnoreDataMember]
         public ControllerModel Controller { get; set; }
         [IgnoreDataMember]
@@ -95,6 +96,16 @@ namespace CodingConnected.TLCProF.Models
         }
 
         #endregion // Private Methods
+
+        #region ITLCProFModelBase
+
+        public void Reset()
+        {
+            CurrentModule = WaitingModule;
+            Modules.ForEach(x => x.Reset());
+        }
+
+        #endregion // ITLCProFModelBase
 
         #region Contructors
 

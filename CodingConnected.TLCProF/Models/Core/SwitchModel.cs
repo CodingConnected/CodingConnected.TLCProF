@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CodingConnected.TLCProF.Models
 {
     [Serializable]
-    public class SwitchModel
+    public class SwitchModel : ITLCProFModelBase
     {
         #region Properties
 
@@ -18,6 +18,15 @@ namespace CodingConnected.TLCProF.Models
         public bool State { get; set; }
 
         #endregion // Properties
+
+        #region ITLCProFModelBase
+
+        public void Reset()
+        {
+            
+        }
+
+        #endregion // ITLCProFModelBase
 
         #region Constructor
 

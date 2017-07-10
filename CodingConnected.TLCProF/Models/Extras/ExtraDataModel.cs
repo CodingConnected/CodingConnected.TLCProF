@@ -9,7 +9,7 @@ namespace CodingConnected.TLCProF.Models
 {
     [Serializable]
     [DataContract(Name = "ExtraData", Namespace = "http://www.codingconnected.eu/TLC_PROF.Models")]
-    public class ExtraDataModel
+    public class ExtraDataModel : ITLCProFModelBase
     {
         #region Properties
 
@@ -17,6 +17,15 @@ namespace CodingConnected.TLCProF.Models
         public List<SignalGroupSafetyGreenModel> SafetyGreenSignalGroups { get; private set; }
 
         #endregion // Properties
+
+        #region ITLCProFModelBase
+
+        public void Reset()
+        {
+            SafetyGreenSignalGroups.ForEach(x => x.Reset());
+        }
+
+        #endregion // ITLCProFModelBase
 
         #region Constructor
 

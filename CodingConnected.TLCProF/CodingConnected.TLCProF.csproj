@@ -66,6 +66,7 @@
     <Compile Include="Models\Core\ClockModel.cs" />
     <Compile Include="Models\Core\ControllerDataModel.cs" />
     <Compile Include="Models\Core\ControllerModel.cs" />
+    <Compile Include="Models\Core\TLCProFModelBase.cs" />
     <Compile Include="Models\Enumerations\ControllerStateEnum.cs" />
     <Compile Include="Models\Enumerations\DetectorExtendingTypeEnum.cs" />
     <Compile Include="Models\Core\DetectorModel.cs" />

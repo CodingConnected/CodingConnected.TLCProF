@@ -8,7 +8,7 @@ namespace CodingConnected.TLCProF.Models
 {
     [Serializable]
     [DataContract(Name = "Controller", Namespace = "http://www.codingconnected.eu/TLC_PROF.Models")]
-    public class ControllerModel
+    public class ControllerModel : ITLCProFModelBase
     {
         #region Fields
 
@@ -69,6 +69,19 @@ namespace CodingConnected.TLCProF.Models
         }
 
         #endregion // Internal Methods
+
+        #region ITLCProFModelBase
+
+        public void Reset()
+        {
+            ControllerState = ControllerStateEnum.Control;
+            Clock.Reset();
+            SignalGroups.ForEach(x => x.Reset());
+            ModuleMill.Reset();
+            Extras.Reset();
+        }
+
+        #endregion // ITLCProFModelBase
 
         #region Constructor
 

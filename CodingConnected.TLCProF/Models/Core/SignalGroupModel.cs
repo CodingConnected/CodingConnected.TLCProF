@@ -15,7 +15,7 @@ namespace CodingConnected.TLCProF.Models
 {
     [Serializable]
     [DataContract(Name = "SignalGroup", Namespace = "http://www.codingconnected.eu/TLC_PROF.Models")]
-    public class SignalGroupModel
+    public class SignalGroupModel : ITLCProFModelBase
     {
         #region Fields
 
@@ -31,10 +31,7 @@ namespace CodingConnected.TLCProF.Models
 
         #region Properties
 
-        [ModelName]
-        [DataMember(IsRequired = true)]
-        public string Name { get; private set; }
-
+        // State
         [DataMember(IsRequired = true)]
         public TimerModel GreenGuaranteed { get; private set; }
         [DataMember(IsRequired = true)]
@@ -49,27 +46,10 @@ namespace CodingConnected.TLCProF.Models
         public TimerModel RedFixed { get; private set; }
         [DataMember(IsRequired = true)]
         public TimerModel HeadMax { get; private set; }
-        [DataMember(IsRequired = true)]
-        public bool ExtendGreenFree { get; set; }
-
-        [DataMember]
-        public bool Permissive { get; set; }
-
-        [DataMember]
-        public Point Coordinates { get; set; } 
-
-        [DataMember]
-        public List<DetectorModel> Detectors { get; private set; }
-
-        [DataMember]
-        public List<InterGreenTimeModel> InterGreenTimes { get; private set; }
-        
         [IgnoreDataMember]
         public ReadOnlyCollection<SignalGroupStateRequestModel> StateRequests { get; private set; }
-
         [IgnoreDataMember]
         public ReadOnlyCollection<SignalGroupGreenRequestModel> GreenRequests { get; private set; }
-        
         [IgnoreDataMember]
         public InternalSignalGroupStateEnum InternalState
         {
@@ -86,7 +66,6 @@ namespace CodingConnected.TLCProF.Models
                 StateChanged?.Invoke(this, EventArgs.Empty);
             }
         }
-
         [IgnoreDataMember]
         public SignalGroupStateEnum State
         {
@@ -110,7 +89,6 @@ namespace CodingConnected.TLCProF.Models
                 }
             }
         }
-
         [IgnoreDataMember]
         public bool HasConflict
         {
@@ -138,6 +116,19 @@ namespace CodingConnected.TLCProF.Models
                                    InternalState == InternalSignalGroupStateEnum.WaitGreen ||
                                    InternalState == InternalSignalGroupStateEnum.ExtendGreen;
 
+        // Settings
+        [ModelName]
+        [DataMember(IsRequired = true)]
+        public string Name { get; private set; }
+        [DataMember]
+        public bool Permissive { get; set; }
+        [DataMember]
+        public Point Coordinates { get; set; } 
+        [DataMember]
+        public List<DetectorModel> Detectors { get; private set; }
+        [DataMember]
+        public List<InterGreenTimeModel> InterGreenTimes { get; private set; }
+        
         #endregion // Properties
 
         #region Events
@@ -294,6 +285,24 @@ namespace CodingConnected.TLCProF.Models
         }
 
         #endregion // Private Methods
+
+        #region ITLCProFModelBase
+
+        public void Reset()
+        {
+            InternalState = InternalSignalGroupStateEnum.Red;
+            GreenGuaranteed.Reset();
+            GreenFixed.Reset();
+            GreenExtend.Reset();
+            Amber.Reset();
+            RedGuaranteed.Reset();
+            RedFixed.Reset();
+            HeadMax.Reset();
+            _stateRequests.Clear();
+            _greenRequests.Clear();
+        }
+
+        #endregion // ITLCProFModelBase
 
         #region Constructors
 

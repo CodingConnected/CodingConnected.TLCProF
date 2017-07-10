@@ -7,7 +7,7 @@ namespace CodingConnected.TLCProF.Models
 {
     [Serializable]
     [DataContract(Name = "Detector", Namespace = "http://www.codingconnected.eu/TLC_PROF.Models")]
-    public class DetectorModel
+    public class DetectorModel : ITLCProFModelBase
     {
         #region Fields
 
@@ -17,10 +17,6 @@ namespace CodingConnected.TLCProF.Models
         #endregion // Fields
 
         #region Properties
-
-        [ModelName]
-        [DataMember(IsRequired = true)]
-        public string Name { get; set; }
 
         // State
         private bool _presence;
@@ -60,13 +56,15 @@ namespace CodingConnected.TLCProF.Models
         public TimerModel ErrorLoTimer { get; private set; }
 
         // Settings
+        [ModelName]
+        [DataMember(IsRequired = true)]
+        public string Name { get; set; }
         [DataMember(IsRequired = true)]
         public DetectorTypeEnum Type { get; set; }
         [DataMember(IsRequired = true)]
         public DetectorRequestTypeEnum Request { get; set; }
         [DataMember(IsRequired = true)]
         public DetectorExtendingTypeEnum Extend { get; set; }
-
         [DataMember]
         public Point Coordinates { get; set; }
 
@@ -95,6 +93,18 @@ namespace CodingConnected.TLCProF.Models
 
         #endregion // Private Methods
 
+        #region ITLCProFModelBase
+
+        public void Reset()
+        {
+            Occupied = false;
+            OccupiedTimer.Reset();
+            GapTimer.Reset();
+            ErrorHiTimer.Reset();
+            ErrorLoTimer.Reset();
+        }
+
+        #endregion // ITLCProFModelBase
 
         #region Constructors
 

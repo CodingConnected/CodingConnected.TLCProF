@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mono.Posix, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Mono\lib\Mono.Posix\Mono.Posix.dll</HintPath>
+    </Reference>
     <Reference Include="NLog">
       <HintPath>..\packages\NLog\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -47,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Generic\PosixHiPrecTimer.cs" />
+    <Compile Include="Generic\WinHiPrecTimer.cs" />
     <Compile Include="Helpers\ControllerUtilities.cs" />
     <Compile Include="Helpers\IntegrityChecker.cs" />
     <Compile Include="Helpers\TLCPROFSerializer.cs" />

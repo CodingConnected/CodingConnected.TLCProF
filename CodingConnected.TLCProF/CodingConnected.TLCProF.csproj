@@ -65,7 +65,8 @@
     <Compile Include="Management\Managers\DetectionExtensionManager.cs" />
     <Compile Include="Management\Managers\DetectionRequestsManager.cs" />
     <Compile Include="Management\ManagerBase.cs" />
-    <Compile Include="Management\Managers\RealisationManager.cs" />
+    <Compile Include="Management\Managers\ModulesRealisationManager.cs" />
+    <Compile Include="Management\Managers\FreeGreenExtensionManager.cs" />
     <Compile Include="Management\Managers\SafetyGreenManager.cs" />
     <Compile Include="Models\Attributes\ModelNameAttribute.cs" />
     <Compile Include="Models\Attributes\TimerAttribute.cs" />

@@ -265,8 +265,8 @@ namespace CodingConnected.TLCProF.BmpUI
                 return null;
 
             var targetColor = bmp.GetPixel(pt.X, pt.Y);
-            if (targetColor.R != 1  || targetColor.G !=1 || targetColor.B != 1)
-                return null;
+            //if (targetColor.R != 1  || targetColor.G !=1 || targetColor.B != 1)
+            //    return null;
 
             var l = new List<Point>();
             
@@ -674,6 +674,7 @@ namespace CodingConnected.TLCProF.BmpUI
                             if (d == null) return;
                             d.Presence = !d.Presence;
                             DetectorPresenceChanged?.Invoke(this, d);
+                            NeedsUpdate = true;
                         });
                     }
                 };

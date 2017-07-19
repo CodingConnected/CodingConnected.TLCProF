@@ -99,7 +99,7 @@ namespace CodingConnected.TLCProF.BmpUI
             _usemodelforupdate = usemodelforupdate;
             _application = new Application();
             _mainForm = new TLCProForm(bitmapName, _application, model, updatealways, externaldet);
-            _mainForm.DetectorPresenceChanged += DetectorPresenceChanged;
+            _mainForm.DetectorPresenceChanged += (o, e) => DetectorPresenceChanged?.Invoke(this, e);
             _mainForm.SimulationChanged += (o, e) => SimulationChanged?.Invoke(this, e);
             _mainForm.SpeedChanged += (o, e) => SpeedChanged?.Invoke(this, e);
             _mainForm.Closed += (sender, args) =>

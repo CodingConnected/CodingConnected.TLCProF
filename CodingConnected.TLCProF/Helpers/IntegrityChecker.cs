@@ -25,6 +25,7 @@ namespace CodingConnected.TLCProF.Helpers
             return true;
         }
 
+#warning works ok?? if not syummetric???
         public static bool IsInterGreenMatrixOK(ControllerModel c)
         {
             foreach (var sg in c.SignalGroups)

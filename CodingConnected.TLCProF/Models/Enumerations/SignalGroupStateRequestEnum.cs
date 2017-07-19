@@ -13,6 +13,7 @@ namespace CodingConnected.TLCProF.Models
         BlockGreen,
         WaitGreen,
         ExtendGreen,
+        FreeExtendGreen,
         AbortGreen,
         HoldGreen,
     }

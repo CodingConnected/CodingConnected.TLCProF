@@ -47,6 +47,8 @@ namespace CodingConnected.TLCProF.Helpers
             }
 
             controller.ModuleMill.Controller = controller;
+            controller.ModuleMill.AllModuleSignalGroups = controller.ModuleMill.Modules.SelectMany(x => x.SignalGroups)
+                .ToList();
 
             foreach(var sgn in controller.Extras.SafetyGreenSignalGroups)
             {

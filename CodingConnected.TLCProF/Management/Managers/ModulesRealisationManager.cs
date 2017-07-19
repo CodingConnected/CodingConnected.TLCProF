@@ -6,7 +6,7 @@ namespace CodingConnected.TLCProF.Management.Managers
 {
     [ControllerManager]
     [UsedImplicitly]
-    public class RealisationManager : ManagerBase
+    public class ModulesRealisationManager : ManagerBase
     {
         #region Properties
 
@@ -24,7 +24,7 @@ namespace CodingConnected.TLCProF.Management.Managers
 
         #region Constructor
 
-        public RealisationManager(ControllerManager mainmanager, ControllerModel controller) : base(mainmanager, controller)
+        public ModulesRealisationManager(ControllerManager mainmanager, ControllerModel controller) : base(mainmanager, controller)
         {
             mainmanager.InsertFunctionality(UpdateRealisations, ControllerFunctionalityEnum.Realisation, 0);
         }

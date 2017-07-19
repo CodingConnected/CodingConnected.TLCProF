@@ -101,7 +101,7 @@ namespace CodingConnected.TLCProF.Models
                         return true;
                     }
                     var igt2 = igt.ConflictingSignalGroup.InterGreenTimes.Where(x => x.SignalGroupTo == igt.SignalGroupFrom);
-                    if(igt2.First().Timer.Running)
+                    if (igt2.First().Timer.Running)
                     {
                         return true;
                     }
@@ -128,7 +128,9 @@ namespace CodingConnected.TLCProF.Models
         public List<DetectorModel> Detectors { get; private set; }
         [DataMember]
         public List<InterGreenTimeModel> InterGreenTimes { get; private set; }
-        
+        [DataMember]
+        public bool ExtendGreenFree { get; set; }
+
         #endregion // Properties
 
         #region Events
@@ -175,6 +177,7 @@ namespace CodingConnected.TLCProF.Models
             var blockgreenreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.BlockGreen).OrderBy(x => x.Priority).FirstOrDefault();
             var holdgreenreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.HoldGreen).OrderBy(x => x.Priority).FirstOrDefault();
             var extendgreenreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.ExtendGreen).OrderBy(x => x.Priority).FirstOrDefault();
+            var freeextendgreenreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.FreeExtendGreen).OrderBy(x => x.Priority).FirstOrDefault();
             var abortgreenreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.AbortGreen).OrderBy(x => x.Priority).FirstOrDefault();
             var waitgreenreqs = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.WaitGreen).OrderBy(x => x.Priority).FirstOrDefault();
 
@@ -229,12 +232,17 @@ namespace CodingConnected.TLCProF.Models
                     break;
 
                 case InternalSignalGroupStateEnum.FreeExtendGreen:
-                    // Skip this for now
-                    InternalState = InternalSignalGroupStateEnum.Amber;
-                    Amber.Start();
-                    foreach(var igt in InterGreenTimes)
+                    if (freeextendgreenreq == null && holdgreenreq == null ||
+                        (abortgreenreq != null &&
+                         ((freeextendgreenreq == null || freeextendgreenreq.Priority < abortgreenreq.Priority) ||
+                          (holdgreenreq == null || holdgreenreq.Priority < abortgreenreq.Priority))))
                     {
-                        igt.Timer.Start();
+                        InternalState = InternalSignalGroupStateEnum.Amber;
+                        Amber.Start();
+                        foreach(var igt in InterGreenTimes)
+                        {
+                            igt.Timer.Start();
+                        }
                     }
                     break;
 
@@ -251,9 +259,14 @@ namespace CodingConnected.TLCProF.Models
                     throw new ArgumentOutOfRangeException();
             }
         }
+        
+        public bool HasConflictWith(string sgname)
+        {
+            return InterGreenTimes.Any(igt => igt.ConflictingSignalGroup.Name == sgname);
+        }
 
         #endregion // Public Methods
-        
+
         #region Private Methods
 
         private void OnCreated()

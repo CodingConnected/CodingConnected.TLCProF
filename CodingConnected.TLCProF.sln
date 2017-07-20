@@ -14,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{1D8FF1
 		paket.dependencies = paket.dependencies
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TLC-PROF-BmpUI_testAppl", "..\..\..\Documents\Visual Studio 2017\Projects\TLC-PROF-BmpUI_testAppl\TLC-PROF-BmpUI_testAppl.csproj", "{B7098343-067B-4A42-AE4E-5309E7BA8242}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,10 +32,6 @@ Global
 		{F4897FAB-AB46-4620-9661-C86B074CFA4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4897FAB-AB46-4620-9661-C86B074CFA4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4897FAB-AB46-4620-9661-C86B074CFA4A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B7098343-067B-4A42-AE4E-5309E7BA8242}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B7098343-067B-4A42-AE4E-5309E7BA8242}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B7098343-067B-4A42-AE4E-5309E7BA8242}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B7098343-067B-4A42-AE4E-5309E7BA8242}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

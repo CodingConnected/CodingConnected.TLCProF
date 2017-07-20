@@ -121,48 +121,44 @@ namespace CodingConnected.TLCProF.BmpUI
             get => _needsUpdate;
             set
             {
-                try
+                _needsUpdate = value;
+                if (_suspendUpdate || !value) return;
+                _suspendUpdate = true;
+                _application.Invoke(async () =>
                 {
-                    _needsUpdate = value;
-                    if (_suspendUpdate || !value) return;
-                    _suspendUpdate = true;
-                    _application.Invoke(async () =>
+                    foreach (var sg in _signalGroupStates)
                     {
-                        foreach (var sg in _signalGroupStates)
-                        {
-                            if (!sg.Changed) continue;
-                            FillSignalGroup(sg.Coordinates, sg.State);
-                            sg.Changed = false;
-                        }
-                        foreach (var d in _detectorStates)
-                        {
-                            if (!d.Changed) continue;
-                            FillDetector(d.Coordinates, d.State);
-                            d.Changed = false;
-                        }
+                        if (!sg.Changed) continue;
+                        FillSignalGroup(sg.Coordinates, sg.State);
+                        sg.Changed = false;
+                    }
+                    foreach (var d in _detectorStates)
+                    {
+                        if (!d.Changed) continue;
+                        FillDetector(d.Coordinates, d.State);
+                        d.Changed = false;
+                    }
 
-                        var w = _mainImage.Width;
-                        var h = _mainImage.Height;
+                    var w = _mainImage.Width;
+                    //var h = _mainImage.Height;
+                    if (Platform.IsGtk)
+                    {
                         _mainImage.Image = _mainBitmap;
-                        if (h > 0 && w > 0)
-                        {
-                            _mainImage.Height = h;
-                            _mainImage.Width = w;
-                        }
-                        if(_updatealways || _fast)
-                            await Task.Delay(100);
+                    }
+                    if (w > 0)
+                    {
+                        //_mainImage.Height = h;
+                        _mainImage.Width = w;
+                    }
+                    if (_updatealways || _fast)
+                        await Task.Delay(100);
 
-                        _suspendUpdate = false;
-                        if (_updatealways || _fast)
-                        {
-                            NeedsUpdate = true;
-                        }
-                    });
-                }
-                catch
-                {
-                    // ignored
-                }
+                    _suspendUpdate = false;
+                    if (_updatealways || _fast)
+                    {
+                        NeedsUpdate = true;
+                    }
+                });
             }
         }
 

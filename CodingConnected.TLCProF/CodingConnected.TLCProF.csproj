@@ -62,6 +62,8 @@
     <Compile Include="Management\ControllerManager.cs" />
     <Compile Include="Management\FunctionalityContainer.cs" />
     <Compile Include="Management\Managers\ControllerStateManager.cs" />
+    <Compile Include="Management\Managers\FixedRequestsManager.cs" />
+    <Compile Include="Management\Managers\WaitGreenManager.cs" />
     <Compile Include="Management\Managers\DetectionExtensionManager.cs" />
     <Compile Include="Management\Managers\DetectionRequestsManager.cs" />
     <Compile Include="Management\ManagerBase.cs" />
@@ -77,7 +79,8 @@
     <Compile Include="Models\Enumerations\ControllerStateEnum.cs" />
     <Compile Include="Models\Enumerations\DetectorExtendingTypeEnum.cs" />
     <Compile Include="Models\Core\DetectorModel.cs" />
-    <Compile Include="Models\Enumerations\DetectorRequestTypeEnum.cs" />
+    <Compile Include="Models\Enumerations\DetectorRequestTypeEnum - Copy.cs" />
+    <Compile Include="Models\Enumerations\FixedRequestTypeEnum.cs" />
     <Compile Include="Models\Enumerations\DetectorTypeEnum.cs" />
     <Compile Include="Models\Extras\ExtraDataModel.cs" />
     <Compile Include="Models\Extras\SignalGroupSafetyGreenModel.cs" />

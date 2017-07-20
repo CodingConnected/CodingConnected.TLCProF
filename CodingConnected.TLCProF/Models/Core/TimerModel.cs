@@ -44,6 +44,12 @@ namespace CodingConnected.TLCProF.Models
 
         public void Start()
         {
+            if (Maximum == 0)
+            {
+                Ended?.Invoke(this, new EventArgs());
+                return;
+            }
+            
             Current = 0;
             Remaining = Maximum;
             Running = true;

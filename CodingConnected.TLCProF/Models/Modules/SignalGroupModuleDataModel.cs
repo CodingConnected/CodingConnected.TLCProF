@@ -64,7 +64,8 @@ namespace CodingConnected.TLCProF.Models
         private void UpdateMayRealisePrimaryAhead(ControllerModel controller)
         {
             var currentModule = controller.ModuleMill.CurrentModule;
-            if (currentModule.SignalGroups.Any(x => x.SignalGroup.CyclicGreen))
+            if (currentModule.SignalGroups.Any(x => x.SignalGroup.CyclicGreen) &&
+                !controller.SignalGroups.Any(x => x.CyclicGreen && x.HasConflictWith(this.SignalGroupName)))
             {
                 if (currentModule.SignalGroups.All(x => !x.SignalGroup.HasConflictWith(this.SignalGroupName) ||
                                                         x.AheadPrimaryRealisation || x.HadPrimaryRealisation ||
@@ -76,11 +77,9 @@ namespace CodingConnected.TLCProF.Models
                         var j = controller.ModuleMill.Modules.IndexOf(nextModule);
                         j++;
                         nextModule = j >= controller.ModuleMill.Modules.Count ? controller.ModuleMill.Modules[0] : controller.ModuleMill.Modules[j];
-                        if (nextModule.SignalGroups.Any(x => x.SignalGroupName == this.SignalGroupName))
-                        {
-                            MayRealisePrimaryAhead = true;
-                            return;
-                        }
+                        if (nextModule.SignalGroups.All(x => x.SignalGroupName != this.SignalGroupName)) continue;
+                        MayRealisePrimaryAhead = true;
+                        return;
                     }
                 }
             }

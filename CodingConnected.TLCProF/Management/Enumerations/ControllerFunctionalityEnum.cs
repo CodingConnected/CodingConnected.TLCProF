@@ -8,10 +8,10 @@ namespace CodingConnected.TLCProF.Management
 {
     public enum ControllerFunctionalityEnum
     {
-        Preparation,
-        Requests,
-        Realisation,
-        Extension,
-        Conclusion
+        Preparation = 1,
+        Requests = 2,
+        Realisation = 3,
+        Extension = 4,
+        Conclusion = 5
     }
 }

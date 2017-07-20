@@ -47,7 +47,7 @@ namespace CodingConnected.TLCProF.Management.Managers
 
         public FreeGreenExtensionManager(ControllerManager mainmanager, ControllerModel controller) : base(mainmanager, controller)
         {
-            mainmanager.InsertFunctionality(UpdateFreeExtendGreen, ControllerFunctionalityEnum.Extension, 2);
+            mainmanager.InsertFunctionality(UpdateFreeExtendGreen, ControllerFunctionalityEnum.Extension, 3);
         }
 
         #endregion // Constructor

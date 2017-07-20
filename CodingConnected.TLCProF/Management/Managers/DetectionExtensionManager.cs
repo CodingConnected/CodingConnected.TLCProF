@@ -27,24 +27,28 @@ namespace CodingConnected.TLCProF.Management.Managers
 
                 foreach (var d in sg.Detectors)
                 {
-                    if (d.Occupied && d.Extend != DetectorExtendingTypeEnum.None)
+                    if (!d.Occupied || d.Extend == DetectorExtendingTypeEnum.None) continue;
+                    switch(d.Extend)
                     {
-                        switch(d.Extend)
-                        {
-                            case DetectorExtendingTypeEnum.HeadMax:
-                                if(sg.HeadMax.Running)
-                                {
-                                    sg.AddStateRequest(SignalGroupStateRequestEnum.ExtendGreen, 0, this);
-                                }
-                                break;
+                        case DetectorExtendingTypeEnum.HeadMax:
+                            if(sg.HeadMax.Running)
+                            {
+                                sg.AddStateRequest(SignalGroupStateRequestEnum.ExtendGreen, 0, this);
+                            }
+                            break;
 
-                            case DetectorExtendingTypeEnum.Measure:
-                                if (sg.GreenExtend.Running)
-                                {
-                                    sg.AddStateRequest(SignalGroupStateRequestEnum.ExtendGreen, 0, this);
-                                }
-                                break;
-                        }
+                        case DetectorExtendingTypeEnum.Measure:
+                            if (sg.GreenExtend.Running)
+                            {
+                                sg.AddStateRequest(SignalGroupStateRequestEnum.ExtendGreen, 0, this);
+                            }
+                            break;
+
+                        case DetectorExtendingTypeEnum.None:
+                            break;
+
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
                 }
             }

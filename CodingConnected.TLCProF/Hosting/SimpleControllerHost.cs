@@ -22,18 +22,18 @@ namespace CodingConnected.TLCProF.Hosting
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private static readonly bool IsPosixEnvironment = Path.DirectorySeparatorChar == '/';
 
-        private readonly int _stepsize;
+        private int _stepSize;
+        private int _stepDelaySize;
         private readonly int _stepsizemargin;
         private readonly ControllerManager _manager;
 
-        private bool _stepdelay;
-        private DateTime _previousTime;
+        private bool _stepDelay;
         private bool _running;
-        private Thread _runThread;
 
         private WinHiPrecTimer _winCycleTimer;
         private PosixHiPrecTimer _linCycleTimer;
         private Stopwatch watch;
+        private CancellationTokenSource _fastTokenSource;
 
         #endregion // Fields
 
@@ -42,13 +42,62 @@ namespace CodingConnected.TLCProF.Hosting
         [UsedImplicitly]
         public SimpleControllerSim Simulator { private get; set; }
 
-        public bool Stepdelay
+        public bool StepDelay
         {
-            [UsedImplicitly] get => _stepdelay;
+            [UsedImplicitly] get => _stepDelay;
             set
             { 
-                _stepdelay = value;
-                _previousTime = DateTime.Now;
+                _stepDelay = value;
+                if (!value)
+                {
+                    _fastTokenSource = new CancellationTokenSource();
+                    if (IsPosixEnvironment)
+                    {
+                        _linCycleTimer.Enabled = false;
+                    }
+                    else
+                    {
+                        _winCycleTimer.Stop();
+                    }
+                    Task.Run(() =>
+                    {
+                        while (!_fastTokenSource.IsCancellationRequested)
+                        {
+                            Simulator?.SimulationStep(_stepSize);
+                            _manager.ExecuteStep(_stepSize);
+                            StepTaken?.Invoke(this, EventArgs.Empty);
+                        }
+                    });
+                }
+                else
+                {
+                    _fastTokenSource.Cancel();
+                    if (IsPosixEnvironment)
+                    {
+                        _linCycleTimer.Enabled = true;
+                    }
+                    else
+                    {
+                        _winCycleTimer.Start();
+                    }
+                }
+            }
+        }
+
+        public int StepDelaySize
+        {
+            get => _stepDelaySize;
+            set
+            {
+                _stepDelaySize = value;
+                if (IsPosixEnvironment)
+                {
+                    _linCycleTimer.Interval = _stepDelaySize;
+                }
+                else
+                {
+                    _winCycleTimer.Interval = _stepDelaySize;
+                }
             }
         }
 
@@ -68,21 +117,19 @@ namespace CodingConnected.TLCProF.Hosting
         public void StartController()
         {
             _running = true;
-            //_runThread = new Thread(RunController);
-            //_runThread.Start();
             watch = new Stopwatch();
             if (IsPosixEnvironment)
             {
                 _linCycleTimer = new PosixHiPrecTimer();
                 _linCycleTimer.Tick += LinCycleTimerElapsed;
-                _linCycleTimer.Interval = _stepsize;
+                _linCycleTimer.Interval = _stepDelaySize;
                 _linCycleTimer.Enabled = true;
             }
             else
             {
                 _winCycleTimer = new WinHiPrecTimer();
                 _winCycleTimer.Elapsed += WinCycleTimerElapsed;
-                _winCycleTimer.Interval = _stepsize;
+                _winCycleTimer.Interval = _stepDelaySize;
                 _winCycleTimer.Resolution = 25;
                 _winCycleTimer.Start();
             }
@@ -95,7 +142,7 @@ namespace CodingConnected.TLCProF.Hosting
             watch.Reset();
             watch.Start();
 
-            if (elapsed > _stepsize * 2)
+            if (elapsed > _stepSize * 2)
             {
                 _logger.Warn("Control loop cycle took longer than twice the desired step size: {0} ms", elapsed);
             }
@@ -125,11 +172,7 @@ namespace CodingConnected.TLCProF.Hosting
         [UsedImplicitly]
         public void StopController()
         {
-            //if (_runThread == null)
-            //{
-            //    _logger.Error("StopController was called without a prior call to StartController.");
-            //    return;
-            //}
+            _fastTokenSource?.Cancel();
             if (IsPosixEnvironment)
             {
                 if (_linCycleTimer == null)
@@ -137,7 +180,7 @@ namespace CodingConnected.TLCProF.Hosting
                     _logger.Error("StopController was called without a prior call to StartController.");
                     return;
                 }
-                _linCycleTimer.Enabled = false;
+                if(_stepDelay) _linCycleTimer.Enabled = false;
                 _linCycleTimer = null;
             }
             else
@@ -146,8 +189,8 @@ namespace CodingConnected.TLCProF.Hosting
                 {
                     _logger.Error("StopController was called without a prior call to StartController.");
                     return;
-                }  
-                _winCycleTimer.Stop();
+                }
+                if (_stepDelay) _winCycleTimer.Stop();
                 _winCycleTimer.Dispose();
                 _winCycleTimer = null;
             }
@@ -159,97 +202,19 @@ namespace CodingConnected.TLCProF.Hosting
         #endregion // Public methods
 
         #region Private methods
-
-        [UsedImplicitly]
-        private void RunController()
-        {
-            _logger.Info("RunController started.");
-            try
-            {
-                //_previousTime = DateTime.Now;
-                //double elapsed, del;
-                //while (true)
-                //{
-                //    if (_stepdelay)
-                //    {
-                //        elapsed = DateTime.Now.Subtract(_previousTime).TotalMilliseconds;
-                //        _previousTime = DateTime.Now;
-                //        if (elapsed > _stepsize * 2)
-                //        {
-                //            _logger.Warn("Control loop cycle took longer than twice the desired step size: {0} ms", elapsed);
-                //        }
-                //
-                //        Simulator?.SimulationStep(elapsed);
-                //        _manager.ExecuteStep(elapsed);
-                //        StepTaken?.Invoke(this, EventArgs.Empty);
-                //
-                //        del = _stepsize - elapsed;
-                //        if (del > 0)
-                //        {
-                //            Thread.Sleep((int)del);
-                //        }
-                //    }
-                //    else
-                //    {
-                //        Simulator?.SimulationStep(_stepsize);
-                //        _manager.ExecuteStep(_stepsize);
-                //        StepTaken?.Invoke(this, EventArgs.Empty);
-                //    }
-                //}
-                long elapsed = 0;
-                var watch = new Stopwatch();
-                while (true)
-                {
-                    if (_stepdelay)
-                    {
-                        elapsed = watch.ElapsedMilliseconds;
-                        watch.Reset();
-                        watch.Start();
-
-                        if (elapsed > _stepsize * 2)
-                        {
-                            _logger.Warn("Control loop cycle took longer than twice the desired step size: {0} ms", elapsed);
-                        }
-
-                        Simulator?.SimulationStep(elapsed);
-                        _manager.ExecuteStep(elapsed);
-                        StepTaken?.Invoke(this, EventArgs.Empty);
-
-                        var del = _stepsize - watch.ElapsedMilliseconds;
-                        if (del > 0)
-                        {
-                            Thread.Sleep((int) del);
-                        }
-                    }
-                    else
-                    {
-                        Simulator?.SimulationStep(_stepsize);
-                        _manager.ExecuteStep(_stepsize);
-                        StepTaken?.Invoke(this, EventArgs.Empty);
-                    }
-                }
-            }
-            catch (ThreadAbortException)
-            {
-                _logger.Info("RunController aborted.");
-            }
-            catch (ThreadInterruptedException)
-            {
-                _logger.Info("RunController interrupted.");
-            }
-        }
-
+        
         #endregion // Private methods
 
         #region Constructor
 
-        public SimpleControllerHost(ControllerManager manager, SimpleControllerSim simulator, int stepsize, bool stepdelay = true)
+        public SimpleControllerHost(ControllerManager manager, SimpleControllerSim simulator, int stepSize, int stepDelaySize, bool stepDelay = true)
         {
             _manager = manager;
             Simulator = simulator;
-            _stepsize = stepsize;
-            _stepsizemargin = (int) (stepsize * 1.5);
-            _stepdelay = stepdelay;
+            _stepSize = stepSize;
+            _stepsizemargin = (int) (stepSize * 1.5);
+            _stepDelay = stepDelay;
+            _stepDelaySize = stepDelaySize;
         }
 
         #endregion // Constructor

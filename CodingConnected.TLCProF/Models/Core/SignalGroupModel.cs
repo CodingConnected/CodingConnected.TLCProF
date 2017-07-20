@@ -46,6 +46,8 @@ namespace CodingConnected.TLCProF.Models
         public TimerModel RedFixed { get; private set; }
         [DataMember(IsRequired = true)]
         public TimerModel HeadMax { get; private set; }
+        [DataMember(IsRequired = true)]
+        public TimerModel FixedRequestDelay { get; private set; }
         [IgnoreDataMember]
         public ReadOnlyCollection<SignalGroupStateRequestModel> StateRequests { get; private set; }
         [IgnoreDataMember]
@@ -130,6 +132,10 @@ namespace CodingConnected.TLCProF.Models
         public List<InterGreenTimeModel> InterGreenTimes { get; private set; }
         [DataMember]
         public bool ExtendGreenFree { get; set; }
+        [DataMember]
+        public bool WaitGreen { get; set; }
+        [DataMember]
+        public FixedRequestTypeEnum FixedRequest { get; set; }
 
         #endregion // Properties
 
@@ -176,6 +182,7 @@ namespace CodingConnected.TLCProF.Models
             var holdredreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.HoldRed).OrderBy(x => x.Priority).FirstOrDefault();
             var blockgreenreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.BlockGreen).OrderBy(x => x.Priority).FirstOrDefault();
             var holdgreenreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.HoldGreen).OrderBy(x => x.Priority).FirstOrDefault();
+            var waitgreenreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.WaitGreen).OrderBy(x => x.Priority).FirstOrDefault();
             var extendgreenreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.ExtendGreen).OrderBy(x => x.Priority).FirstOrDefault();
             var freeextendgreenreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.FreeExtendGreen).OrderBy(x => x.Priority).FirstOrDefault();
             var abortgreenreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.AbortGreen).OrderBy(x => x.Priority).FirstOrDefault();
@@ -216,9 +223,15 @@ namespace CodingConnected.TLCProF.Models
                     break;
 
                 case InternalSignalGroupStateEnum.WaitGreen:
-                    // Skip this for now
-                    InternalState = InternalSignalGroupStateEnum.ExtendGreen;
-                    GreenExtend.Start();
+                    
+                    if (waitgreenreq == null && holdgreenreq == null ||
+                        (abortgreenreq != null &&
+                         ((waitgreenreq == null || waitgreenreq.Priority < abortgreenreq.Priority) ||
+                          (holdgreenreq == null || holdgreenreq.Priority < abortgreenreq.Priority))))
+                    {
+                        InternalState = InternalSignalGroupStateEnum.ExtendGreen;
+                        GreenExtend.Start();
+                    }
                     break;
 
                 case InternalSignalGroupStateEnum.ExtendGreen:
@@ -252,6 +265,7 @@ namespace CodingConnected.TLCProF.Models
                         InternalState = InternalSignalGroupStateEnum.FixedRed;
                         RedGuaranteed.Start();
                         RedFixed.Start();
+                        if (FixedRequest != FixedRequestTypeEnum.None) FixedRequestDelay.Start();
                     }
                     break;
 
@@ -330,7 +344,7 @@ namespace CodingConnected.TLCProF.Models
             RedGuaranteed = new TimerModel("redgar" + name, redgar);
             RedFixed = new TimerModel("redfix" + name, redfix);
             HeadMax = new TimerModel("headmax" + name, headmax);
-
+            FixedRequestDelay = new TimerModel("fixreqdelay" + name, 0);
             OnCreated();
         }
 

@@ -25,7 +25,7 @@ namespace CodingConnected.TLCProF.Management.Managers
             {
                 if (sg.WaitGreen && sg.InternalState == InternalSignalGroupStateEnum.WaitGreen)
                 {
-                    if (!sg.InterGreenTimes.Any(x => x.ConflictingSignalGroup.GreenRequests.Any()))
+                    if (!sg.InterGreenTimes.Any(x => x.ConflictingSignalGroup.HasGreenRequest))
                     {
                         sg.AddStateRequest(SignalGroupStateRequestEnum.WaitGreen, 0, this);
                     }

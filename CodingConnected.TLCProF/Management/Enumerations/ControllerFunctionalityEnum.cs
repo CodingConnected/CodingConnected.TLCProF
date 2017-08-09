@@ -10,8 +10,9 @@ namespace CodingConnected.TLCProF.Management
     {
         Preparation = 1,
         Requests = 2,
-        Realisation = 3,
-        Extension = 4,
-        Conclusion = 5
+        Extension = 3,
+        Realisation = 4,
+        FreeExtension = 5,
+        Conclusion = 6
     }
 }

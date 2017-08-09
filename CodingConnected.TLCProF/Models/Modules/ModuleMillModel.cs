@@ -53,7 +53,7 @@ namespace CodingConnected.TLCProF.Models
                     continue;
                 }
 
-                if (sg.SignalGroup.GreenRequests.Any())
+                if (sg.SignalGroup.HasGreenRequest)
                 {
                     sg.SignalGroup.AddStateRequest(SignalGroupStateRequestEnum.Green, 0, this);
                 }
@@ -66,7 +66,7 @@ namespace CodingConnected.TLCProF.Models
 
             foreach (var sg in AllModuleSignalGroups)
             {
-                if (!sg.SignalGroup.GreenRequests.Any() ||
+                if (!sg.SignalGroup.HasGreenRequest ||
                     sg.ModulesAheadAllowed == 0 ||
                     sg.SignalGroup.HasConflict ||
                     CurrentModule.SignalGroups.Any(x => x.SignalGroupName == sg.SignalGroupName)) continue;
@@ -81,7 +81,7 @@ namespace CodingConnected.TLCProF.Models
                         sg.SignalGroup.AddStateRequest(SignalGroupStateRequestEnum.FreeExtendGreen, 0, this);
                     }
                 }
-                else if (sg.SignalGroup.GreenRequests.Any() && sg.MayRealisePrimaryAhead)
+                else if (sg.SignalGroup.HasGreenRequest && sg.MayRealisePrimaryAhead)
                 {
                     sg.SignalGroup.AddStateRequest(SignalGroupStateRequestEnum.Green, 0, this);
                     sg.AheadPrimaryRealisation = true;
@@ -102,14 +102,17 @@ namespace CodingConnected.TLCProF.Models
         {
             // Don't move if the waiting module is active, and there are no unhandled requests
             if (CurrentModule == WaitingModule && 
-                Controller.SignalGroups.All(x => x.State == SignalGroupStateEnum.Green || x.GreenRequests.Count == 0))
+                Controller.SignalGroups.All(x => x.State == SignalGroupStateEnum.Green || !x.HasGreenRequest))
             {
                 return;
             }
 
             // Move on if all phases are done with cyclic green
             ModuleStart = false;
-            if (CurrentModule.SignalGroups.All(x => !x.SignalGroup.CyclicGreen && (x.HadPrimaryRealisation || x.SkippedPrimaryRealisation || x.AheadPrimaryRealisation || x.SignalGroup.GreenRequests.Count == 0)))
+            if (CurrentModule.SignalGroups.All(x => !x.SignalGroup.CyclicGreen &&
+                                                    (x.HadPrimaryRealisation || x.SkippedPrimaryRealisation ||
+                                                    x.AheadPrimaryRealisation || !x.SignalGroup.HasGreenRequest) ||
+                                                    x.SignalGroup.IsInWaitingGreen))
             {
                 foreach(var sg in CurrentModule.SignalGroups)
                 {

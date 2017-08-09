@@ -44,6 +44,7 @@ namespace CodingConnected.TLCProF.Models
         private void OnCreated()
         {
             ControllerState = ControllerStateEnum.Control;
+            Data.Controller = this;
         }
 
         [OnDeserialized]
@@ -52,12 +53,20 @@ namespace CodingConnected.TLCProF.Models
             OnCreated();
         }
 
+        internal void OnMaximumWaitingTimeExceeded(object sender, EventArgs e)
+        {
+            MaximumWaitingTimeExceeded?.Invoke(this, e);
+        }
+
         #endregion // Private Methods
 
         #region Events
 
         [field: NonSerialized]
         public event EventHandler<SignalGroupModel> SignalGroupStateChanged;
+
+        [field: NonSerialized]
+        public event EventHandler MaximumWaitingTimeExceeded;
 
         #endregion // Events
 

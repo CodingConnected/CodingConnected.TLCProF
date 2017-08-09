@@ -22,7 +22,7 @@ namespace CodingConnected.TLCProF.Hosting
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private static readonly bool IsPosixEnvironment = Path.DirectorySeparatorChar == '/';
 
-        private int _stepSize;
+        private readonly int _stepSize;
         private int _stepDelaySize;
         private readonly int _stepsizemargin;
         private readonly ControllerManager _manager;
@@ -210,6 +210,19 @@ namespace CodingConnected.TLCProF.Hosting
         public SimpleControllerHost(ControllerManager manager, SimpleControllerSim simulator, int stepSize, int stepDelaySize, bool stepDelay = true)
         {
             _manager = manager;
+            manager.Controller.MaximumWaitingTimeExceeded += async (o, e) =>
+            {
+                manager.Controller.ControllerState = ControllerStateEnum.AllRed;
+                await Task.Run(() =>
+                {
+                    while (manager.Controller.SignalGroups.Any(x => x.State != SignalGroupStateEnum.Red))
+                    {
+                        Task.Delay(100);
+                    }
+                });
+                manager.Controller.Reset();
+                manager.Controller.ControllerState = ControllerStateEnum.Control;
+            };
             Simulator = simulator;
             _stepSize = stepSize;
             _stepsizemargin = (int) (stepSize * 1.5);

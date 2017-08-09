@@ -25,13 +25,22 @@ namespace CodingConnected.TLCProF.Management.Managers
             {
                 if (sg.ExtendGreenFree && sg.InternalState == InternalSignalGroupStateEnum.FreeExtendGreen)
                 {
-                    var extend = Controller.SignalGroups.Any(sg2 => sg2.CyclicGreen);
+                    var extend = Controller.SignalGroups.Any(sg2 => sg2.CyclicGreen && sg2.InterGreenTimes.All(x => x.ConflictingSignalGroup.Name != sg.Name)) &&
+                                 Controller.ModuleMill.CurrentModule.SignalGroups
+                                     .Any(x => !x.SignalGroup.CyclicGreen &&
+                                               (x.HadPrimaryRealisation || x.SkippedPrimaryRealisation ||
+                                                x.AheadPrimaryRealisation || !x.SignalGroup.HasGreenRequest) ||
+                                               x.SignalGroup.IsInWaitingGreen);
                     if (!extend) continue;
+
                     foreach (var igt in sg.InterGreenTimes)
                     {
                         var mlcsg = Controller.ModuleMill.AllModuleSignalGroups.First(
                             x => x.SignalGroupName == igt.ConflictingSignalGroup.Name);
-                        if (mlcsg.MayRealisePrimaryAhead) extend = false;
+                        if (mlcsg.MayRealisePrimaryAhead)
+                        {
+                            extend = false;
+                        }
                     }
                     if (extend)
                     {
@@ -47,7 +56,7 @@ namespace CodingConnected.TLCProF.Management.Managers
 
         public FreeGreenExtensionManager(ControllerManager mainmanager, ControllerModel controller) : base(mainmanager, controller)
         {
-            mainmanager.InsertFunctionality(UpdateFreeExtendGreen, ControllerFunctionalityEnum.Extension, 3);
+            mainmanager.InsertFunctionality(UpdateFreeExtendGreen, ControllerFunctionalityEnum.FreeExtension, 0);
         }
 
         #endregion // Constructor

@@ -2,10 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using CodingConnected.TLCProF.Helpers;
 using CodingConnected.TLCProF.Models;
 using NLog;
@@ -18,10 +15,10 @@ namespace CodingConnected.TLCProF.Management
 
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        private List<ManagerBase> _Managers;
-        private List<FunctionalityContainer> _Functionalities;
-        private bool _Processing = false;
-        private double missed_time = 0;
+        private List<ManagerBase> _managers;
+        private List<FunctionalityContainer> _functionalities;
+        private bool _processing;
+        private double _missedTime;
 
         #endregion // Fields
 
@@ -36,35 +33,32 @@ namespace CodingConnected.TLCProF.Management
 
         public void InsertFunctionality(Action action, ControllerFunctionalityEnum functionality, int order)
         {
-            var container = _Functionalities.Where(x => x.Functionality == functionality).FirstOrDefault();
+            var container = _functionalities.FirstOrDefault(x => x.Functionality == functionality);
             if(container == null)
             {
-                throw new NotImplementedException("No container found for functionality " + functionality.ToString());
+                throw new NotImplementedException("No container found for functionality " + functionality);
             }
-            else if (container.Actions.ContainsKey(order))
+            if (container.Actions.ContainsKey(order))
             {
-                throw new NotImplementedException("Container with functionality " + functionality.ToString() + "already has functionality at index " + order);
+                throw new NotImplementedException("Container with functionality " + functionality + "already has functionality at index " + order);
             }
-            else
-            {
-                container.AddAction(action, order);
-            }
+            container.AddAction(action, order);
         }
 
         public void ExecuteStep(double timeAmount)
         {
-            if (_Processing)
+            if (_processing)
             {
-                missed_time += timeAmount;
+                _missedTime += timeAmount;
                 _logger.Warn("Missed a step");
                 return;
             }
 
-            _Processing = true;
+            _processing = true;
 
             // Time
-            var time = Math.Truncate(timeAmount + missed_time);
-            missed_time = (timeAmount + missed_time) - time;
+            var time = Math.Truncate(timeAmount + _missedTime);
+            _missedTime = (timeAmount + _missedTime) - time;
             Controller.Clock.Update((int)time);
             foreach (var t in Timers)
             {
@@ -77,12 +71,12 @@ namespace CodingConnected.TLCProF.Management
             }
 
             // Functionality
-            foreach(var f in _Functionalities)
+            foreach(var f in _functionalities)
             {
                 f.ExecuteActions();
             }
             
-            _Processing = false;
+            _processing = false;
 
         }
 
@@ -99,14 +93,14 @@ namespace CodingConnected.TLCProF.Management
             ControllerUtilities.SetAllReferences(Controller);
 
             // Build list of functionality containers
-            _Functionalities = new List<FunctionalityContainer>();
+            _functionalities = new List<FunctionalityContainer>();
             foreach(ControllerFunctionalityEnum f in Enum.GetValues(typeof(ControllerFunctionalityEnum)))
             {
-                _Functionalities.Add(new FunctionalityContainer(f));
+                _functionalities.Add(new FunctionalityContainer(f));
             }
 
             // Find all functionality
-            _Managers = new List<ManagerBase>();
+            _managers = new List<ManagerBase>();
             var tlcprof = typeof(ControllerManager).Assembly;
             foreach (var type in tlcprof.GetTypes())
             {
@@ -114,12 +108,12 @@ namespace CodingConnected.TLCProF.Management
                 if (attr == null) continue;
                 try
                 {
-                    var v = Activator.CreateInstance(type, new object[] { this, controller }) as ManagerBase;
-                    _Managers.Add(v);
+                    var v = Activator.CreateInstance(type, this, controller) as ManagerBase;
+                    _managers.Add(v);
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Error creating manager of type " + type.ToString() + ".\n\nException: \n" + e.ToString());
+                    Console.WriteLine("Error creating manager of type " + type + ".\n\nException: \n" + e);
                 }
             }
 
@@ -127,6 +121,8 @@ namespace CodingConnected.TLCProF.Management
             foreach (var sg in controller.SignalGroups)
             {
                 sg.StateChanged += controller.OnSignalGroupStateChanged;
+                sg.CurrentWaitingTime.Ended += controller.OnMaximumWaitingTimeExceeded;
+                sg.CurrentWaitingTime.SetMaximum(controller.Data.MaximumWaitingTime, TimerTypeEnum.Seconds);
             }
         }
 
@@ -136,59 +132,57 @@ namespace CodingConnected.TLCProF.Management
             if (obj == null) return l;
 
             // Object as IOElement
-            TimerModel tm = obj as TimerModel;
+            var tm = obj as TimerModel;
             if (tm != null)
             {
                 l.Add(tm);
             }
 
-            Type objType = obj.GetType();
-            PropertyInfo[] properties = objType.GetProperties();
-            foreach (PropertyInfo property in properties)
+            var objType = obj.GetType();
+            var properties = objType.GetProperties();
+            foreach (var property in properties)
             {
-                if (property.CustomAttributes.Any(x => x.AttributeType == typeof(IgnoreDataMemberAttribute)))
+                if (property.CustomAttributes.Any(x => x.AttributeType == typeof(IgnoreDataMemberAttribute)) &&
+                    property.CustomAttributes.All(x => x.AttributeType != typeof(TimerAttribute)))
                 {
                     continue;
                 }
 
-                Type propType = property.PropertyType;
-                if (!property.PropertyType.IsValueType)
+                if (property.PropertyType.IsValueType) continue;
+
+                var propValue = property.GetValue(obj);
+                if (propValue is IList elems)
                 {
-                    object propValue = property.GetValue(obj);
-                    var elems = propValue as IList;
-                    if (elems != null)
-                    {
-                        foreach (var item in elems)
-                        {
-                            // Property as IOElement
-                            tm = item as TimerModel;
-                            if (tm != null)
-                            {
-                                l.Add(tm);
-                            }
-                            else
-                            {
-                                foreach (var i in GetAllTimers(item))
-                                {
-                                    l.Add(i);
-                                }
-                            }
-                        }
-                    }
-                    else
+                    foreach (var item in elems)
                     {
                         // Property as IOElement
-                        tm = propValue as TimerModel;
+                        tm = item as TimerModel;
                         if (tm != null)
                         {
                             l.Add(tm);
                         }
                         else
                         {
-                            foreach (var i in GetAllTimers(propValue))
+                            foreach (var i in GetAllTimers(item))
                             {
                                 l.Add(i);
                             }
+                        }
+                    }
+                }
+                else
+                {
+                    // Property as IOElement
+                    tm = propValue as TimerModel;
+                    if (tm != null)
+                    {
+                        l.Add(tm);
+                    }
+                    else
+                    {
+                        foreach (var i in GetAllTimers(propValue))
+                        {
+                            l.Add(i);
                         }
                     }
                 }

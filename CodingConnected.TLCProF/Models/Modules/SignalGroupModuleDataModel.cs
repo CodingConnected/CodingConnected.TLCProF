@@ -51,7 +51,7 @@ namespace CodingConnected.TLCProF.Models
 
         public void UpdateState(ControllerModel controller)
         {
-            if (SignalGroup.State != SignalGroupStateEnum.Green && SignalGroup.GreenRequests.Any())
+            if (SignalGroup.State != SignalGroupStateEnum.Green && SignalGroup.HasGreenRequest)
             {
                 UpdateMayRealisePrimaryAhead(controller);
             }
@@ -69,7 +69,7 @@ namespace CodingConnected.TLCProF.Models
             {
                 if (currentModule.SignalGroups.All(x => !x.SignalGroup.HasConflictWith(this.SignalGroupName) ||
                                                         x.AheadPrimaryRealisation || x.HadPrimaryRealisation ||
-                                                        x.SkippedPrimaryRealisation || !x.SignalGroup.GreenRequests.Any()))
+                                                        x.SkippedPrimaryRealisation || !x.SignalGroup.HasGreenRequest))
                 {
                     var nextModule = currentModule;
                     for (var i = 0; i < this.ModulesAheadAllowed && i < controller.ModuleMill.Modules.Count; ++i)

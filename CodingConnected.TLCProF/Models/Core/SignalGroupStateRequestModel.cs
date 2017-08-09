@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 namespace CodingConnected.TLCProF.Models
 {
     [Serializable]
-    public class SignalGroupStateRequestModel
+    internal struct SignalGroupStateRequestModel
     {
         #region Properties
-        
-        public SignalGroupStateRequestEnum RequestedState { get; private set; }
-        public int Priority { get; private set; }
-        public object RequestingObject { get; private set; }
+
+        public readonly SignalGroupStateRequestEnum RequestedState;
+        public readonly int Priority;
+        public object RequestingObject;
+        public bool HasValue;
 
         #endregion // Properties
 
@@ -24,6 +25,7 @@ namespace CodingConnected.TLCProF.Models
             RequestedState = requestedstate;
             Priority = priority;
             RequestingObject = requestingobject;
+            HasValue = false;
         }
 
         #endregion // Constructor

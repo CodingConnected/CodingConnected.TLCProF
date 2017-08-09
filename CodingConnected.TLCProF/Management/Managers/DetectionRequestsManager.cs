@@ -30,7 +30,7 @@ namespace CodingConnected.TLCProF.Management.Managers
                         case DetectorRequestTypeEnum.Red:
                             if (sg.State == SignalGroupStateEnum.Red)
                             {
-                                sg.AddGreenRequest(new SignalGroupGreenRequestModel(this));
+                                sg.AddGreenRequest(d.Name);
                             }
                             break;
 
@@ -38,7 +38,7 @@ namespace CodingConnected.TLCProF.Management.Managers
                             if (sg.State == SignalGroupStateEnum.Red &&
                                 !sg.RedGuaranteed.Running)
                             {
-                                sg.AddGreenRequest(new SignalGroupGreenRequestModel(this));
+                                sg.AddGreenRequest(d.Name);
                             }
                             break;
 
@@ -46,7 +46,7 @@ namespace CodingConnected.TLCProF.Management.Managers
                             if (sg.InternalState == InternalSignalGroupStateEnum.Amber ||
                                 sg.State == SignalGroupStateEnum.Red)
                             {
-                                sg.AddGreenRequest(new SignalGroupGreenRequestModel(this));
+                                sg.AddGreenRequest(d.Name);
                             }
                             break;
 

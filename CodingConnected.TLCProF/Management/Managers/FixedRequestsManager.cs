@@ -29,15 +29,15 @@ namespace CodingConnected.TLCProF.Management.Managers
                     case FixedRequestTypeEnum.Red:
                         if (sg.State == SignalGroupStateEnum.Red && !sg.FixedRequestDelay.Running)
                         {
-                            sg.AddGreenRequest(new SignalGroupGreenRequestModel(this));
+                            sg.AddGreenRequest("fixed");
                         }
                         break;
 
                     case FixedRequestTypeEnum.RedNoConflictingRequests:
                         if (sg.State == SignalGroupStateEnum.Red && !sg.FixedRequestDelay.Running &&
-                            !sg.InterGreenTimes.Any(x => x.ConflictingSignalGroup.GreenRequests.Any()))
+                            !sg.InterGreenTimes.Any(x => x.ConflictingSignalGroup.HasGreenRequest))
                         {
-                            sg.AddGreenRequest(new SignalGroupGreenRequestModel(this));
+                            sg.AddGreenRequest("fixed_noconflicts");
                         }
                         break;
 

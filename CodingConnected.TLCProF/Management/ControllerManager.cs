@@ -75,7 +75,9 @@ namespace CodingConnected.TLCProF.Management
             {
                 f.ExecuteActions();
             }
-            
+
+            Controller.UpdateGreenLog();
+
             _processing = false;
 
         }

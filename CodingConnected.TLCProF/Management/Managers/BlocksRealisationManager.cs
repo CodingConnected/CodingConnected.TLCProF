@@ -6,7 +6,7 @@ namespace CodingConnected.TLCProF.Management.Managers
 {
     [ControllerManager]
     [UsedImplicitly]
-    public class ModulesRealisationManager : ManagerBase
+    public class BlocksRealisationManager : ManagerBase
     {
         #region Properties
 
@@ -16,15 +16,16 @@ namespace CodingConnected.TLCProF.Management.Managers
 
         private void UpdateRealisations()
         {
-            Controller.ModuleMill.UpdatePrimaryRealisations();
-            Controller.ModuleMill.MoveTheMill();
+            Controller.BlockStructure.UpdatePrimaryRealisations();
+            Controller.BlockStructure.UpdatePrimaryAOTRealisations();
+            Controller.BlockStructure.MoveBlockStructure();
         }
 
         #endregion // Private Methods
 
         #region Constructor
 
-        public ModulesRealisationManager(ControllerManager mainmanager, ControllerModel controller) : base(mainmanager, controller)
+        public BlocksRealisationManager(ControllerManager mainmanager, ControllerModel controller) : base(mainmanager, controller)
         {
             mainmanager.InsertFunctionality(UpdateRealisations, ControllerFunctionalityEnum.Realisation, 0);
         }

@@ -13,9 +13,11 @@ using NLog;
 using NLog.Targets;
 using CodingConnected.TLCProF.Models;
 using System.Reflection;
+using CodingConnected.TLCProF.Logging;
 
 namespace CodingConnected.TLCProF.BmpUI
 {
+
     internal sealed class TLCProForm : Form
     {
         private class SignalGroupState
@@ -88,14 +90,17 @@ namespace CodingConnected.TLCProF.BmpUI
         private readonly TableLayout _layout;
         private readonly RichTextArea _logArea;
         private readonly Label _timeLabel;
+        private readonly TextBox _commandTextBox;
 
         private readonly List<BitmapDetector> _detectors = new List<BitmapDetector>();
         private readonly List<SignalGroupState> _signalGroupStates = new List<SignalGroupState>();
         private readonly List<DetectorState> _detectorStates = new List<DetectorState>();
         private readonly ControllerModel _model;
+        private readonly CommandHandler _commandHandler;
         private readonly bool _updatealways;
 
         private bool _simulation;
+        private int _speed;
         private bool _fast;
         private bool _needsUpdate;
         private bool _suspendUpdate = true;
@@ -110,10 +115,13 @@ namespace CodingConnected.TLCProF.BmpUI
         public event EventHandler<bool> SimulationChanged;
         public event EventHandler<int> SpeedChanged;
         public event EventHandler<BitmapDetector> DetectorPresenceChanged;
+        public event EventHandler<string> CommandEntered;
 
         #endregion // Events
 
         #region Properties
+
+        public string ControllerInfo { get; set; }
 
         public bool NeedsUpdate
         {
@@ -421,18 +429,19 @@ namespace CodingConnected.TLCProF.BmpUI
         {
             _application = a;
             _model = model;
+            _commandHandler = new CommandHandler(model);
             _updatealways = updatealways;
 
-            var target = new MethodCallTarget()
-            {
-                ClassName = typeof(TLCProForm).AssemblyQualifiedName,
-                MethodName = "LogMethod"
-            };
-            target.Parameters.Add(new MethodCallParameter("${callsite}"));
-            target.Parameters.Add(new MethodCallParameter("${level}"));
-            target.Parameters.Add(new MethodCallParameter("${message}"));
-
-            //NLog.Config.SimpleConfigurator.ConfigureForTargetLogging(target, LogLevel.Trace);
+            //var target = new MethodCallTarget()
+            //{
+            //    ClassName = typeof(TLCProForm).AssemblyQualifiedName,
+            //    MethodName = "LogMethod"
+            //};
+            //target.Parameters.Add(new MethodCallParameter("${callsite}"));
+            //target.Parameters.Add(new MethodCallParameter("${level}"));
+            //target.Parameters.Add(new MethodCallParameter("${message}"));
+            //
+            //NLog.Config.SimpleConfigurator.ConfigureForTargetLogging(target, LogLevel.Debug);
             //SpeedChanged += (o, e) =>
             //{
             //    if(e != 0)
@@ -441,7 +450,7 @@ namespace CodingConnected.TLCProF.BmpUI
             //    }
             //    else
             //    {
-            //        NLog.Config.SimpleConfigurator.ConfigureForTargetLogging(target, LogLevel.Trace);
+            //        NLog.Config.SimpleConfigurator.ConfigureForTargetLogging(target, LogLevel.Debug);
             //    }
             //};
             
@@ -491,7 +500,20 @@ namespace CodingConnected.TLCProF.BmpUI
             Menu = m;
             var toolBar = new ToolBar();
             var simcheck = new CheckToolItem { Text = "Sim" };
-            simcheck.Click += (o, e) => 
+            //simcheck.Click += (o, e) => 
+            //{
+            //    _simulation = !_simulation;
+            //    SimulationChanged?.Invoke(this, _simulation);
+            //    if (_simulation)
+            //    {
+            //        simcheck.Checked = true;
+            //    }
+            //    else
+            //    {
+            //        simcheck.Checked = false;
+            //    }
+            //};
+            simcheck.Command = new Command((o, e) =>
             {
                 _simulation = !_simulation;
                 SimulationChanged?.Invoke(this, _simulation);
@@ -503,29 +525,70 @@ namespace CodingConnected.TLCProF.BmpUI
                 {
                     simcheck.Checked = false;
                 }
-            };
+            }) {Shortcut = Application.Instance.CommonModifier | Keys.F2};
             toolBar.Items.Add(simcheck);
-            var speedcheck = new CheckCommand((o, e) =>
+            toolBar.Items.Add(new ButtonToolItem{ Enabled = false, Text = "Speed:" });
+
+            var speedBar = new Slider();
+            var speedcheck1 = new CheckToolItem{ Text = "1", Checked = true };
+            var speedcheck2 = new CheckToolItem{ Text = "2" };
+            var speedcheck3 = new CheckToolItem{ Text = "3" };
+            var speedcheck4 = new CheckToolItem{ Text = "4" };
+            
+            speedcheck1.Command = new Command((o, e) =>
             {
-                var com = o as CheckCommand;
-                _fast = !_fast;
-                SpeedChanged?.Invoke(this, _fast ? 3 : 0);
-                if (_fast)
-                {
-                    com.Checked = true;
-                }
-                else
-                {
-                    com.Checked = false;
-                }
+                speedcheck1.Checked = true;
+                speedcheck2.Checked = false;
+                speedcheck3.Checked = false;
+                speedcheck4.Checked = false;
+                _speed = 1;
+                _fast = false;
+                SpeedChanged?.Invoke(this, _speed);
                 NeedsUpdate = true;
                 _suspendUpdate = false;
-            })
+            }){ Shortcut = Keys.Alt | Keys.D1 };
+            speedcheck2.Command = new Command((o, e) =>
             {
-                ToolBarText = "Fast"
-            };
-            toolBar.Items.Add(speedcheck);
+                speedcheck1.Checked = false;
+                speedcheck2.Checked = true;
+                speedcheck3.Checked = false;
+                speedcheck4.Checked = false;
+                _speed = 2;
+                _fast = false;
+                SpeedChanged?.Invoke(this, _speed);
+                NeedsUpdate = true;
+                _suspendUpdate = false;
+            }){ Shortcut = Application.Instance.CommonModifier | Keys.D2 };
+            speedcheck3.Command = new CheckCommand((o, e) =>
+            {
+                speedcheck1.Checked = false;
+                speedcheck2.Checked = false;
+                speedcheck3.Checked = true;
+                speedcheck4.Checked = false;
+                _speed = 3;
+                _fast = false;
+                SpeedChanged?.Invoke(this, _speed);
+                NeedsUpdate = true;
+                _suspendUpdate = false;
+            }){ Shortcut = Keys.Control | Keys.D3 };
+            speedcheck4.Command = new Command((o, e) =>
+            {
+                speedcheck1.Checked = false;
+                speedcheck2.Checked = false;
+                speedcheck3.Checked = false;
+                speedcheck4.Checked = true;
+                _speed = 4;
+                _fast = true;
+                SpeedChanged?.Invoke(this, _speed);
+                NeedsUpdate = true;
+                _suspendUpdate = false;
+            }){ Shortcut = Keys.D4 };
 
+            toolBar.Items.Add(speedcheck1);
+            toolBar.Items.Add(speedcheck2);
+            toolBar.Items.Add(speedcheck3);
+            toolBar.Items.Add(speedcheck4);
+            
             if (Platform.IsGtk)
             {
                 var fullscreencheck = new CheckCommand((o, e) =>
@@ -561,6 +624,7 @@ namespace CodingConnected.TLCProF.BmpUI
 
             //this.Icon = new Icon(Assembly.GetExecutingAssembly().GetManifestResourceStream("TLC_PROF.BmpUI.icon.ico"));
 
+
             _logArea = new RichTextArea()
             {
                 Font = new Font(FontFamilies.Monospace, 10f),
@@ -568,7 +632,22 @@ namespace CodingConnected.TLCProF.BmpUI
                 TextColor = Colors.White,
                 ReadOnly = true
             };
-            tp2.Content = _logArea;
+            _commandTextBox = new TextBox();
+            _commandTextBox.TextChanging += (sender, args) =>
+            {
+                if (args.Text == ">")
+                {
+                    CommandEntered?.Invoke(this, _commandTextBox.Text);
+                    var ret = _commandHandler.HandleCommand(_commandTextBox.Text);
+                    _logArea.Append(ret, true);
+                    _commandTextBox.Text = "";
+                    args.Cancel = true;
+                }
+            };
+            var _loglayout = new TableLayout();
+            _loglayout.Rows.Add(new TableRow(new TableCell(_logArea)) { ScaleHeight = true });
+            _loglayout.Rows.Add(new TableRow(new TableCell(_commandTextBox)));
+            tp2.Content = _loglayout;
 
             bool closed = false;
             this.Closed += (o, e) => closed = true;
@@ -578,9 +657,9 @@ namespace CodingConnected.TLCProF.BmpUI
                 int time = 0;
                 while (!closed)
                 {
-                    await Task.Delay(100);
+                    await Task.Delay(50);
                     time++;
-                    if(time >= 10)
+                    if(time >= 1)
                     {
                         time = 0;
                         if (_model != null)
@@ -588,35 +667,35 @@ namespace CodingConnected.TLCProF.BmpUI
                             a.Invoke(() =>
                             {
                                 _timeLabel.Text = _model.Clock.CurrentTime.ToLongTimeString() + " " +
-                                                  _model.Clock.CurrentTime.ToLongDateString();
+                                                  _model.Clock.CurrentTime.ToLongDateString() + " | " + ControllerInfo;
                             });
                         }
                     }
-                    if (_logChanged)
-                    {
-                        a.Invoke(() =>
-                        {
-                            while (_logQueue.Count > 0)
-                            {
-                                var s = _logQueue.Dequeue();
-                                if (s.Contains("[Info]"))
-                                    _logArea.SelectionForeground = Colors.White;
-                                if (s.Contains("[Trace]"))
-                                    _logArea.SelectionForeground = Colors.DarkGray;
-                                if (s.Contains("[Warn]"))
-                                    _logArea.SelectionForeground = Colors.Yellow;
-                                if (s.Contains("[Debug]"))
-                                    _logArea.SelectionForeground = Colors.Orange;
-                                if (s.Contains("[Error]"))
-                                    _logArea.SelectionForeground = Colors.Red;
-
-                                _logArea.Append(s + Environment.NewLine);
-                            }
-                            if (_logArea.HasFocus)
-                                _logArea.Selection = new Range<int>(_logArea.Text.Length - 1);
-                        });
-                        _logChanged = false;
-                    }
+                    //if (_logChanged)
+                    //{
+                    //    a.Invoke(() =>
+                    //    {
+                    //        while (_logQueue.Count > 0)
+                    //        {
+                    //            var s = _logQueue.Dequeue();
+                    //            if (s.Contains("[Info]"))
+                    //                _logArea.SelectionForeground = Colors.White;
+                    //            if (s.Contains("[Trace]"))
+                    //                _logArea.SelectionForeground = Colors.DarkGray;
+                    //            if (s.Contains("[Warn]"))
+                    //                _logArea.SelectionForeground = Colors.Yellow;
+                    //            if (s.Contains("[Debug]"))
+                    //                _logArea.SelectionForeground = Colors.Orange;
+                    //            if (s.Contains("[Error]"))
+                    //                _logArea.SelectionForeground = Colors.Red;
+                    //
+                    //            _logArea.Append(s + Environment.NewLine);
+                    //        }
+                    //        if (_logArea.HasFocus)
+                    //            _logArea.Selection = new Range<int>(_logArea.Text.Length - 1);
+                    //    });
+                    //    _logChanged = false;
+                    //}
                 }
             });
 

@@ -17,10 +17,21 @@ namespace CodingConnected.TLCProF.BmpUI
         private readonly Application _application;
         private readonly TLCProForm _mainForm;
         private readonly ControllerModel _model;
+        private string _controllerInfo;
 
         #endregion // Fields
 
         #region Properties
+
+        public string ControllerInfo
+        {
+            get => _controllerInfo;
+            set
+            {
+                _controllerInfo = value;
+                _mainForm.ControllerInfo = value;
+            }
+        }
 
         #endregion // Properties
 
@@ -30,6 +41,7 @@ namespace CodingConnected.TLCProF.BmpUI
         public event EventHandler<int> SpeedChanged;
         public event EventHandler<BitmapDetector> DetectorPresenceChanged;
         public event EventHandler<EventArgs> Closed;
+        public event EventHandler<string> CommandEntered;
 
         #endregion // Events
 
@@ -102,6 +114,7 @@ namespace CodingConnected.TLCProF.BmpUI
             _mainForm.DetectorPresenceChanged += (o, e) => DetectorPresenceChanged?.Invoke(this, e);
             _mainForm.SimulationChanged += (o, e) => SimulationChanged?.Invoke(this, e);
             _mainForm.SpeedChanged += (o, e) => SpeedChanged?.Invoke(this, e);
+            _mainForm.CommandEntered += (o, e) => CommandEntered?.Invoke(this, e);
             _mainForm.Closed += (sender, args) =>
             {
                 Closed?.Invoke(this, args);

@@ -9,8 +9,8 @@ using System.Xml.Serialization;
 namespace CodingConnected.TLCProF.Models
 {
     [Serializable]
-    [DataContract(Name = "Module", Namespace = "http://www.codingconnected.eu/TLC_PROF.Models")]
-    public class ModuleModel : ITLCProFModelBase
+    [DataContract(Name = "Block", Namespace = "http://www.codingconnected.eu/TLC_PROF.Models")]
+    public class BlockModel : ITLCProFModelBase
     {
         #region Properties
 
@@ -19,7 +19,7 @@ namespace CodingConnected.TLCProF.Models
         public string Name { get; set; }
 
         [DataMember]
-        public List<SignalGroupModuleDataModel> SignalGroups { get; private set; }
+        public List<BlockSignalGroupDataModel> SignalGroups { get; private set; }
 
         #endregion // Properties
 
@@ -27,7 +27,7 @@ namespace CodingConnected.TLCProF.Models
         
         public void AddSignalGroup(string sgname)
         {
-            SignalGroups.Add(new SignalGroupModuleDataModel(sgname));
+            SignalGroups.Add(new BlockSignalGroupDataModel(sgname));
         }
 
         #endregion // Public Methods
@@ -38,7 +38,7 @@ namespace CodingConnected.TLCProF.Models
         {
             if (SignalGroups == null)
             {
-                SignalGroups = new List<SignalGroupModuleDataModel>();
+                SignalGroups = new List<BlockSignalGroupDataModel>();
             }
         }
 
@@ -61,7 +61,7 @@ namespace CodingConnected.TLCProF.Models
 
         #region Constructor
 
-        public ModuleModel(string name)
+        public BlockModel(string name)
         {
             Name = name;
             OnCreated();

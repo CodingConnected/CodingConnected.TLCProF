@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using NLog;
 using System.Drawing;
+using CodingConnected.TLCProF.Models.Attributes;
 
 namespace CodingConnected.TLCProF.Models
 {
@@ -28,23 +29,32 @@ namespace CodingConnected.TLCProF.Models
         #region Properties
 
         // State
+        [LogWithDump]
         [DataMember(IsRequired = true)]
         public TimerModel GreenGuaranteed { get; private set; }
+        [LogWithDump]
         [DataMember(IsRequired = true)]
         public TimerModel GreenFixed { get; private set; }
+        [LogWithDump]
         [DataMember(IsRequired = true)]
         public TimerModel GreenExtend { get; private set; }
+        [LogWithDump]
         [DataMember(IsRequired = true)]
         public TimerModel Amber { get; private set; }
+        [LogWithDump]
         [DataMember(IsRequired = true)]
         public TimerModel RedGuaranteed { get; private set; }
+        [LogWithDump]
         [DataMember(IsRequired = true)]
         public TimerModel RedFixed { get; private set; }
+        [LogWithDump]
         [DataMember(IsRequired = true)]
         public TimerModel HeadMax { get; private set; }
+        [LogWithDump]
         [DataMember(IsRequired = true)]
         public TimerModel FixedRequestDelay { get; private set; }
         
+        [LogWithDump]
         [IgnoreDataMember]
         public InternalSignalGroupStateEnum InternalState
         {
@@ -61,6 +71,7 @@ namespace CodingConnected.TLCProF.Models
                 StateChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+        [LogWithDump]
         [IgnoreDataMember]
         public SignalGroupStateEnum State
         {
@@ -84,6 +95,7 @@ namespace CodingConnected.TLCProF.Models
                 }
             }
         }
+        [LogWithDump]
         [IgnoreDataMember]
         public bool HasConflict
         {
@@ -111,8 +123,49 @@ namespace CodingConnected.TLCProF.Models
                                    InternalState == InternalSignalGroupStateEnum.WaitGreen ||
                                    InternalState == InternalSignalGroupStateEnum.ExtendGreen;
 
+        [LogWithDump]
         [IgnoreDataMember]
         public bool HasGreenRequest => _greenReqIndex > 0;
+
+        [IgnoreDataMember]
+        public bool HasGreenStateRequest
+        {
+            get
+            {
+                if (State == SignalGroupStateEnum.Red && _stateReqIndex > 0)
+                {
+                    var greenReq = new SignalGroupStateRequestModel();
+                    var holdRedReq = new SignalGroupStateRequestModel();
+                    var blockGreenReq = new SignalGroupStateRequestModel();
+
+                    for (var i = 0; i < _stateReqIndex; ++i)
+                    {
+                        switch (_stateRequests[i].RequestedState)
+                        {
+                            case SignalGroupStateRequestEnum.HoldRed:
+                                if (!holdRedReq.HasValue || holdRedReq.Priority < _stateRequests[i].Priority)
+                                    holdRedReq = _stateRequests[i];
+                                break;
+                            case SignalGroupStateRequestEnum.Green:
+                                if (!greenReq.HasValue || greenReq.Priority < _stateRequests[i].Priority)
+                                    greenReq = _stateRequests[i];
+                                break;
+                            case SignalGroupStateRequestEnum.BlockGreen:
+                                if (!blockGreenReq.HasValue || blockGreenReq.Priority < _stateRequests[i].Priority)
+                                    blockGreenReq = _stateRequests[i];
+                                break;
+                        }
+                    }
+                    if (greenReq.HasValue && 
+                        (!holdRedReq.HasValue || holdRedReq.Priority < greenReq.Priority) &&
+                        (!blockGreenReq.HasValue || blockGreenReq.Priority < greenReq.Priority))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
 
         [IgnoreDataMember]
         public bool IsInWaitingGreen
@@ -130,11 +183,41 @@ namespace CodingConnected.TLCProF.Models
             }
         }
 
+        [LogWithDump]
         [IgnoreDataMember]
         [Timer]
         public TimerModel CurrentWaitingTime { get; private set; }
 
+        [IgnoreDataMember]
+        public List<string> CurrentGreenRequests
+        {
+            get
+            {
+                var reqs = new List<string>();
+                for (int i = 0; i < _greenReqIndex; i++)
+                {
+                    reqs.Add(_greenRequests[i]);
+                }
+                return reqs;
+            }
+        }
+
+        [IgnoreDataMember]
+        internal List<SignalGroupStateRequestModel> CurrentStateRequests
+        {
+            get
+            {
+                var reqs = new List<SignalGroupStateRequestModel>();
+                for (int i = 0; i < _greenReqIndex; i++)
+                {
+                    reqs.Add(_stateRequests[i]);
+                }
+                return reqs;
+            }
+        }
+
         // Settings
+        [LogWithDump]
         [ModelName]
         [DataMember(IsRequired = true)]
         public string Name { get; private set; }
@@ -173,7 +256,7 @@ namespace CodingConnected.TLCProF.Models
                 if (!string.Equals(_greenRequests[i], reason)) continue;
                 return;
             }
-            if (_greenReqIndex == 0)
+            if (!CurrentWaitingTime.Running && State != SignalGroupStateEnum.Green)
             {
                 CurrentWaitingTime.Start();
             }
@@ -261,16 +344,6 @@ namespace CodingConnected.TLCProF.Models
                 }
             }
 
-            //var greenreq = _stateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.Green).OrderBy(x => x.Priority).FirstOrDefault();
-            //var holdredreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.HoldRed).OrderBy(x => x.Priority).FirstOrDefault();
-            //var blockgreenreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.BlockGreen).OrderBy(x => x.Priority).FirstOrDefault();
-            //var holdgreenreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.HoldGreen).OrderBy(x => x.Priority).FirstOrDefault();
-            //var waitgreenreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.WaitGreen).OrderBy(x => x.Priority).FirstOrDefault();
-            //var extendgreenreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.ExtendGreen).OrderBy(x => x.Priority).FirstOrDefault();
-            //var freeextendgreenreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.FreeExtendGreen).OrderBy(x => x.Priority).FirstOrDefault();
-            //var abortgreenreq = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.AbortGreen).OrderBy(x => x.Priority).FirstOrDefault();
-            //var waitgreenreqs = StateRequests.Where(x => x.RequestedState == SignalGroupStateRequestEnum.WaitGreen).OrderBy(x => x.Priority).FirstOrDefault();
-
             switch (InternalState)
             {
                 case InternalSignalGroupStateEnum.FixedRed:
@@ -322,6 +395,7 @@ namespace CodingConnected.TLCProF.Models
                         abortGreenReq.HasValue && (!extendGreenReq.HasValue || extendGreenReq.Priority < abortGreenReq.Priority) &&
                                                   (!holdGreenReq.HasValue || holdGreenReq.Priority < abortGreenReq.Priority))
                     {
+                        GreenExtend.Stop();
                         InternalState = InternalSignalGroupStateEnum.FreeExtendGreen;
                     }
                     break;

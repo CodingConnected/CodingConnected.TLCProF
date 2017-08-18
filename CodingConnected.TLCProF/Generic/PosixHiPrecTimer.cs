@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using Mono.Unix.Native;
 
@@ -75,6 +76,7 @@ namespace CodingConnected.TLCProF.Generic
 
         private Task TickGenerator()
         {
+            Thread.CurrentThread.Priority = ThreadPriority.Highest;
             while (true)
             {
                 // Check if thread has been told to halt

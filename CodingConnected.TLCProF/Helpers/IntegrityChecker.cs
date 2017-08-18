@@ -16,9 +16,9 @@ namespace CodingConnected.TLCProF.Helpers
                 return false;
             }
 
-            if (c.ModuleMill == null ||
-                c.ModuleMill.Modules.Count == 0 ||
-                 string.IsNullOrWhiteSpace(c.ModuleMill.WaitingModuleName))
+            if (c.BlockStructure == null ||
+                c.BlockStructure.Blocks.Count == 0 ||
+                 string.IsNullOrWhiteSpace(c.BlockStructure.WaitingBlockName))
             {
                 return false;
             }

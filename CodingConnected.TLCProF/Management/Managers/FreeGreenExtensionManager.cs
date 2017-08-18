@@ -25,20 +25,13 @@ namespace CodingConnected.TLCProF.Management.Managers
             {
                 if (sg.ExtendGreenFree && sg.InternalState == InternalSignalGroupStateEnum.FreeExtendGreen)
                 {
-                    var extend = Controller.SignalGroups.Any(sg2 => sg2.CyclicGreen && sg2.InterGreenTimes.All(x => x.ConflictingSignalGroup.Name != sg.Name)) &&
-#warning Check for efficiency; this is almost the same as code used by ModuleMill; store in a property?
-                                 Controller.ModuleMill.CurrentModule.SignalGroups
-                                     .Any(x => !x.SignalGroup.CyclicGreen &&
-                                               !(x.HadPrimaryRealisation || x.SkippedPrimaryRealisation ||
-                                                 x.AheadPrimaryRealisation || !x.SignalGroup.HasGreenRequest) ||
-                                               x.SignalGroup.IsInWaitingGreen);
+                    var extend = Controller.SignalGroups.Any(x => x.CyclicGreen && !x.HasConflictWith(sg.Name));
                     if (!extend) continue;
 
                     foreach (var igt in sg.InterGreenTimes)
                     {
-                        var mlcsg = Controller.ModuleMill.AllModuleSignalGroups.First(
-                            x => x.SignalGroupName == igt.ConflictingSignalGroup.Name);
-                        if (mlcsg.MayRealisePrimaryAhead)
+                        if(igt.ConflictingSignalGroup.InternalState == InternalSignalGroupStateEnum.NilRed ||
+                           igt.ConflictingSignalGroup.HasGreenStateRequest)
                         {
                             extend = false;
                         }

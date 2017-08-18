@@ -23,6 +23,16 @@ namespace CodingConnected.TLCProF.Models
 
         #endregion // Public Methods
 
+        #region Private Methods
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext sc)
+        {
+            Reset();
+        }
+
+        #endregion // Private Methods
+
         #region ITLCProFModelBase
 
         public void Reset()

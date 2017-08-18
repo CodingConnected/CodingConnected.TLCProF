@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using CodingConnected.TLCProF.Generic;
+using CodingConnected.TLCProF.Logging;
 using CodingConnected.TLCProF.Management;
 using CodingConnected.TLCProF.Models;
 using CodingConnected.TLCProF.Simulation;
@@ -22,18 +23,28 @@ namespace CodingConnected.TLCProF.Hosting
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private static readonly bool IsPosixEnvironment = Path.DirectorySeparatorChar == '/';
 
-        private readonly int _stepSize;
+        private int _stepSize;
         private int _stepDelaySize;
         private readonly int _stepsizemargin;
         private readonly ControllerManager _manager;
 
         private bool _stepDelay;
         private bool _running;
+        private bool _realTime;
 
         private WinHiPrecTimer _winCycleTimer;
         private PosixHiPrecTimer _linCycleTimer;
         private Stopwatch watch;
         private CancellationTokenSource _fastTokenSource;
+
+        private MaxWaitingTimeLogger _controllerLogger;
+
+#if DEBUG
+        private readonly Stopwatch _performanceWatch = new Stopwatch();
+        private readonly long[] _performanceMeasurements = new long[100];
+        private int _performanceMeasurementsIndex;
+        private long _meanPerformanceMeasurement;
+#endif
 
         #endregion // Fields
 
@@ -41,6 +52,12 @@ namespace CodingConnected.TLCProF.Hosting
 
         [UsedImplicitly]
         public SimpleControllerSim Simulator { private get; set; }
+
+        public int StepSize
+        {
+            get => _stepSize;
+            set => _stepSize = value;
+        }
 
         public bool StepDelay
         {
@@ -69,7 +86,7 @@ namespace CodingConnected.TLCProF.Hosting
                         }
                     });
                 }
-                else
+                else if (_fastTokenSource != null)
                 {
                     _fastTokenSource.Cancel();
                     if (IsPosixEnvironment)
@@ -78,7 +95,7 @@ namespace CodingConnected.TLCProF.Hosting
                     }
                     else
                     {
-                        _winCycleTimer.Start();
+                        if (!_winCycleTimer.IsRunning) _winCycleTimer.Start();
                     }
                 }
             }
@@ -96,7 +113,12 @@ namespace CodingConnected.TLCProF.Hosting
                 }
                 else
                 {
+                    if(_winCycleTimer.IsRunning) _winCycleTimer.Stop();
+                    _winCycleTimer = new WinHiPrecTimer();
+                    _winCycleTimer.Elapsed += WinCycleTimerElapsed;
                     _winCycleTimer.Interval = _stepDelaySize;
+                    _winCycleTimer.Resolution = 5;
+                    _winCycleTimer.Start();
                 }
             }
         }
@@ -130,7 +152,7 @@ namespace CodingConnected.TLCProF.Hosting
                 _winCycleTimer = new WinHiPrecTimer();
                 _winCycleTimer.Elapsed += WinCycleTimerElapsed;
                 _winCycleTimer.Interval = _stepDelaySize;
-                _winCycleTimer.Resolution = 25;
+                _winCycleTimer.Resolution = 5;
                 _winCycleTimer.Start();
             }
 
@@ -138,17 +160,46 @@ namespace CodingConnected.TLCProF.Hosting
 
         private void WinCycleTimerElapsed(object sender, EventArgs eventArgs)
         {
-            var elapsed = watch.ElapsedMilliseconds;
+            long elapsed;
+            if (!_realTime)
+            {
+                elapsed = _stepSize;
+            }
+            else
+            {
+                elapsed = watch.ElapsedMilliseconds;
+                if (elapsed > _stepSize * 2)
+                {
+                    _logger.Warn("Control loop cycle took longer than twice the desired step size: {0} ms", elapsed);
+                }
+            }
             watch.Reset();
             watch.Start();
 
-            if (elapsed > _stepSize * 2)
-            {
-                _logger.Warn("Control loop cycle took longer than twice the desired step size: {0} ms", elapsed);
-            }
-
             Simulator?.SimulationStep(elapsed);
+#if DEBUG
+            _performanceWatch.Start();
+#endif
             _manager.ExecuteStep(elapsed);
+#if DEBUG
+            _performanceMeasurements[_performanceMeasurementsIndex] = _performanceWatch.ElapsedTicks;
+            if (_performanceMeasurementsIndex < 99)
+            {
+                _performanceMeasurementsIndex++;
+            }
+            else
+            {
+                _meanPerformanceMeasurement = 0;
+                for (var i = 0; i < _performanceMeasurementsIndex; i++)
+                {
+                    _meanPerformanceMeasurement += _performanceMeasurements[i];
+                }
+                _performanceMeasurementsIndex = 0;
+                _meanPerformanceMeasurement /= 100;
+                _logger.Debug("Ticks per step over the last 100 iterations: {0}", _meanPerformanceMeasurement);
+            }
+            _performanceWatch.Reset();
+#endif
             StepTaken?.Invoke(this, EventArgs.Empty);
 
         }
@@ -207,27 +258,39 @@ namespace CodingConnected.TLCProF.Hosting
 
         #region Constructor
 
-        public SimpleControllerHost(ControllerManager manager, SimpleControllerSim simulator, int stepSize, int stepDelaySize, bool stepDelay = true)
+        public SimpleControllerHost(ControllerManager manager, SimpleControllerSim simulator, int stepSize, int stepDelaySize, bool stepDelay = true, bool realTime = true)
         {
             _manager = manager;
-            manager.Controller.MaximumWaitingTimeExceeded += async (o, e) =>
+
+            _controllerLogger = new MaxWaitingTimeLogger(manager.Controller);
+            manager.Controller.MaximumWaitingTimeExceeded += (o, e) =>
             {
-                manager.Controller.ControllerState = ControllerStateEnum.AllRed;
-                await Task.Run(() =>
+                if (IsPosixEnvironment)
                 {
-                    while (manager.Controller.SignalGroups.Any(x => x.State != SignalGroupStateEnum.Red))
-                    {
-                        Task.Delay(100);
-                    }
-                });
+                    _linCycleTimer.Enabled = false;
+                }
+                else
+                {
+                    _winCycleTimer.Stop();
+                }
+                _controllerLogger.LogMaxWaitingTimeOccured();
                 manager.Controller.Reset();
-                manager.Controller.ControllerState = ControllerStateEnum.Control;
+                if (IsPosixEnvironment)
+                {
+                    _linCycleTimer.Enabled = true;
+                }
+                else
+                {
+                    _winCycleTimer.Start();
+                }
+#warning stop running if # times...
             };
             Simulator = simulator;
             _stepSize = stepSize;
             _stepsizemargin = (int) (stepSize * 1.5);
             _stepDelay = stepDelay;
             _stepDelaySize = stepDelaySize;
+            _realTime = realTime;
         }
 
         #endregion // Constructor

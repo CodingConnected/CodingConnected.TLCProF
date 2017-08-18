@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using CodingConnected.TLCProF.Models;
+using JetBrains.Annotations;
 
 namespace CodingConnected.TLCProF.Simulation
 {
+    [UsedImplicitly]
     public class SimpleControllerSim
     {
         #region Fields
 
         private readonly Random _random;
         private readonly ControllerModel _model;
-        private readonly List<SimpleDetectorSim> _detectorSims = new List<SimpleDetectorSim>(1);
+        private readonly List<SimpleDetectorSim> _detectorSims = new List<SimpleDetectorSim>();
 
         #endregion // Fields
 
@@ -24,7 +26,7 @@ namespace CodingConnected.TLCProF.Simulation
         {
             foreach (var d in _model.SignalGroups.SelectMany(x => x.Detectors))
             {
-                _detectorSims.Add(new SimpleDetectorSim(d){ NextChange = starttime.AddSeconds(_random.Next(1, 30))});
+                _detectorSims.Add(new SimpleDetectorSim(d, starttime, _random));
             }
         }
 
@@ -32,9 +34,7 @@ namespace CodingConnected.TLCProF.Simulation
         {
             foreach (var d in _detectorSims)
             {
-                if (_model.Clock.CurrentTime < d.NextChange) continue;
-                d.Model.Presence = !d.Model.Presence;
-                d.NextChange = _model.Clock.CurrentTime.AddSeconds(_random.Next(1, 30));
+                d.UpdateSimulationState(_model.Clock.CurrentTime);
             }
         }
 

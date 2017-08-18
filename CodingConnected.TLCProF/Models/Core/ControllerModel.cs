@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Xml.Serialization;
 using NLog;
 
@@ -15,6 +17,10 @@ namespace CodingConnected.TLCProF.Models
         [field: NonSerialized]
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
+        private Queue<string> _greenLog;
+        private int _greenLogIdx;
+        private string _lastLogString;
+
         #endregion // Fields
 
         #region Properties
@@ -26,7 +32,7 @@ namespace CodingConnected.TLCProF.Models
         public List<SignalGroupModel> SignalGroups { get; private set; }
 
         [DataMember]
-        public ModuleMillModel ModuleMill { get; private set; }
+        public BlockStructureModel BlockStructure { get; private set; }
 
         [DataMember]
         public ExtraDataModel Extras { get; private set; }
@@ -37,6 +43,9 @@ namespace CodingConnected.TLCProF.Models
         [IgnoreDataMember]
         public ControllerStateEnum ControllerState { get; set; }
 
+        [IgnoreDataMember]
+        public Queue<string> GreenLog => _greenLog;
+
         #endregion // Properties
         
         #region Private Methods
@@ -45,6 +54,8 @@ namespace CodingConnected.TLCProF.Models
         {
             ControllerState = ControllerStateEnum.Control;
             Data.Controller = this;
+            _greenLog = new Queue<string>();
+            _greenLogIdx = 25;
         }
 
         [OnDeserialized]
@@ -59,6 +70,79 @@ namespace CodingConnected.TLCProF.Models
         }
 
         #endregion // Private Methods
+
+        #region Public Methods
+
+        public void UpdateGreenLog()
+        {
+            StringBuilder sb = new StringBuilder();
+            if (_greenLogIdx == 25)
+            {
+                _greenLogIdx = 0;
+                sb.Append(";");
+                foreach (var sg in SignalGroups)
+                {
+                    sb.Append(sg.Name + ";");
+                }
+                sb.Append("block;");
+                _greenLog.Enqueue(sb.ToString());
+                sb.Clear();
+            }
+
+            sb.Append($"{Clock.CurrentTime.ToLongTimeString()};");
+            foreach (var sg in SignalGroups)
+            {
+                switch (sg.InternalState)
+                {
+                    case InternalSignalGroupStateEnum.FixedRed:
+                        sb.Append("R;");
+                        break;
+                    case InternalSignalGroupStateEnum.Red:
+                        sb.Append("r;");
+                        break;
+                    case InternalSignalGroupStateEnum.NilRed:
+                        sb.Append(".;");
+                        break;
+                    case InternalSignalGroupStateEnum.FixedGreen:
+                        sb.Append("G;");
+                        break;
+                    case InternalSignalGroupStateEnum.WaitGreen:
+                        sb.Append("W;");
+                        break;
+                    case InternalSignalGroupStateEnum.ExtendGreen:
+                        sb.Append("X;");
+                        break;
+                    case InternalSignalGroupStateEnum.FreeExtendGreen:
+                        sb.Append("F;");
+                        break;
+                    case InternalSignalGroupStateEnum.Amber:
+                        sb.Append("A;");
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            sb.Append(BlockStructure.CurrentBlock.Name +  ";");
+            if (_lastLogString != null)
+            {
+                if (_lastLogString.Substring(8) != sb.ToString().Substring(8))
+                {
+                    _greenLog.Enqueue(sb.ToString());
+                    if (_greenLog.Count > 250) _greenLog.Dequeue();
+                    _lastLogString = sb.ToString();
+                    _greenLogIdx++;
+                }
+            }
+            else
+            {
+                _greenLog.Enqueue(sb.ToString());
+                _lastLogString = sb.ToString();
+                _greenLogIdx++;
+            }
+        }
+
+
+        #endregion // Public Methods
 
         #region Events
 
@@ -86,7 +170,7 @@ namespace CodingConnected.TLCProF.Models
             ControllerState = ControllerStateEnum.Control;
             Clock.Reset();
             SignalGroups.ForEach(x => x.Reset());
-            ModuleMill.Reset();
+            BlockStructure.Reset();
             Extras.Reset();
         }
 
@@ -98,7 +182,7 @@ namespace CodingConnected.TLCProF.Models
         {
             Data = new ControllerDataModel();
             SignalGroups = new List<SignalGroupModel>();
-            ModuleMill = new ModuleMillModel(this);
+            BlockStructure = new BlockStructureModel(this);
             Extras = new ExtraDataModel();
             Clock = new ClockModel();
 

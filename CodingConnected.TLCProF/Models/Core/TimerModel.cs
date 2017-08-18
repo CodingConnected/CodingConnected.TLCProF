@@ -107,6 +107,15 @@ namespace CodingConnected.TLCProF.Models
 
         #endregion // Public Methods
 
+        #region Overrides
+
+        public override string ToString()
+        {
+            return $"{Current}[{Maximum}]";
+        }
+
+        #endregion // Overrides
+
         #region ITLCProFModelBase
 
         public void Reset()

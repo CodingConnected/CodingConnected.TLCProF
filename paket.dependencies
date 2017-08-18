@@ -1,7 +1,7 @@
 framework: net45
 source https://www.nuget.org/api/v2
 
-nuget NLog.Config
+nuget NLog
 nuget Eto.Platform.Windows
 nuget Eto.Platform.Gtk3
 nuget Eto.Forms

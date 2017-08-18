@@ -27,11 +27,11 @@ namespace CodingConnected.TLCProF.Helpers
                 }
             }
 
-            foreach (var m in controller.ModuleMill.Modules)
+            foreach (var m in controller.BlockStructure.Blocks)
             {
-                if (m.Name == controller.ModuleMill.WaitingModuleName)
+                if (m.Name == controller.BlockStructure.WaitingBlockName)
                 {
-                    controller.ModuleMill.CurrentModule = controller.ModuleMill.WaitingModule = m;
+                    controller.BlockStructure.CurrentBlock = controller.BlockStructure.WaitingBlock = m;
                 }
                 foreach (var sgn in m.SignalGroups)
                 {
@@ -46,8 +46,8 @@ namespace CodingConnected.TLCProF.Helpers
                 }
             }
 
-            controller.ModuleMill.Controller = controller;
-            controller.ModuleMill.AllModuleSignalGroups = controller.ModuleMill.Modules.SelectMany(x => x.SignalGroups)
+            controller.BlockStructure.Controller = controller;
+            controller.BlockStructure.AllBlocksSignalGroups = controller.BlockStructure.Blocks.SelectMany(x => x.SignalGroups)
                 .ToList();
 
             foreach(var sgn in controller.Extras.SafetyGreenSignalGroups)

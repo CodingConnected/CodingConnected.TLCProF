@@ -42,12 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="NLog.config">
-      <Paket>True</Paket>
-    </Content>
-    <Content Include="NLog.xsd">
-      <Paket>True</Paket>
-    </Content>
     <Compile Include="BitmapDetector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TLCProFMain.cs" />

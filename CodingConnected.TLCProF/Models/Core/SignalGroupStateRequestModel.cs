@@ -18,6 +18,15 @@ namespace CodingConnected.TLCProF.Models
 
         #endregion // Properties
 
+        #region Overrides
+
+        public override string ToString()
+        {
+            return RequestingObject.GetType().Name + $":{RequestedState} [{Priority}]";
+        }
+
+        #endregion // Overrides
+
         #region Constructor
 
         public SignalGroupStateRequestModel(SignalGroupStateRequestEnum requestedstate, int priority, object requestingobject)

@@ -21,9 +21,17 @@ namespace CodingConnected.TLCProF.Models
         [LogWithDump]
         [IgnoreDataMember]
         public bool AheadPrimaryRealisation { get; set; }
+        [LogWithDump]
         [IgnoreDataMember]
-        public bool MayRealisePrimaryAhead { get; private set; }
+        public bool MayRealisePrimaryAhead { get; set; }
+        [LogWithDump]
+        [IgnoreDataMember]
+        public bool MayRealiseAlternatively { get; set; }
+        [LogWithDump]
+        [IgnoreDataMember]
+        public bool AlternativeRealisation { get; set; }
 
+        [LogWithDump]
         [IgnoreDataMember]
         public bool PrimaryRealisationDone
         {
@@ -38,6 +46,9 @@ namespace CodingConnected.TLCProF.Models
         [LogWithDump]
         [DataMember]
         public int BlocksAheadAllowed { get; set; }
+        [LogWithDump]
+        [DataMember]
+        public int AlternativeSpace { get; set; }
 
         // References
         [IgnoreDataMember]

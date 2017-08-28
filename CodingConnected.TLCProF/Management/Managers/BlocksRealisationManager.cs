@@ -18,6 +18,7 @@ namespace CodingConnected.TLCProF.Management.Managers
         {
             Controller.BlockStructure.UpdatePrimaryRealisations();
             Controller.BlockStructure.UpdatePrimaryAOTRealisations();
+            Controller.BlockStructure.UpdateAtlernativeRealisations();
             Controller.BlockStructure.MoveBlockStructure();
         }
 

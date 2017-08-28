@@ -76,11 +76,11 @@ namespace CodingConnected.TLCProF.Logging
                     var reqs = sg.CurrentStateRequests;
                     if (reqs.Count == 0)
                     {
-                        sb.AppendLine($"signal group {sg.Name} has 0 green requests");
+                        sb.AppendLine($"signal group {sg.Name} has 0 state requests");
                     }
                     else
                     {
-                        sb.AppendLine($"signal group {sg.Name} has {reqs.Count} green requests:");
+                        sb.AppendLine($"signal group {sg.Name} has {reqs.Count} state requests:");
                         foreach (var req in reqs)
                         {
                             sb.AppendLine($"   - {req}");

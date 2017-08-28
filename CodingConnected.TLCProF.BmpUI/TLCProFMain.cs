@@ -39,6 +39,8 @@ namespace CodingConnected.TLCProF.BmpUI
 
         public event EventHandler<bool> SimulationChanged;
         public event EventHandler<int> SpeedChanged;
+        public event EventHandler<bool> Halted;
+        public event EventHandler StepButtonPressed;
         public event EventHandler<BitmapDetector> DetectorPresenceChanged;
         public event EventHandler<EventArgs> Closed;
         public event EventHandler<string> CommandEntered;
@@ -115,6 +117,8 @@ namespace CodingConnected.TLCProF.BmpUI
             _mainForm.SimulationChanged += (o, e) => SimulationChanged?.Invoke(this, e);
             _mainForm.SpeedChanged += (o, e) => SpeedChanged?.Invoke(this, e);
             _mainForm.CommandEntered += (o, e) => CommandEntered?.Invoke(this, e);
+            _mainForm.Halted += (o, e) => Halted?.Invoke(this, e);
+            _mainForm.StepButtonPressed += (o, e) => StepButtonPressed?.Invoke(this, e);
             _mainForm.Closed += (sender, args) =>
             {
                 Closed?.Invoke(this, args);

@@ -30,8 +30,12 @@ namespace CodingConnected.TLCProF.Management.Managers
 
                     foreach (var igt in sg.InterGreenTimes)
                     {
+                        var igtblsg =
+                            Controller.BlockStructure.AllBlocksSignalGroups.FirstOrDefault(
+                                x => x.SignalGroupName == igt.SignalGroupTo);
                         if(igt.ConflictingSignalGroup.InternalState == InternalSignalGroupStateEnum.NilRed ||
-                           igt.ConflictingSignalGroup.HasGreenStateRequest)
+                           igt.ConflictingSignalGroup.HasValidGreenStateRequest
+                           || igtblsg != null && (igtblsg.MayRealiseAlternatively || igtblsg.MayRealisePrimaryAhead))
                         {
                             extend = false;
                         }

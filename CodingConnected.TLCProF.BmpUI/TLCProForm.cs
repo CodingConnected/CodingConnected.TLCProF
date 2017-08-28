@@ -90,7 +90,7 @@ namespace CodingConnected.TLCProF.BmpUI
         private readonly TableLayout _layout;
         private readonly RichTextArea _logArea;
         private readonly Label _timeLabel;
-        private readonly TextBox _commandTextBox;
+        private readonly TextArea _commandTextBox;
 
         private readonly List<BitmapDetector> _detectors = new List<BitmapDetector>();
         private readonly List<SignalGroupState> _signalGroupStates = new List<SignalGroupState>();
@@ -101,6 +101,7 @@ namespace CodingConnected.TLCProF.BmpUI
 
         private bool _simulation;
         private int _speed;
+        private int _halted;
         private bool _fast;
         private bool _needsUpdate;
         private bool _suspendUpdate = true;
@@ -114,6 +115,8 @@ namespace CodingConnected.TLCProF.BmpUI
 
         public event EventHandler<bool> SimulationChanged;
         public event EventHandler<int> SpeedChanged;
+        public event EventHandler<bool> Halted;
+        public event EventHandler StepButtonPressed;
         public event EventHandler<BitmapDetector> DetectorPresenceChanged;
         public event EventHandler<string> CommandEntered;
 
@@ -530,17 +533,21 @@ namespace CodingConnected.TLCProF.BmpUI
             toolBar.Items.Add(new ButtonToolItem{ Enabled = false, Text = "Speed:" });
 
             var speedBar = new Slider();
-            var speedcheck1 = new CheckToolItem{ Text = "1", Checked = true };
-            var speedcheck2 = new CheckToolItem{ Text = "2" };
-            var speedcheck3 = new CheckToolItem{ Text = "3" };
-            var speedcheck4 = new CheckToolItem{ Text = "4" };
-            
+            var speedcheck1 = new CheckToolItem { Text = "1", Checked = true };
+            var speedcheck2 = new CheckToolItem { Text = "2" };
+            var speedcheck3 = new CheckToolItem { Text = "3" };
+            var speedcheck4 = new CheckToolItem { Text = "4" };
+            var speedcheck5 = new CheckToolItem { Text = "5" };
+            var pauseCheck = new CheckToolItem { Text = "halt" };
+            var stepButton = new ButtonToolItem { Text = "step" };
+
             speedcheck1.Command = new Command((o, e) =>
             {
                 speedcheck1.Checked = true;
                 speedcheck2.Checked = false;
                 speedcheck3.Checked = false;
                 speedcheck4.Checked = false;
+                speedcheck5.Checked = false;
                 _speed = 1;
                 _fast = false;
                 SpeedChanged?.Invoke(this, _speed);
@@ -553,6 +560,7 @@ namespace CodingConnected.TLCProF.BmpUI
                 speedcheck2.Checked = true;
                 speedcheck3.Checked = false;
                 speedcheck4.Checked = false;
+                speedcheck5.Checked = false;
                 _speed = 2;
                 _fast = false;
                 SpeedChanged?.Invoke(this, _speed);
@@ -565,6 +573,7 @@ namespace CodingConnected.TLCProF.BmpUI
                 speedcheck2.Checked = false;
                 speedcheck3.Checked = true;
                 speedcheck4.Checked = false;
+                speedcheck5.Checked = false;
                 _speed = 3;
                 _fast = false;
                 SpeedChanged?.Invoke(this, _speed);
@@ -577,18 +586,56 @@ namespace CodingConnected.TLCProF.BmpUI
                 speedcheck2.Checked = false;
                 speedcheck3.Checked = false;
                 speedcheck4.Checked = true;
+                speedcheck5.Checked = false;
                 _speed = 4;
                 _fast = true;
                 SpeedChanged?.Invoke(this, _speed);
                 NeedsUpdate = true;
                 _suspendUpdate = false;
             }){ Shortcut = Keys.D4 };
+            speedcheck5.Command = new Command((o, e) =>
+            {
+                speedcheck1.Checked = false;
+                speedcheck2.Checked = false;
+                speedcheck3.Checked = false;
+                speedcheck4.Checked = false;
+                speedcheck5.Checked = true;
+                _speed = 5;
+                _fast = true;
+                SpeedChanged?.Invoke(this, _speed);
+                NeedsUpdate = true;
+                _suspendUpdate = false;
+            });
+
+            pauseCheck.Command = new Command((o, e) =>
+            {
+                if (pauseCheck.Checked)
+                {
+                    Halted?.Invoke(this, true);
+                }
+                else
+                {
+                    Halted?.Invoke(this, false);
+                    SpeedChanged?.Invoke(this, _speed);
+                }
+                NeedsUpdate = true;
+                _suspendUpdate = false;
+            });
+
+            stepButton.Command = new Command((o, e) =>
+            {
+                StepButtonPressed?.Invoke(this, EventArgs.Empty);
+                NeedsUpdate = true;
+            });
 
             toolBar.Items.Add(speedcheck1);
             toolBar.Items.Add(speedcheck2);
             toolBar.Items.Add(speedcheck3);
             toolBar.Items.Add(speedcheck4);
-            
+            toolBar.Items.Add(speedcheck5);
+            toolBar.Items.Add(pauseCheck);
+            toolBar.Items.Add(stepButton);
+
             if (Platform.IsGtk)
             {
                 var fullscreencheck = new CheckCommand((o, e) =>
@@ -632,16 +679,19 @@ namespace CodingConnected.TLCProF.BmpUI
                 TextColor = Colors.White,
                 ReadOnly = true
             };
-            _commandTextBox = new TextBox();
-            _commandTextBox.TextChanging += (sender, args) =>
+            _commandTextBox = new TextArea();
+            _commandTextBox.AcceptsReturn = true;
+            _commandTextBox.Height = 25;
+            _commandTextBox.KeyDown += (sender, args) =>
             {
-                if (args.Text == ">")
+                if (args.Key == Keys.Enter)
                 {
                     CommandEntered?.Invoke(this, _commandTextBox.Text);
                     var ret = _commandHandler.HandleCommand(_commandTextBox.Text);
                     _logArea.Append(ret, true);
-                    _commandTextBox.Text = "";
-                    args.Cancel = true;
+                    _commandTextBox.Text = null;
+                    _commandTextBox.CaretIndex = 0;
+                    args.Handled = true;
                 }
             };
             var _loglayout = new TableLayout();

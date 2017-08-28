@@ -128,7 +128,7 @@ namespace CodingConnected.TLCProF.Models
         public bool HasGreenRequest => _greenReqIndex > 0;
 
         [IgnoreDataMember]
-        public bool HasGreenStateRequest
+        public bool HasValidGreenStateRequest
         {
             get
             {

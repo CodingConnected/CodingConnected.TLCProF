@@ -149,11 +149,20 @@ namespace CodingConnected.TLCProF.Models
                 // - has no requests for green
                 // - may come AOT or has already had primary realisation
                 // - has no alternative space
-                // - has a conflict in cyclic green, or with a request for that state
+                // - has a conflict in cyclic green, or with a request for that state, or that may realise AOT
                 // - any of the signalgroups in the current block is not done primarily and
                 //   - it is this signalgroup or
                 //   - is conflicts with this signalgroup
                 // do nothing for this signalgroup
+                foreach (var igt in sg.SignalGroup.InterGreenTimes)
+                {
+                    var igtblsg = AllBlocksSignalGroups.FirstOrDefault(x => x.SignalGroupName == igt.SignalGroupTo);
+                    if (igtblsg != null && igtblsg.MayRealisePrimaryAhead)
+                    {
+                        sg.MayRealiseAlternatively = false;
+                        continue;
+                    }
+                }
                 if (!sg.SignalGroup.HasGreenRequest || 
                     sg.MayRealisePrimaryAhead || sg.AheadPrimaryRealisation ||
                     sg.AlternativeSpace == 0 ||

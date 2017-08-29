@@ -17,8 +17,9 @@ namespace CodingConnected.TLCProF.Models
         [field: NonSerialized]
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        private Queue<string> _greenLog;
+        private string[] _greenLog;
         private int _greenLogIdx;
+        private int _greenLogHeaderIdx;
         private string _lastLogString;
 
         #endregion // Fields
@@ -44,18 +45,21 @@ namespace CodingConnected.TLCProF.Models
         public ControllerStateEnum ControllerState { get; set; }
 
         [IgnoreDataMember]
-        public Queue<string> GreenLog => _greenLog;
+        public string [] GreenLog => _greenLog;
+
+        [IgnoreDataMember]
+        public int GreenLogIdx => _greenLogIdx;
 
         #endregion // Properties
-        
+
         #region Private Methods
 
         private void OnCreated()
         {
             ControllerState = ControllerStateEnum.Control;
             Data.Controller = this;
-            _greenLog = new Queue<string>();
-            _greenLogIdx = 25;
+            _greenLog = new string[1000];
+            _greenLogHeaderIdx = 25;
         }
 
         [OnDeserialized]
@@ -76,16 +80,18 @@ namespace CodingConnected.TLCProF.Models
         public void UpdateGreenLog()
         {
             StringBuilder sb = new StringBuilder();
-            if (_greenLogIdx == 25)
+            if (_greenLogHeaderIdx == 25)
             {
-                _greenLogIdx = 0;
+                _greenLogHeaderIdx = 0;
                 sb.Append(";");
                 foreach (var sg in SignalGroups)
                 {
                     sb.Append(sg.Name + ";");
                 }
                 sb.Append("block;");
-                _greenLog.Enqueue(sb.ToString());
+                _greenLog[_greenLogIdx] = sb.ToString();
+                _greenLogIdx++;
+                if (_greenLogIdx >= 1000) _greenLogIdx = 0;
                 sb.Clear();
             }
 
@@ -127,17 +133,22 @@ namespace CodingConnected.TLCProF.Models
             {
                 if (_lastLogString.Substring(8) != sb.ToString().Substring(8))
                 {
-                    _greenLog.Enqueue(sb.ToString());
-                    if (_greenLog.Count > 250) _greenLog.Dequeue();
-                    _lastLogString = sb.ToString();
+                    _greenLog[_greenLogIdx] = sb.ToString();
                     _greenLogIdx++;
+                    if (_greenLogIdx >= 1000) _greenLogIdx = 0;
+
+                    _lastLogString = sb.ToString();
+                    _greenLogHeaderIdx++;
                 }
             }
             else
             {
-                _greenLog.Enqueue(sb.ToString());
-                _lastLogString = sb.ToString();
+                _greenLog[_greenLogIdx] = sb.ToString();
                 _greenLogIdx++;
+                if (_greenLogIdx >= 1000) _greenLogIdx = 0;
+
+                _lastLogString = sb.ToString();
+                _greenLogHeaderIdx++;
             }
         }
 

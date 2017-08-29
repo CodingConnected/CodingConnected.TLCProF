@@ -23,9 +23,11 @@ namespace CodingConnected.TLCProF.Logging
 
             if (command.ToLower().StartsWith("gd"))
             {
-                foreach (var s in _controller.GreenLog)
+                for (int i = 0, j = _controller.GreenLogIdx; i < 1000; ++i)
                 {
-                    sb.AppendLine(s);
+                    if (j >= 1000) j = 0;
+                    sb.AppendLine(_controller.GreenLog[j]);
+                    ++j;
                 }
             }
             else if (command.ToLower().StartsWith("sg"))

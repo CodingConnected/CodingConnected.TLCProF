@@ -1,0 +1,1051 @@
+<ControllerModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Data>
+    <Naam>TINT1</Naam>
+    <Stad>Wenen</Stad>
+    <Straat1>Mariahilferstrasse</Straat1>
+    <Straat2>Neubaugurtel</Straat2>
+    <BitmapNaam>TINT1.bmp</BitmapNaam>
+    <Fasebewaking>240</Fasebewaking>
+    <CCOLVersie>CCOL8</CCOLVersie>
+    <KWCType>Geen</KWCType>
+    <KWCUitgebreid>false</KWCUitgebreid>
+    <VLOGType>Filebased</VLOGType>
+    <VLOGInTestOmgeving>false</VLOGInTestOmgeving>
+    <GarantieOntruimingsTijden>false</GarantieOntruimingsTijden>
+    <ExtraMeeverlengenInWG>false</ExtraMeeverlengenInWG>
+    <TypeGroentijden>MaxGroentijden</TypeGroentijden>
+    <AansturingWaitsignalen>DrukknopGebruik</AansturingWaitsignalen>
+    <NaloopSynchronisatieType>FictiefConflict</NaloopSynchronisatieType>
+    <TLCGenVersie>0.1.81.0</TLCGenVersie>
+    <SegmentenDisplayBitmapData>
+      <SegmentDisplayElementModel>
+        <BitmapData>
+          <Naam>segm1</Naam>
+          <BitmapCoordinaten />
+        </BitmapData>
+        <Naam>segm1</Naam>
+      </SegmentDisplayElementModel>
+      <SegmentDisplayElementModel>
+        <BitmapData>
+          <Naam>segm2</Naam>
+          <BitmapCoordinaten />
+        </BitmapData>
+        <Naam>segm2</Naam>
+      </SegmentDisplayElementModel>
+      <SegmentDisplayElementModel>
+        <BitmapData>
+          <Naam>segm3</Naam>
+          <BitmapCoordinaten />
+        </BitmapData>
+        <Naam>segm3</Naam>
+      </SegmentDisplayElementModel>
+      <SegmentDisplayElementModel>
+        <BitmapData>
+          <Naam>segm4</Naam>
+          <BitmapCoordinaten />
+        </BitmapData>
+        <Naam>segm4</Naam>
+      </SegmentDisplayElementModel>
+      <SegmentDisplayElementModel>
+        <BitmapData>
+          <Naam>segm5</Naam>
+          <BitmapCoordinaten />
+        </BitmapData>
+        <Naam>segm5</Naam>
+      </SegmentDisplayElementModel>
+      <SegmentDisplayElementModel>
+        <BitmapData>
+          <Naam>segm6</Naam>
+          <BitmapCoordinaten />
+        </BitmapData>
+        <Naam>segm6</Naam>
+      </SegmentDisplayElementModel>
+      <SegmentDisplayElementModel>
+        <BitmapData>
+          <Naam>segm7</Naam>
+          <BitmapCoordinaten />
+        </BitmapData>
+        <Naam>segm7</Naam>
+      </SegmentDisplayElementModel>
+    </SegmentenDisplayBitmapData>
+    <SegmentDisplayType>EnkelDisplay</SegmentDisplayType>
+    <FixatieData>
+      <FixatieMogelijk>true</FixatieMogelijk>
+      <BijkomenTijdensFixatie>false</BijkomenTijdensFixatie>
+      <FixatieBitmapData>
+        <BitmapCoordinaten />
+      </FixatieBitmapData>
+    </FixatieData>
+  </Data>
+  <Fasen>
+    <FaseCyclus>
+      <Naam>21</Naam>
+      <BitmapCoordinaten>
+        <Coordinaat>
+          <X>275</X>
+          <Y>288</Y>
+        </Coordinaat>
+      </BitmapCoordinaten>
+      <Type>Fiets</Type>
+      <TFG>60</TFG>
+      <TGG>60</TGG>
+      <TGG_min>60</TGG_min>
+      <TRG>30</TRG>
+      <TRG_min>30</TRG_min>
+      <TGL>30</TGL>
+      <TGL_min>30</TGL_min>
+      <Kopmax>80</Kopmax>
+      <OVIngreep>false</OVIngreep>
+      <HDIngreep>false</HDIngreep>
+      <VasteAanvraag>SchUit</VasteAanvraag>
+      <Wachtgroen>SchUit</Wachtgroen>
+      <Meeverlengen>SchAan</Meeverlengen>
+      <MeeverlengenType>To</MeeverlengenType>
+      <MeeverlengenVerschil xsi:nil="true" />
+      <AantalRijstroken>1</AantalRijstroken>
+      <HiaatKoplusBijDetectieStoring>false</HiaatKoplusBijDetectieStoring>
+      <VervangendHiaatKoplus xsi:nil="true" />
+      <AanvraagBijDetectieStoring>false</AanvraagBijDetectieStoring>
+      <PercentageGroenBijDetectieStoring>false</PercentageGroenBijDetectieStoring>
+      <PercentageGroen xsi:nil="true" />
+      <VeiligheidsGroenMinMG>0</VeiligheidsGroenMinMG>
+      <VeiligheidsGroenTijdsduur>0</VeiligheidsGroenTijdsduur>
+      <Detectoren>
+        <Detector>
+          <Naam>dk21</Naam>
+          <BitmapCoordinaten>
+            <Coordinaat>
+              <X>154</X>
+              <Y>281</Y>
+            </Coordinaat>
+          </BitmapCoordinaten>
+          <VissimNaam>dk21</VissimNaam>
+          <TDB>15</TDB>
+          <TDH>30</TDH>
+          <TOG>1440</TOG>
+          <TBG>10</TBG>
+          <TFL>60</TFL>
+          <CFL>45</CFL>
+          <AanvraagDirect>true</AanvraagDirect>
+          <Wachtlicht>false</Wachtlicht>
+          <Dummy>false</Dummy>
+          <Rijstrook>1</Rijstrook>
+          <Simulatie>
+            <Q1>0</Q1>
+            <Q2>0</Q2>
+            <Q3>0</Q3>
+            <Q4>0</Q4>
+            <Stopline>0</Stopline>
+          </Simulatie>
+          <Type>Lang</Type>
+          <Aanvraag>RnietTRG</Aanvraag>
+          <Verlengen>Kopmax</Verlengen>
+          <AanvraagBijStoring>Nooit</AanvraagBijStoring>
+          <VeiligheidsGroen>Nooit</VeiligheidsGroen>
+        </Detector>
+      </Detectoren>
+    </FaseCyclus>
+    <FaseCyclus>
+      <Naam>31</Naam>
+      <BitmapCoordinaten>
+        <Coordinaat>
+          <X>484</X>
+          <Y>70</Y>
+        </Coordinaat>
+      </BitmapCoordinaten>
+      <Type>Voetganger</Type>
+      <TFG>60</TFG>
+      <TGG>60</TGG>
+      <TGG_min>60</TGG_min>
+      <TRG>30</TRG>
+      <TRG_min>30</TRG_min>
+      <TGL>30</TGL>
+      <TGL_min>30</TGL_min>
+      <Kopmax>80</Kopmax>
+      <OVIngreep>false</OVIngreep>
+      <HDIngreep>false</HDIngreep>
+      <VasteAanvraag>SchUit</VasteAanvraag>
+      <Wachtgroen>SchUit</Wachtgroen>
+      <Meeverlengen>SchAan</Meeverlengen>
+      <MeeverlengenType>Voetganger</MeeverlengenType>
+      <MeeverlengenVerschil xsi:nil="true" />
+      <AantalRijstroken>1</AantalRijstroken>
+      <HiaatKoplusBijDetectieStoring>false</HiaatKoplusBijDetectieStoring>
+      <VervangendHiaatKoplus xsi:nil="true" />
+      <AanvraagBijDetectieStoring>false</AanvraagBijDetectieStoring>
+      <PercentageGroenBijDetectieStoring>false</PercentageGroenBijDetectieStoring>
+      <PercentageGroen xsi:nil="true" />
+      <VeiligheidsGroenMinMG>0</VeiligheidsGroenMinMG>
+      <VeiligheidsGroenTijdsduur>0</VeiligheidsGroenTijdsduur>
+      <Detectoren>
+        <Detector>
+          <Naam>dk31_1</Naam>
+          <BitmapCoordinaten>
+            <Coordinaat>
+              <X>430</X>
+              <Y>18</Y>
+            </Coordinaat>
+          </BitmapCoordinaten>
+          <VissimNaam>dk31_1</VissimNaam>
+          <TDB xsi:nil="true" />
+          <TDH xsi:nil="true" />
+          <TOG>1440</TOG>
+          <TBG>10</TBG>
+          <TFL>60</TFL>
+          <CFL>45</CFL>
+          <AanvraagDirect>false</AanvraagDirect>
+          <Wachtlicht>true</Wachtlicht>
+          <Dummy>false</Dummy>
+          <Rijstrook>1</Rijstrook>
+          <WachtlichtBitmapData>
+            <BitmapCoordinaten />
+          </WachtlichtBitmapData>
+          <Simulatie>
+            <Q1>0</Q1>
+            <Q2>0</Q2>
+            <Q3>0</Q3>
+            <Q4>0</Q4>
+            <Stopline>0</Stopline>
+          </Simulatie>
+          <Type>KnopBuiten</Type>
+          <Aanvraag>RoodGeel</Aanvraag>
+          <Verlengen>Geen</Verlengen>
+          <AanvraagBijStoring>Nooit</AanvraagBijStoring>
+          <VeiligheidsGroen>Nooit</VeiligheidsGroen>
+        </Detector>
+        <Detector>
+          <Naam>dk31_2</Naam>
+          <BitmapCoordinaten>
+            <Coordinaat>
+              <X>562</X>
+              <Y>284</Y>
+            </Coordinaat>
+          </BitmapCoordinaten>
+          <VissimNaam>dk31_2</VissimNaam>
+          <TDB xsi:nil="true" />
+          <TDH xsi:nil="true" />
+          <TOG>1440</TOG>
+          <TBG>10</TBG>
+          <TFL>60</TFL>
+          <CFL>45</CFL>
+          <AanvraagDirect>false</AanvraagDirect>
+          <Wachtlicht>true</Wachtlicht>
+          <Dummy>false</Dummy>
+          <Rijstrook>1</Rijstrook>
+          <WachtlichtBitmapData>
+            <BitmapCoordinaten />
+          </WachtlichtBitmapData>
+          <Simulatie>
+            <Q1>0</Q1>
+            <Q2>0</Q2>
+            <Q3>0</Q3>
+            <Q4>0</Q4>
+            <Stopline>0</Stopline>
+          </Simulatie>
+          <Type>KnopBinnen</Type>
+          <Aanvraag>RoodGeel</Aanvraag>
+          <Verlengen>Geen</Verlengen>
+          <AanvraagBijStoring>Nooit</AanvraagBijStoring>
+          <VeiligheidsGroen>Nooit</VeiligheidsGroen>
+        </Detector>
+      </Detectoren>
+    </FaseCyclus>
+    <FaseCyclus>
+      <Naam>fc02</Naam>
+      <BitmapCoordinaten>
+        <Coordinaat>
+          <X>709</X>
+          <Y>81</Y>
+        </Coordinaat>
+      </BitmapCoordinaten>
+      <Type>Fiets</Type>
+      <TFG>60</TFG>
+      <TGG>42</TGG>
+      <TGG_min>42</TGG_min>
+      <TRG>20</TRG>
+      <TRG_min>20</TRG_min>
+      <TGL>30</TGL>
+      <TGL_min>30</TGL_min>
+      <Kopmax>80</Kopmax>
+      <OVIngreep>false</OVIngreep>
+      <HDIngreep>false</HDIngreep>
+      <VasteAanvraag>Nooit</VasteAanvraag>
+      <Wachtgroen>Nooit</Wachtgroen>
+      <Meeverlengen>SchAan</Meeverlengen>
+      <MeeverlengenType>To</MeeverlengenType>
+      <MeeverlengenVerschil xsi:nil="true" />
+      <AantalRijstroken>1</AantalRijstroken>
+      <HiaatKoplusBijDetectieStoring>false</HiaatKoplusBijDetectieStoring>
+      <VervangendHiaatKoplus xsi:nil="true" />
+      <AanvraagBijDetectieStoring>false</AanvraagBijDetectieStoring>
+      <PercentageGroenBijDetectieStoring>false</PercentageGroenBijDetectieStoring>
+      <PercentageGroen xsi:nil="true" />
+      <VeiligheidsGroenMinMG>0</VeiligheidsGroenMinMG>
+      <VeiligheidsGroenTijdsduur>0</VeiligheidsGroenTijdsduur>
+      <Detectoren>
+        <Detector>
+          <Naam>d2</Naam>
+          <BitmapCoordinaten>
+            <Coordinaat>
+              <X>591</X>
+              <Y>74</Y>
+            </Coordinaat>
+          </BitmapCoordinaten>
+          <VissimNaam>d2</VissimNaam>
+          <TDB>15</TDB>
+          <TDH>30</TDH>
+          <TOG>1440</TOG>
+          <TBG>10</TBG>
+          <TFL>60</TFL>
+          <CFL>45</CFL>
+          <AanvraagDirect>true</AanvraagDirect>
+          <Wachtlicht>false</Wachtlicht>
+          <Dummy>false</Dummy>
+          <Rijstrook>1</Rijstrook>
+          <Simulatie>
+            <Q1>0</Q1>
+            <Q2>0</Q2>
+            <Q3>0</Q3>
+            <Q4>0</Q4>
+            <Stopline>0</Stopline>
+          </Simulatie>
+          <Type>Lang</Type>
+          <Aanvraag>RnietTRG</Aanvraag>
+          <Verlengen>MK2</Verlengen>
+          <AanvraagBijStoring>Nooit</AanvraagBijStoring>
+          <VeiligheidsGroen>Nooit</VeiligheidsGroen>
+        </Detector>
+        <Detector>
+          <Naam>ds2</Naam>
+          <BitmapCoordinaten />
+          <VissimNaam>ds2</VissimNaam>
+          <TDB xsi:nil="true" />
+          <TDH xsi:nil="true" />
+          <TOG>1440</TOG>
+          <TBG>10</TBG>
+          <TFL>60</TFL>
+          <CFL>45</CFL>
+          <AanvraagDirect>false</AanvraagDirect>
+          <Wachtlicht>true</Wachtlicht>
+          <Dummy>false</Dummy>
+          <Rijstrook>1</Rijstrook>
+          <WachtlichtBitmapData>
+            <BitmapCoordinaten />
+          </WachtlichtBitmapData>
+          <Simulatie>
+            <Q1>0</Q1>
+            <Q2>0</Q2>
+            <Q3>0</Q3>
+            <Q4>0</Q4>
+            <Stopline>0</Stopline>
+          </Simulatie>
+          <Type>Knop</Type>
+          <Aanvraag>Geen</Aanvraag>
+          <Verlengen>Geen</Verlengen>
+          <AanvraagBijStoring>Nooit</AanvraagBijStoring>
+          <VeiligheidsGroen>Nooit</VeiligheidsGroen>
+        </Detector>
+      </Detectoren>
+    </FaseCyclus>
+    <FaseCyclus>
+      <Naam>fc03</Naam>
+      <BitmapCoordinaten>
+        <Coordinaat>
+          <X>704</X>
+          <Y>135</Y>
+        </Coordinaat>
+      </BitmapCoordinaten>
+      <Type>Fiets</Type>
+      <TFG>60</TFG>
+      <TGG>43</TGG>
+      <TGG_min>43</TGG_min>
+      <TRG>20</TRG>
+      <TRG_min>20</TRG_min>
+      <TGL>30</TGL>
+      <TGL_min>30</TGL_min>
+      <Kopmax>80</Kopmax>
+      <OVIngreep>false</OVIngreep>
+      <HDIngreep>false</HDIngreep>
+      <VasteAanvraag>SchUit</VasteAanvraag>
+      <Wachtgroen>SchUit</Wachtgroen>
+      <Meeverlengen>SchAan</Meeverlengen>
+      <MeeverlengenType>To</MeeverlengenType>
+      <MeeverlengenVerschil xsi:nil="true" />
+      <AantalRijstroken>1</AantalRijstroken>
+      <HiaatKoplusBijDetectieStoring>false</HiaatKoplusBijDetectieStoring>
+      <VervangendHiaatKoplus xsi:nil="true" />
+      <AanvraagBijDetectieStoring>false</AanvraagBijDetectieStoring>
+      <PercentageGroenBijDetectieStoring>false</PercentageGroenBijDetectieStoring>
+      <PercentageGroen xsi:nil="true" />
+      <VeiligheidsGroenMinMG>0</VeiligheidsGroenMinMG>
+      <VeiligheidsGroenTijdsduur>0</VeiligheidsGroenTijdsduur>
+      <Detectoren>
+        <Detector>
+          <Naam>d3</Naam>
+          <BitmapCoordinaten>
+            <Coordinaat>
+              <X>588</X>
+              <Y>130</Y>
+            </Coordinaat>
+          </BitmapCoordinaten>
+          <VissimNaam>d3</VissimNaam>
+          <TDB>15</TDB>
+          <TDH>30</TDH>
+          <TOG>1440</TOG>
+          <TBG>10</TBG>
+          <TFL>60</TFL>
+          <CFL>45</CFL>
+          <AanvraagDirect>true</AanvraagDirect>
+          <Wachtlicht>false</Wachtlicht>
+          <Dummy>false</Dummy>
+          <Rijstrook>1</Rijstrook>
+          <Simulatie>
+            <Q1>0</Q1>
+            <Q2>0</Q2>
+            <Q3>0</Q3>
+            <Q4>0</Q4>
+            <Stopline>0</Stopline>
+          </Simulatie>
+          <Type>Lang</Type>
+          <Aanvraag>RnietTRG</Aanvraag>
+          <Verlengen>MK2</Verlengen>
+          <AanvraagBijStoring>Nooit</AanvraagBijStoring>
+          <VeiligheidsGroen>Nooit</VeiligheidsGroen>
+        </Detector>
+      </Detectoren>
+    </FaseCyclus>
+    <FaseCyclus>
+      <Naam>fc05</Naam>
+      <BitmapCoordinaten>
+        <Coordinaat>
+          <X>389</X>
+          <Y>466</Y>
+        </Coordinaat>
+      </BitmapCoordinaten>
+      <Type>Fiets</Type>
+      <TFG>60</TFG>
+      <TGG>45</TGG>
+      <TGG_min>45</TGG_min>
+      <TRG>20</TRG>
+      <TRG_min>20</TRG_min>
+      <TGL>30</TGL>
+      <TGL_min>30</TGL_min>
+      <Kopmax>80</Kopmax>
+      <OVIngreep>false</OVIngreep>
+      <HDIngreep>false</HDIngreep>
+      <VasteAanvraag>SchUit</VasteAanvraag>
+      <Wachtgroen>SchUit</Wachtgroen>
+      <Meeverlengen>SchAan</Meeverlengen>
+      <MeeverlengenType>To</MeeverlengenType>
+      <MeeverlengenVerschil xsi:nil="true" />
+      <AantalRijstroken>1</AantalRijstroken>
+      <HiaatKoplusBijDetectieStoring>false</HiaatKoplusBijDetectieStoring>
+      <VervangendHiaatKoplus xsi:nil="true" />
+      <AanvraagBijDetectieStoring>false</AanvraagBijDetectieStoring>
+      <PercentageGroenBijDetectieStoring>false</PercentageGroenBijDetectieStoring>
+      <PercentageGroen xsi:nil="true" />
+      <VeiligheidsGroenMinMG>0</VeiligheidsGroenMinMG>
+      <VeiligheidsGroenTijdsduur>0</VeiligheidsGroenTijdsduur>
+      <Detectoren>
+        <Detector>
+          <Naam>d5</Naam>
+          <BitmapCoordinaten>
+            <Coordinaat>
+              <X>405</X>
+              <Y>379</Y>
+            </Coordinaat>
+          </BitmapCoordinaten>
+          <VissimNaam>d5</VissimNaam>
+          <TDB>15</TDB>
+          <TDH>30</TDH>
+          <TOG>1440</TOG>
+          <TBG>10</TBG>
+          <TFL>60</TFL>
+          <CFL>45</CFL>
+          <AanvraagDirect>true</AanvraagDirect>
+          <Wachtlicht>false</Wachtlicht>
+          <Dummy>false</Dummy>
+          <Rijstrook>1</Rijstrook>
+          <Simulatie>
+            <Q1>0</Q1>
+            <Q2>0</Q2>
+            <Q3>0</Q3>
+            <Q4>0</Q4>
+            <Stopline>0</Stopline>
+          </Simulatie>
+          <Type>Lang</Type>
+          <Aanvraag>RnietTRG</Aanvraag>
+          <Verlengen>MK2</Verlengen>
+          <AanvraagBijStoring>Nooit</AanvraagBijStoring>
+          <VeiligheidsGroen>Nooit</VeiligheidsGroen>
+        </Detector>
+      </Detectoren>
+    </FaseCyclus>
+    <FaseCyclus>
+      <Naam>fc07</Naam>
+      <BitmapCoordinaten>
+        <Coordinaat>
+          <X>106</X>
+          <Y>229</Y>
+        </Coordinaat>
+      </BitmapCoordinaten>
+      <Type>Fiets</Type>
+      <TFG>60</TFG>
+      <TGG>47</TGG>
+      <TGG_min>47</TGG_min>
+      <TRG>20</TRG>
+      <TRG_min>20</TRG_min>
+      <TGL>30</TGL>
+      <TGL_min>30</TGL_min>
+      <Kopmax>80</Kopmax>
+      <OVIngreep>false</OVIngreep>
+      <HDIngreep>false</HDIngreep>
+      <VasteAanvraag>SchUit</VasteAanvraag>
+      <Wachtgroen>SchUit</Wachtgroen>
+      <Meeverlengen>SchAan</Meeverlengen>
+      <MeeverlengenType>To</MeeverlengenType>
+      <MeeverlengenVerschil xsi:nil="true" />
+      <AantalRijstroken>1</AantalRijstroken>
+      <HiaatKoplusBijDetectieStoring>false</HiaatKoplusBijDetectieStoring>
+      <VervangendHiaatKoplus xsi:nil="true" />
+      <AanvraagBijDetectieStoring>false</AanvraagBijDetectieStoring>
+      <PercentageGroenBijDetectieStoring>false</PercentageGroenBijDetectieStoring>
+      <PercentageGroen xsi:nil="true" />
+      <VeiligheidsGroenMinMG>0</VeiligheidsGroenMinMG>
+      <VeiligheidsGroenTijdsduur>0</VeiligheidsGroenTijdsduur>
+      <Detectoren>
+        <Detector>
+          <Naam>d7</Naam>
+          <BitmapCoordinaten>
+            <Coordinaat>
+              <X>207</X>
+              <Y>226</Y>
+            </Coordinaat>
+          </BitmapCoordinaten>
+          <VissimNaam>d7</VissimNaam>
+          <TDB>15</TDB>
+          <TDH>30</TDH>
+          <TOG>1440</TOG>
+          <TBG>10</TBG>
+          <TFL>60</TFL>
+          <CFL>45</CFL>
+          <AanvraagDirect>true</AanvraagDirect>
+          <Wachtlicht>false</Wachtlicht>
+          <Dummy>false</Dummy>
+          <Rijstrook>1</Rijstrook>
+          <Simulatie>
+            <Q1>0</Q1>
+            <Q2>0</Q2>
+            <Q3>0</Q3>
+            <Q4>0</Q4>
+            <Stopline>0</Stopline>
+          </Simulatie>
+          <Type>Lang</Type>
+          <Aanvraag>RnietTRG</Aanvraag>
+          <Verlengen>MK2</Verlengen>
+          <AanvraagBijStoring>Nooit</AanvraagBijStoring>
+          <VeiligheidsGroen>Nooit</VeiligheidsGroen>
+        </Detector>
+      </Detectoren>
+    </FaseCyclus>
+    <FaseCyclus>
+      <Naam>fc08</Naam>
+      <BitmapCoordinaten>
+        <Coordinaat>
+          <X>100</X>
+          <Y>179</Y>
+        </Coordinaat>
+      </BitmapCoordinaten>
+      <Type>Fiets</Type>
+      <TFG>60</TFG>
+      <TGG>48</TGG>
+      <TGG_min>48</TGG_min>
+      <TRG>20</TRG>
+      <TRG_min>20</TRG_min>
+      <TGL>30</TGL>
+      <TGL_min>30</TGL_min>
+      <Kopmax>80</Kopmax>
+      <OVIngreep>false</OVIngreep>
+      <HDIngreep>false</HDIngreep>
+      <VasteAanvraag>Nooit</VasteAanvraag>
+      <Wachtgroen>Nooit</Wachtgroen>
+      <Meeverlengen>SchAan</Meeverlengen>
+      <MeeverlengenType>To</MeeverlengenType>
+      <MeeverlengenVerschil xsi:nil="true" />
+      <AantalRijstroken>1</AantalRijstroken>
+      <HiaatKoplusBijDetectieStoring>false</HiaatKoplusBijDetectieStoring>
+      <VervangendHiaatKoplus xsi:nil="true" />
+      <AanvraagBijDetectieStoring>false</AanvraagBijDetectieStoring>
+      <PercentageGroenBijDetectieStoring>false</PercentageGroenBijDetectieStoring>
+      <PercentageGroen xsi:nil="true" />
+      <VeiligheidsGroenMinMG>0</VeiligheidsGroenMinMG>
+      <VeiligheidsGroenTijdsduur>0</VeiligheidsGroenTijdsduur>
+      <Detectoren>
+        <Detector>
+          <Naam>d8</Naam>
+          <BitmapCoordinaten>
+            <Coordinaat>
+              <X>206</X>
+              <Y>181</Y>
+            </Coordinaat>
+          </BitmapCoordinaten>
+          <VissimNaam>d8</VissimNaam>
+          <TDB>15</TDB>
+          <TDH>30</TDH>
+          <TOG>1440</TOG>
+          <TBG>10</TBG>
+          <TFL>60</TFL>
+          <CFL>45</CFL>
+          <AanvraagDirect>true</AanvraagDirect>
+          <Wachtlicht>false</Wachtlicht>
+          <Dummy>false</Dummy>
+          <Rijstrook>1</Rijstrook>
+          <Simulatie>
+            <Q1>0</Q1>
+            <Q2>0</Q2>
+            <Q3>0</Q3>
+            <Q4>0</Q4>
+            <Stopline>0</Stopline>
+          </Simulatie>
+          <Type>Lang</Type>
+          <Aanvraag>RnietTRG</Aanvraag>
+          <Verlengen>MK2</Verlengen>
+          <AanvraagBijStoring>Nooit</AanvraagBijStoring>
+          <VeiligheidsGroen>Nooit</VeiligheidsGroen>
+        </Detector>
+      </Detectoren>
+    </FaseCyclus>
+  </Fasen>
+  <Detectoren />
+  <RichtingGevoeligeAanvragen />
+  <RichtingGevoeligVerlengen />
+  <InterSignaalGroep>
+    <Conflicten>
+      <Conflict>
+        <FaseVan>21</FaseVan>
+        <FaseNaar>fc03</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>93</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>21</FaseVan>
+        <FaseNaar>fc05</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>95</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>21</FaseVan>
+        <FaseNaar>fc07</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>97</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>31</FaseVan>
+        <FaseNaar>fc02</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>102</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>31</FaseVan>
+        <FaseNaar>fc03</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>103</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>31</FaseVan>
+        <FaseNaar>fc08</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>108</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>fc02</FaseVan>
+        <FaseNaar>31</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>40</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>fc02</FaseVan>
+        <FaseNaar>fc05</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>45</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>fc03</FaseVan>
+        <FaseNaar>21</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>51</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>fc03</FaseVan>
+        <FaseNaar>31</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>50</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>fc03</FaseVan>
+        <FaseNaar>fc05</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>55</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>fc03</FaseVan>
+        <FaseNaar>fc07</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>57</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>fc03</FaseVan>
+        <FaseNaar>fc08</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>58</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>fc05</FaseVan>
+        <FaseNaar>21</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>61</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>fc05</FaseVan>
+        <FaseNaar>fc02</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>62</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>fc05</FaseVan>
+        <FaseNaar>fc03</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>63</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>fc05</FaseVan>
+        <FaseNaar>fc08</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>68</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>fc07</FaseVan>
+        <FaseNaar>21</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>71</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>fc07</FaseVan>
+        <FaseNaar>fc03</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>73</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>fc08</FaseVan>
+        <FaseNaar>31</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>80</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>fc08</FaseVan>
+        <FaseNaar>fc03</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>83</Waarde>
+      </Conflict>
+      <Conflict>
+        <FaseVan>fc08</FaseVan>
+        <FaseNaar>fc05</FaseNaar>
+        <GarantieWaarde xsi:nil="true" />
+        <Waarde>85</Waarde>
+      </Conflict>
+    </Conflicten>
+    <Voorstarten />
+    <Gelijkstarten />
+    <Nalopen />
+    <Meeaanvragen />
+  </InterSignaalGroep>
+  <GroentijdenSets />
+  <FileIngrepen />
+  <VAOntruimenFasen />
+  <PeriodenData>
+    <DefaultPeriodeBitmapData>
+      <BitmapCoordinaten />
+    </DefaultPeriodeBitmapData>
+    <Perioden />
+  </PeriodenData>
+  <PTPData>
+    <PTPKoppelingen />
+  </PTPData>
+  <OVData>
+    <OVIngreepType>Uitgebreid</OVIngreepType>
+    <DSI>true</DSI>
+    <CheckOpDSIN>false</CheckOpDSIN>
+    <MaxWachttijdAuto>120</MaxWachttijdAuto>
+    <MaxWachttijdFiets>90</MaxWachttijdFiets>
+    <MaxWachttijdVoetganger>90</MaxWachttijdVoetganger>
+    <KARMeldingBitmapData>
+      <BitmapCoordinaten />
+    </KARMeldingBitmapData>
+    <KAROnderGedragBitmapData>
+      <BitmapCoordinaten />
+    </KAROnderGedragBitmapData>
+    <OVIngrepen />
+    <HDIngrepen />
+    <OVIngreepSignaalGroepParameters>
+      <OVIngreepSignaalGroepParametersModel>
+        <FaseCyclus>21</FaseCyclus>
+        <AantalKerenNietAfkappen>0</AantalKerenNietAfkappen>
+        <MinimumGroentijdConflictOVRealisatie>60</MinimumGroentijdConflictOVRealisatie>
+        <PercMaxGroentijdConflictOVRealisatie>0</PercMaxGroentijdConflictOVRealisatie>
+        <PercMaxGroentijdVoorTerugkomen>100</PercMaxGroentijdVoorTerugkomen>
+        <OndergrensNaTerugkomen>60</OndergrensNaTerugkomen>
+        <OphoogpercentageNaAfkappen>0</OphoogpercentageNaAfkappen>
+        <BlokkeertijdNaOVIngreep>0</BlokkeertijdNaOVIngreep>
+      </OVIngreepSignaalGroepParametersModel>
+      <OVIngreepSignaalGroepParametersModel>
+        <FaseCyclus>31</FaseCyclus>
+        <AantalKerenNietAfkappen>0</AantalKerenNietAfkappen>
+        <MinimumGroentijdConflictOVRealisatie>60</MinimumGroentijdConflictOVRealisatie>
+        <PercMaxGroentijdConflictOVRealisatie>0</PercMaxGroentijdConflictOVRealisatie>
+        <PercMaxGroentijdVoorTerugkomen>100</PercMaxGroentijdVoorTerugkomen>
+        <OndergrensNaTerugkomen>60</OndergrensNaTerugkomen>
+        <OphoogpercentageNaAfkappen>0</OphoogpercentageNaAfkappen>
+        <BlokkeertijdNaOVIngreep>0</BlokkeertijdNaOVIngreep>
+      </OVIngreepSignaalGroepParametersModel>
+      <OVIngreepSignaalGroepParametersModel>
+        <FaseCyclus>fc02</FaseCyclus>
+        <AantalKerenNietAfkappen>0</AantalKerenNietAfkappen>
+        <MinimumGroentijdConflictOVRealisatie>60</MinimumGroentijdConflictOVRealisatie>
+        <PercMaxGroentijdConflictOVRealisatie>0</PercMaxGroentijdConflictOVRealisatie>
+        <PercMaxGroentijdVoorTerugkomen>100</PercMaxGroentijdVoorTerugkomen>
+        <OndergrensNaTerugkomen>60</OndergrensNaTerugkomen>
+        <OphoogpercentageNaAfkappen>0</OphoogpercentageNaAfkappen>
+        <BlokkeertijdNaOVIngreep>0</BlokkeertijdNaOVIngreep>
+      </OVIngreepSignaalGroepParametersModel>
+      <OVIngreepSignaalGroepParametersModel>
+        <FaseCyclus>fc03</FaseCyclus>
+        <AantalKerenNietAfkappen>0</AantalKerenNietAfkappen>
+        <MinimumGroentijdConflictOVRealisatie>60</MinimumGroentijdConflictOVRealisatie>
+        <PercMaxGroentijdConflictOVRealisatie>0</PercMaxGroentijdConflictOVRealisatie>
+        <PercMaxGroentijdVoorTerugkomen>100</PercMaxGroentijdVoorTerugkomen>
+        <OndergrensNaTerugkomen>60</OndergrensNaTerugkomen>
+        <OphoogpercentageNaAfkappen>0</OphoogpercentageNaAfkappen>
+        <BlokkeertijdNaOVIngreep>0</BlokkeertijdNaOVIngreep>
+      </OVIngreepSignaalGroepParametersModel>
+      <OVIngreepSignaalGroepParametersModel>
+        <FaseCyclus>fc05</FaseCyclus>
+        <AantalKerenNietAfkappen>0</AantalKerenNietAfkappen>
+        <MinimumGroentijdConflictOVRealisatie>60</MinimumGroentijdConflictOVRealisatie>
+        <PercMaxGroentijdConflictOVRealisatie>0</PercMaxGroentijdConflictOVRealisatie>
+        <PercMaxGroentijdVoorTerugkomen>100</PercMaxGroentijdVoorTerugkomen>
+        <OndergrensNaTerugkomen>60</OndergrensNaTerugkomen>
+        <OphoogpercentageNaAfkappen>0</OphoogpercentageNaAfkappen>
+        <BlokkeertijdNaOVIngreep>0</BlokkeertijdNaOVIngreep>
+      </OVIngreepSignaalGroepParametersModel>
+      <OVIngreepSignaalGroepParametersModel>
+        <FaseCyclus>fc07</FaseCyclus>
+        <AantalKerenNietAfkappen>0</AantalKerenNietAfkappen>
+        <MinimumGroentijdConflictOVRealisatie>60</MinimumGroentijdConflictOVRealisatie>
+        <PercMaxGroentijdConflictOVRealisatie>0</PercMaxGroentijdConflictOVRealisatie>
+        <PercMaxGroentijdVoorTerugkomen>100</PercMaxGroentijdVoorTerugkomen>
+        <OndergrensNaTerugkomen>60</OndergrensNaTerugkomen>
+        <OphoogpercentageNaAfkappen>0</OphoogpercentageNaAfkappen>
+        <BlokkeertijdNaOVIngreep>0</BlokkeertijdNaOVIngreep>
+      </OVIngreepSignaalGroepParametersModel>
+      <OVIngreepSignaalGroepParametersModel>
+        <FaseCyclus>fc08</FaseCyclus>
+        <AantalKerenNietAfkappen>0</AantalKerenNietAfkappen>
+        <MinimumGroentijdConflictOVRealisatie>60</MinimumGroentijdConflictOVRealisatie>
+        <PercMaxGroentijdConflictOVRealisatie>0</PercMaxGroentijdConflictOVRealisatie>
+        <PercMaxGroentijdVoorTerugkomen>100</PercMaxGroentijdVoorTerugkomen>
+        <OndergrensNaTerugkomen>60</OndergrensNaTerugkomen>
+        <OphoogpercentageNaAfkappen>0</OphoogpercentageNaAfkappen>
+        <BlokkeertijdNaOVIngreep>0</BlokkeertijdNaOVIngreep>
+      </OVIngreepSignaalGroepParametersModel>
+    </OVIngreepSignaalGroepParameters>
+  </OVData>
+  <ModuleMolen>
+    <Modules>
+      <Module>
+        <Naam>ML1</Naam>
+        <Fasen>
+          <FaseCyclus>
+            <FaseCyclus>21</FaseCyclus>
+            <Alternatieven />
+          </FaseCyclus>
+          <FaseCyclus>
+            <FaseCyclus>fc08</FaseCyclus>
+            <Alternatieven />
+          </FaseCyclus>
+          <FaseCyclus>
+            <FaseCyclus>fc02</FaseCyclus>
+            <Alternatieven />
+          </FaseCyclus>
+        </Fasen>
+      </Module>
+      <Module>
+        <Naam>ML2</Naam>
+        <Fasen>
+          <FaseCyclus>
+            <FaseCyclus>fc03</FaseCyclus>
+            <Alternatieven />
+          </FaseCyclus>
+        </Fasen>
+      </Module>
+      <Module>
+        <Naam>ML3</Naam>
+        <Fasen>
+          <FaseCyclus>
+            <FaseCyclus>31</FaseCyclus>
+            <Alternatieven />
+          </FaseCyclus>
+          <FaseCyclus>
+            <FaseCyclus>fc05</FaseCyclus>
+            <Alternatieven />
+          </FaseCyclus>
+          <FaseCyclus>
+            <FaseCyclus>fc07</FaseCyclus>
+            <Alternatieven />
+          </FaseCyclus>
+        </Fasen>
+      </Module>
+    </Modules>
+    <FasenModuleData>
+      <FaseCyclusModuleData>
+        <FaseCyclus>21</FaseCyclus>
+        <ModulenVooruit>1</ModulenVooruit>
+        <AlternatiefToestaan>true</AlternatiefToestaan>
+        <AlternatieveRuimte>60</AlternatieveRuimte>
+        <AlternatieveGroenTijd>60</AlternatieveGroenTijd>
+      </FaseCyclusModuleData>
+      <FaseCyclusModuleData>
+        <FaseCyclus>31</FaseCyclus>
+        <ModulenVooruit>1</ModulenVooruit>
+        <AlternatiefToestaan>true</AlternatiefToestaan>
+        <AlternatieveRuimte>60</AlternatieveRuimte>
+        <AlternatieveGroenTijd>60</AlternatieveGroenTijd>
+      </FaseCyclusModuleData>
+      <FaseCyclusModuleData>
+        <FaseCyclus>fc02</FaseCyclus>
+        <ModulenVooruit>1</ModulenVooruit>
+        <AlternatiefToestaan>true</AlternatiefToestaan>
+        <AlternatieveRuimte>60</AlternatieveRuimte>
+        <AlternatieveGroenTijd>60</AlternatieveGroenTijd>
+      </FaseCyclusModuleData>
+      <FaseCyclusModuleData>
+        <FaseCyclus>fc03</FaseCyclus>
+        <ModulenVooruit>1</ModulenVooruit>
+        <AlternatiefToestaan>true</AlternatiefToestaan>
+        <AlternatieveRuimte>60</AlternatieveRuimte>
+        <AlternatieveGroenTijd>60</AlternatieveGroenTijd>
+      </FaseCyclusModuleData>
+      <FaseCyclusModuleData>
+        <FaseCyclus>fc05</FaseCyclus>
+        <ModulenVooruit>1</ModulenVooruit>
+        <AlternatiefToestaan>true</AlternatiefToestaan>
+        <AlternatieveRuimte>60</AlternatieveRuimte>
+        <AlternatieveGroenTijd>60</AlternatieveGroenTijd>
+      </FaseCyclusModuleData>
+      <FaseCyclusModuleData>
+        <FaseCyclus>fc07</FaseCyclus>
+        <ModulenVooruit>1</ModulenVooruit>
+        <AlternatiefToestaan>true</AlternatiefToestaan>
+        <AlternatieveRuimte>60</AlternatieveRuimte>
+        <AlternatieveGroenTijd>60</AlternatieveGroenTijd>
+      </FaseCyclusModuleData>
+      <FaseCyclusModuleData>
+        <FaseCyclus>fc08</FaseCyclus>
+        <ModulenVooruit>1</ModulenVooruit>
+        <AlternatiefToestaan>true</AlternatiefToestaan>
+        <AlternatieveRuimte>60</AlternatieveRuimte>
+        <AlternatieveGroenTijd>60</AlternatieveGroenTijd>
+      </FaseCyclusModuleData>
+    </FasenModuleData>
+    <WachtModule>ML1</WachtModule>
+    <LangstWachtendeAlternatief>false</LangstWachtendeAlternatief>
+  </ModuleMolen>
+  <RoBuGrover>
+    <RoBuGrover>false</RoBuGrover>
+    <MinimaleCyclustijd>0</MinimaleCyclustijd>
+    <MaximaleCyclustijd>0</MaximaleCyclustijd>
+    <GroentijdVerschil>0</GroentijdVerschil>
+    <MethodeRoBuGrover>IngesteldMaximum</MethodeRoBuGrover>
+    <GroenOphoogFactor>0</GroenOphoogFactor>
+    <GroenVerlaagFactor>0</GroenVerlaagFactor>
+    <GroenVerlaagFactorNietPrimair>0</GroenVerlaagFactorNietPrimair>
+    <OphogenTijdensGroen>false</OphogenTijdensGroen>
+    <BitmapData>
+      <BitmapCoordinaten />
+    </BitmapData>
+    <ConflictGroepen />
+    <SignaalGroepInstellingen />
+  </RoBuGrover>
+  <Signalen>
+    <WaarschuwingsGroepen />
+    <Rateltikkers />
+    <RatelTikkerActiefBitmapData>
+      <BitmapCoordinaten />
+    </RatelTikkerActiefBitmapData>
+    <RatelTikkerAltijdBitmapData>
+      <BitmapCoordinaten />
+    </RatelTikkerAltijdBitmapData>
+    <RatelTikkerDimmenBitmapData>
+      <BitmapCoordinaten />
+    </RatelTikkerDimmenBitmapData>
+    <BellenActiefBitmapData>
+      <BitmapCoordinaten />
+    </BellenActiefBitmapData>
+    <BellenDimmenBitmapData>
+      <BitmapCoordinaten />
+    </BellenDimmenBitmapData>
+    <WaarschuwingsLichtenActiefBitmapData>
+      <BitmapCoordinaten />
+    </WaarschuwingsLichtenActiefBitmapData>
+  </Signalen>
+  <CustomData>
+    <AddinSettings />
+  </CustomData>
+  <GebruikersOpties xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <Uitgangen />
+    <Ingangen />
+    <HulpElementen />
+    <Timers />
+    <Counters />
+    <Schakelaars />
+    <GeheugenElementen />
+    <Parameters />
+  </GebruikersOpties>
+  <SpecialsDenHaag xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <ToepassenAlternatievenPerBlok>false</ToepassenAlternatievenPerBlok>
+    <AlternatievenPerBlok>
+      <FaseCyclusAlternatiefPerBlok>
+        <FaseCyclus>21</FaseCyclus>
+        <BitWiseBlokAlternatief>15</BitWiseBlokAlternatief>
+      </FaseCyclusAlternatiefPerBlok>
+      <FaseCyclusAlternatiefPerBlok>
+        <FaseCyclus>31</FaseCyclus>
+        <BitWiseBlokAlternatief>15</BitWiseBlokAlternatief>
+      </FaseCyclusAlternatiefPerBlok>
+      <FaseCyclusAlternatiefPerBlok>
+        <FaseCyclus>fc02</FaseCyclus>
+        <BitWiseBlokAlternatief>15</BitWiseBlokAlternatief>
+      </FaseCyclusAlternatiefPerBlok>
+      <FaseCyclusAlternatiefPerBlok>
+        <FaseCyclus>fc03</FaseCyclus>
+        <BitWiseBlokAlternatief>15</BitWiseBlokAlternatief>
+      </FaseCyclusAlternatiefPerBlok>
+      <FaseCyclusAlternatiefPerBlok>
+        <FaseCyclus>fc05</FaseCyclus>
+        <BitWiseBlokAlternatief>15</BitWiseBlokAlternatief>
+      </FaseCyclusAlternatiefPerBlok>
+      <FaseCyclusAlternatiefPerBlok>
+        <FaseCyclus>fc07</FaseCyclus>
+        <BitWiseBlokAlternatief>15</BitWiseBlokAlternatief>
+      </FaseCyclusAlternatiefPerBlok>
+      <FaseCyclusAlternatiefPerBlok>
+        <FaseCyclus>fc08</FaseCyclus>
+        <BitWiseBlokAlternatief>15</BitWiseBlokAlternatief>
+      </FaseCyclusAlternatiefPerBlok>
+    </AlternatievenPerBlok>
+  </SpecialsDenHaag>
+  <SpecialsRotterdam xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <ToepassenAFM>false</ToepassenAFM>
+    <ToevoegenOVM>false</ToevoegenOVM>
+    <PrmLoggingTfbMax>false</PrmLoggingTfbMax>
+  </SpecialsRotterdam>
+</ControllerModel>

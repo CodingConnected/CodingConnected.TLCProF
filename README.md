@@ -16,6 +16,8 @@ TLCProF consists of three parts:
 
 The example controller in Visual project "CodingConnected.TLCProF.ExampleController" provides a simple example that combines all three parts to create a controller with a user interface that allows testing its functionality.
 
+Make sure to add references to the libraries that are used in a project.
+
 ### Programming a controller
 Semantically, a controller consists of two parts: its settings and state on the one hand, its logic and algorithms on the other. In TLCProF, roughly the following design decisions have been made:
 - The settings and state reside in a single object of type `ControllerModel`. This object and objects that are member of it do have logic, but that logic strictly (that is: as strictly as possible) partains to the object in question itself. For example, a `SignalGroupModel` exposes a method `HandleStateRequests()`, that causes it to determine its own new inner state based on its settings and requests it has received. This method is called by the `ControllerManager` (see below).
@@ -66,6 +68,14 @@ controller = ser.DeserializeController(filename);
 Of course, some exception handling should be in place here to check existence and integrity of the file.
 
 > Note: for Mono compatibility, the `TLCPROFSerializer` class internally uses `DataContractSerializer`. This means the XML should match *exactly* with the C# classes. Even a very minor deviation will cause an exeption to be raised. Therefor, it is advised not to write an XML by hand, but instead use a generator (such as [this one](https://www.codingconnected.eu/software/tlcgen/)) to compose the XML.
+
+##### Using TLCGen to generate an XML
+To generate a `ControllerModel` XML file using the application TLCGen, do the following:
+- Download TLCGen from [here](https://www.codingconnected.eu/software/tlcgen/)
+- Build the project CodingConnected.TLCProF.TLCGenGen (see below for building from source)
+- Copy the resulting file "CodingConnected.TLCProF.TLCGenGen.dll" to the Plugins folder in the folder where TLCGen.exe is located
+- Copy file "CodingConnected.TLCProF.dll" to the folder where TLCGen.exe is located
+- You can now select TLCProF as a generator from within TLCGen, and generate TLCProF XML files with the application
 
 ### Running the control process: the `ControllerManager` and `SimpleControllerHost` classes
 The `ControllerModel` does nothing by itself, but instead is "managed" by a class that will cause state changes based on input state, and call relevant methods on objects inside the controller when a control step is taken. To instantiate the manager:

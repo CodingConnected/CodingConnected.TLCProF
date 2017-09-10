@@ -12,6 +12,7 @@ namespace CodingConnected.TLCProF.Models
         Long,
         Away,
         Jam,
-        Button
+        Button,
+        Other
     }
 }

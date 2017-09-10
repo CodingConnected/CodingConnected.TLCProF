@@ -6,3 +6,6 @@ nuget Eto.Platform.Windows
 nuget Eto.Platform.Gtk3
 nuget Eto.Forms
 nuget Jetbrains.Annotations
+nuget MvvmLightLibs
+nuget CommonServiceLocator
+nuget Mono.Posix

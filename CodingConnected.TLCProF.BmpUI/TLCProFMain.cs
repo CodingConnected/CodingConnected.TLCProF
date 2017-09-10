@@ -55,7 +55,14 @@ namespace CodingConnected.TLCProF.BmpUI
             {
                 throw new NotImplementedException("Not initialized: cannot run.");
             }
-            _application.Run(_mainForm);
+            try
+            {
+                _application.Run(_mainForm);
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         public void Initialize()

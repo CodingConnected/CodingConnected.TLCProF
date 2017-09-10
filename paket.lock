@@ -2,11 +2,9 @@ RESTRICTION: == net45
 NUGET
   remote: https://www.nuget.org/api/v2
     Eto.Forms (2.3)
-    Eto.Platform.Gtk (2.3)
-      Eto.Forms (2.3)
     Eto.Platform.Gtk3 (2.3)
       Eto.Forms (2.3)
     Eto.Platform.Windows (2.3)
       Eto.Forms (2.3)
-    JetBrains.Annotations (10.4)
+    JetBrains.Annotations (11.0)
     NLog (4.4.12)

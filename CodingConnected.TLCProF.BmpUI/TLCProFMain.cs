@@ -72,7 +72,7 @@ namespace CodingConnected.TLCProF.BmpUI
                 _mainForm.SetSignalGroupState(sg.Name, sg.InternalState, false);
                 sg.InternalStateChanged += (sender, args) =>
                 {
-                    if(_usemodelforupdate) _mainForm.SetSignalGroupState(sg.Name, sg.InternalState);
+                    if (_usemodelforupdate) _mainForm.SetSignalGroupState(sg.Name, sg.InternalState);
                 };
                 foreach (var d in sg.Detectors)
                 {
@@ -114,7 +114,8 @@ namespace CodingConnected.TLCProF.BmpUI
 
         #region Constructor
 
-        public TLCProFMain(ControllerModel model, string bitmapName, bool updatealways = false, bool externaldet = false, bool usemodelforupdate = true)
+        public TLCProFMain(ControllerModel model, string bitmapName, bool updatealways = false, bool externaldet = false,
+            bool usemodelforupdate = true)
         {
             _model = model;
             _usemodelforupdate = usemodelforupdate;
@@ -130,8 +131,12 @@ namespace CodingConnected.TLCProF.BmpUI
             {
                 Closed?.Invoke(this, args);
             };
-        }
 
-        #endregion // Constructor
+            Application.Instance.UnhandledException += (o, e) =>
+            {
+            };
+
+            #endregion // Constructor
+        }
     }
 }

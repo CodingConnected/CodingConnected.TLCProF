@@ -16,6 +16,9 @@
     <TypeGroentijden>MaxGroentijden</TypeGroentijden>
     <AansturingWaitsignalen>DrukknopGebruik</AansturingWaitsignalen>
     <NaloopSynchronisatieType>FictiefConflict</NaloopSynchronisatieType>
+    <HuidigeVersieMajor>0</HuidigeVersieMajor>
+    <HuidigeVersieMinor>0</HuidigeVersieMinor>
+    <HuidigeVersieRevision>0</HuidigeVersieRevision>
     <TLCGenVersie>0.1.81.0</TLCGenVersie>
     <SegmentenDisplayBitmapData>
       <SegmentDisplayElementModel>
@@ -269,7 +272,7 @@
       <Kopmax>80</Kopmax>
       <OVIngreep>false</OVIngreep>
       <HDIngreep>false</HDIngreep>
-      <VasteAanvraag>Nooit</VasteAanvraag>
+      <VasteAanvraag>Altijd</VasteAanvraag>
       <Wachtgroen>Nooit</Wachtgroen>
       <Meeverlengen>SchAan</Meeverlengen>
       <MeeverlengenType>To</MeeverlengenType>
@@ -567,7 +570,7 @@
       <Kopmax>80</Kopmax>
       <OVIngreep>false</OVIngreep>
       <HDIngreep>false</HDIngreep>
-      <VasteAanvraag>Nooit</VasteAanvraag>
+      <VasteAanvraag>Altijd</VasteAanvraag>
       <Wachtgroen>Nooit</Wachtgroen>
       <Meeverlengen>SchAan</Meeverlengen>
       <MeeverlengenType>To</MeeverlengenType>
@@ -758,6 +761,7 @@
     <Gelijkstarten />
     <Nalopen />
     <Meeaanvragen />
+    <LateReleases />
   </InterSignaalGroep>
   <GroentijdenSets />
   <FileIngrepen />

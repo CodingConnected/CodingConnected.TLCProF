@@ -14,18 +14,19 @@ namespace CodingConnected.TLCProF.Management
         #region Fields
 
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-
+		
         private List<ManagerBase> _managers;
         private List<FunctionalityContainer> _functionalities;
         private bool _processing;
         private double _missedTime;
 
-        #endregion // Fields
+	    private List<TimerModel> _timers;
+        
+		#endregion // Fields
 
         #region Properties
 
         public ControllerModel Controller { get; private set; }
-        public List<TimerModel> Timers { get; private set; }
 
         #endregion // Properties
 
@@ -60,7 +61,7 @@ namespace CodingConnected.TLCProF.Management
             var time = Math.Truncate(timeAmount + _missedTime);
             _missedTime = (timeAmount + _missedTime) - time;
             Controller.Clock.Update((int)time);
-            foreach (var t in Timers)
+            foreach (var t in _timers)
             {
                 t.Step((int)time);
             }
@@ -91,7 +92,7 @@ namespace CodingConnected.TLCProF.Management
             Controller = controller;
 
             // Collect elements
-            Timers = GetAllTimers(Controller);
+            _timers = GetAllTimers(Controller);
             ControllerUtilities.SetAllReferences(Controller);
 
             // Build list of functionality containers
@@ -128,14 +129,13 @@ namespace CodingConnected.TLCProF.Management
             }
         }
 
-        private List<TimerModel> GetAllTimers(object obj)
+        private static List<TimerModel> GetAllTimers(object obj)
         {
             var l = new List<TimerModel>();
             if (obj == null) return l;
 
             // Object as IOElement
-            var tm = obj as TimerModel;
-            if (tm != null)
+	        if (obj is TimerModel tm)
             {
                 l.Add(tm);
             }
@@ -165,10 +165,7 @@ namespace CodingConnected.TLCProF.Management
                         }
                         else
                         {
-                            foreach (var i in GetAllTimers(item))
-                            {
-                                l.Add(i);
-                            }
+	                        l.AddRange(GetAllTimers(item));
                         }
                     }
                 }
@@ -182,10 +179,7 @@ namespace CodingConnected.TLCProF.Management
                     }
                     else
                     {
-                        foreach (var i in GetAllTimers(propValue))
-                        {
-                            l.Add(i);
-                        }
+	                    l.AddRange(GetAllTimers(propValue));
                     }
                 }
             }

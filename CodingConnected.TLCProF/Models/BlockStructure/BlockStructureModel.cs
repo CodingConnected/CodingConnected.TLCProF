@@ -310,7 +310,7 @@ namespace CodingConnected.TLCProF.Models
             BlockStart = false;
             if (CurrentBlock.SignalGroups.All(x => !x.SignalGroup.CyclicGreen &&
                                                    (x.PrimaryRealisationDone || !x.SignalGroup.HasGreenRequest) ||
-                                                   x.SignalGroup.IsInWaitingGreen ||
+                                                   /* x.SignalGroup.IsInWaitingGreen || */
                                                    x.AlternativeRealisation && x.SignalGroup.InternalState != InternalSignalGroupStateEnum.NilRed))
             {
                 foreach (var sg in CurrentBlock.SignalGroups)

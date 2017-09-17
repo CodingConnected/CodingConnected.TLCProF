@@ -348,7 +348,7 @@
         </Detector>
       </Detectors>
       <ExtendGreenFree>true</ExtendGreenFree>
-      <FixedRequest>None</FixedRequest>
+      <FixedRequest>Red</FixedRequest>
       <FixedRequestDelay>
         <Maximum>0</Maximum>
         <Name>fixreqdelayfc02</Name>
@@ -397,7 +397,7 @@
         <Maximum>2000</Maximum>
         <Name>redgarfc02</Name>
       </RedGuaranteed>
-      <WaitGreen>false</WaitGreen>
+      <WaitGreen>true</WaitGreen>
     </SignalGroup>
     <SignalGroup>
       <Amber>
@@ -744,7 +744,7 @@
         </Detector>
       </Detectors>
       <ExtendGreenFree>true</ExtendGreenFree>
-      <FixedRequest>None</FixedRequest>
+      <FixedRequest>Red</FixedRequest>
       <FixedRequestDelay>
         <Maximum>0</Maximum>
         <Name>fixreqdelayfc08</Name>
@@ -776,7 +776,7 @@
         </InterGreenTime>
         <InterGreenTime>
           <SignalGroupFrom>fc08</SignalGroupFrom>
-          <SignalGroupTo>fc03</SignalGroupTo> 
+          <SignalGroupTo>fc03</SignalGroupTo>
           <Timer>
             <Maximum>8300</Maximum>
             <Name>igtfc08fc03</Name>
@@ -801,7 +801,7 @@
         <Maximum>2000</Maximum>
         <Name>redgarfc08</Name>
       </RedGuaranteed>
-      <WaitGreen>false</WaitGreen>
+      <WaitGreen>true</WaitGreen>
     </SignalGroup>
   </SignalGroups>
 </Controller>

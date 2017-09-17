@@ -1,11 +1,12 @@
 framework: net45
 source https://www.nuget.org/api/v2
 
-nuget NLog
+nuget CommonServiceLocator
 nuget Eto.Platform.Windows
 nuget Eto.Platform.Gtk3
 nuget Eto.Forms
 nuget Jetbrains.Annotations
-nuget MvvmLightLibs
-nuget CommonServiceLocator
 nuget Mono.Posix
+nuget MvvmLightLibs
+nuget NLog
+nuget NUnit

@@ -93,7 +93,6 @@
     <Compile Include="Models\BlockStructure\BlockModel.cs" />
     <Compile Include="Models\Core\SignalGroupModel.cs" />
     <Compile Include="Models\Core\SignalGroupStateRequestModel.cs" />
-    <Compile Include="Models\Core\SwitchModel.cs" />
     <Compile Include="Models\Core\TimerModel.cs" />
     <Compile Include="Models\Enumerations\TimerTypeEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

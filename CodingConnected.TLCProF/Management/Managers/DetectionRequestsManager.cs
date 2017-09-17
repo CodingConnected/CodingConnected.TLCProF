@@ -64,11 +64,12 @@ namespace CodingConnected.TLCProF.Management.Managers
 
         #region Constructor
 
-        public DetectionRequestsManager(ControllerManager mainmanager, ControllerModel controller) : base(mainmanager, controller)
-        {
-            mainmanager.InsertFunctionality(UpdateRequests, ControllerFunctionalityEnum.Requests, 0);
-        }
+	    public DetectionRequestsManager(ControllerManager mainmanager, ControllerModel controller) : base(mainmanager,
+		    controller)
+	    {
+		    mainmanager.InsertFunctionality(UpdateRequests, ControllerFunctionalityEnum.Requests, 0);
+	    }
 
-        #endregion // Constructor
+	    #endregion // Constructor
     }
 }

@@ -64,7 +64,7 @@ namespace CodingConnected.TLCProF.Models
                 var oldstate = State;
                 _internalState = value;
                 _logger.Trace("Signal group {0} internal state changed: {1}", Name, value);
-                InternalStateChanged?.Invoke(this, EventArgs.Empty);
+                InternalStateChanged?.Invoke(this, value);
 
                 if (State == oldstate) return;
                 _logger.Trace("Signal group {0} external state changed: {1}", Name, State);
@@ -241,7 +241,7 @@ namespace CodingConnected.TLCProF.Models
         #region Events
 
         [field: NonSerialized]
-        public event EventHandler InternalStateChanged;
+        public event EventHandler<InternalSignalGroupStateEnum> InternalStateChanged;
         [field: NonSerialized]
         public event EventHandler StateChanged;
 

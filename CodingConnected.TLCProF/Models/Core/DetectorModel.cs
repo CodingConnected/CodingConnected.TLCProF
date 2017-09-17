@@ -20,7 +20,10 @@ namespace CodingConnected.TLCProF.Models
 
         // State
         private bool _presence;
-        [IgnoreDataMember]
+
+	    private bool _occupied;
+
+	    [IgnoreDataMember]
         public bool Presence
         {
             get => _presence;
@@ -44,9 +47,19 @@ namespace CodingConnected.TLCProF.Models
                 _presence = value;
             }
         }
-        [IgnoreDataMember]
-        public bool Occupied { get; private set; }
-        [DataMember(IsRequired = true)]
+
+	    [IgnoreDataMember]
+	    public bool Occupied
+	    {
+		    get => _occupied;
+		    private set
+		    {
+			    _occupied = value; 
+			    OccupiedChanged?.Invoke(this, value);
+			}
+		}
+
+	    [DataMember(IsRequired = true)]
         public TimerModel OccupiedTimer { get; private set; }
         [DataMember(IsRequired = true)]
         public TimerModel GapTimer { get; private set; }
@@ -74,12 +87,14 @@ namespace CodingConnected.TLCProF.Models
 
         [field: NonSerialized]
         public event EventHandler<bool> PresenceChanged;
+	    [field: NonSerialized]
+	    public event EventHandler<bool> OccupiedChanged;
 
-        #endregion // Events
+		#endregion // Events
 
-        #region Private Methods
+		#region Private Methods
 
-        private void OnCreated()
+		private void OnCreated()
         {
             OccupiedTimer.Ended += (o, e) => { Occupied = true; };
             GapTimer.Ended += (o, e) => { Occupied = false; };

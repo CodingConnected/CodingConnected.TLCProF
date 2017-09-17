@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Windows.Navigation;
 
 namespace CodingConnected.TLCProF.Models
 {
@@ -75,9 +76,11 @@ namespace CodingConnected.TLCProF.Models
             Current += miliseconds;
             Remaining -= miliseconds;
 
-            if (Current < Maximum - miliseconds / 2) return;
+#warning Need to check this; it may be needed to run as realtime as possible when running with TLC-FI
+			//if (Current < Maximum - miliseconds / 2) return;
+	        if (Current < Maximum) return;
 
-            Running = false;
+			Running = false;
             Ended?.Invoke(this, new EventArgs());
         }
 

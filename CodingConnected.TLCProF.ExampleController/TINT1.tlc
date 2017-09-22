@@ -273,7 +273,7 @@
       <OVIngreep>false</OVIngreep>
       <HDIngreep>false</HDIngreep>
       <VasteAanvraag>Altijd</VasteAanvraag>
-      <Wachtgroen>Nooit</Wachtgroen>
+      <Wachtgroen>Altijd</Wachtgroen>
       <Meeverlengen>SchAan</Meeverlengen>
       <MeeverlengenType>To</MeeverlengenType>
       <MeeverlengenVerschil xsi:nil="true" />
@@ -571,7 +571,7 @@
       <OVIngreep>false</OVIngreep>
       <HDIngreep>false</HDIngreep>
       <VasteAanvraag>Altijd</VasteAanvraag>
-      <Wachtgroen>Nooit</Wachtgroen>
+      <Wachtgroen>Altijd</Wachtgroen>
       <Meeverlengen>SchAan</Meeverlengen>
       <MeeverlengenType>To</MeeverlengenType>
       <MeeverlengenVerschil xsi:nil="true" />

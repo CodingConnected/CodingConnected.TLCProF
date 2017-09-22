@@ -68,7 +68,7 @@ namespace CodingConnected.TLCProF.Models
 
                 if (sg.SignalGroup.HasGreenRequest && sg.SignalGroup.InterGreenTimes.All(x => x.ConflictingSignalGroup.InternalState != InternalSignalGroupStateEnum.NilRed))
                 {
-                    sg.SignalGroup.AddStateRequest(SignalGroupStateRequestEnum.Green, 0, this);
+                    sg.SignalGroup.AddStateRequest(SignalGroupStateRequestEnum.Green, 0, this, "primary");
                 }
             }
         }
@@ -119,7 +119,7 @@ namespace CodingConnected.TLCProF.Models
             {
                 if (CurrentBlock.SignalGroups.All(x => x.SignalGroupName != sg.SignalGroupName))
                 {
-                    sg.SignalGroup.AddStateRequest(SignalGroupStateRequestEnum.ExtendGreen, 0, this);
+                    sg.SignalGroup.AddStateRequest(SignalGroupStateRequestEnum.ExtendGreen, 0, this, "ahead");
                 }
                 else
                 {
@@ -136,7 +136,7 @@ namespace CodingConnected.TLCProF.Models
                 }
                 if (sg.SignalGroup.State != SignalGroupStateEnum.Green)
                 {
-                    sg.SignalGroup.AddStateRequest(SignalGroupStateRequestEnum.Green, 0, this);
+                    sg.SignalGroup.AddStateRequest(SignalGroupStateRequestEnum.Green, 0, this, "ahead");
                 }
             }
         }
@@ -270,7 +270,7 @@ namespace CodingConnected.TLCProF.Models
                     sg.AlternativeRealisation && sg.SignalGroup.InternalState == InternalSignalGroupStateEnum.NilRed)
                 {
                     sg.AlternativeRealisation = true;
-                    sg.SignalGroup.AddStateRequest(SignalGroupStateRequestEnum.Green, 0, this);
+                    sg.SignalGroup.AddStateRequest(SignalGroupStateRequestEnum.Green, 0, this, "alternative");
                 }
                 // if a signalgroup is green alternatively,
                 // but may no longer realise alternatively,
@@ -279,7 +279,7 @@ namespace CodingConnected.TLCProF.Models
                          sg.SignalGroup.InterGreenTimes.Any(x => x.ConflictingSignalGroup.HasValidGreenStateRequest) &&
                          sg.SignalGroup.State == SignalGroupStateEnum.Green)
                 {
-                    sg.SignalGroup.AddStateRequest(SignalGroupStateRequestEnum.AbortGreen, 1, this);
+                    sg.SignalGroup.AddStateRequest(SignalGroupStateRequestEnum.AbortGreen, 1, this, "alternative");
                 }
                 else if (sg.AlternativeRealisation && (sg.SignalGroup.Amber.Running || sg.SignalGroup.RedFixed.Running))
                 {
@@ -288,7 +288,7 @@ namespace CodingConnected.TLCProF.Models
 
                 if (sg.AlternativeRealisation && sg.SignalGroup.HasConflict)
                 {
-                    sg.SignalGroup.AddStateRequest(SignalGroupStateRequestEnum.HoldRed, 1, this);
+                    sg.SignalGroup.AddStateRequest(SignalGroupStateRequestEnum.HoldRed, 1, this, "alternative");
                     sg.AlternativeRealisation = false;
                 }
             }
@@ -310,7 +310,7 @@ namespace CodingConnected.TLCProF.Models
             BlockStart = false;
             if (CurrentBlock.SignalGroups.All(x => !x.SignalGroup.CyclicGreen &&
                                                    (x.PrimaryRealisationDone || !x.SignalGroup.HasGreenRequest) ||
-                                                   /* x.SignalGroup.IsInWaitingGreen || */
+                                                   x.SignalGroup.IsInWaitingGreen ||
                                                    x.AlternativeRealisation && x.SignalGroup.InternalState != InternalSignalGroupStateEnum.NilRed))
             {
                 foreach (var sg in CurrentBlock.SignalGroups)
@@ -328,7 +328,12 @@ namespace CodingConnected.TLCProF.Models
                         sg.HadPrimaryRealisation = true;
                         sg.AlternativeRealisation = false;
                     }
-                }
+					/* Reset may realise ahead: at this point, it is irrelevant if it may
+					 * - at this point, it is irrelevant if it may: it either has come ahead or not
+					 * - leaving this true results in faulty behaviour in combination with waitgreen
+					 */
+		            sg.MayRealisePrimaryAhead = false;
+	            }
             }
         }
 

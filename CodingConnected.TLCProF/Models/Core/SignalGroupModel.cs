@@ -264,12 +264,12 @@ namespace CodingConnected.TLCProF.Models
             _greenReqIndex++;
         }
 
-        public void AddStateRequest(SignalGroupStateRequestEnum state, int priority, object requestingobject)
+        public void AddStateRequest(SignalGroupStateRequestEnum state, int priority, object requestingobject, string reason = null)
         {
             if (_stateReqIndex < 50)
             {
                 _stateRequests[_stateReqIndex] =
-                    new SignalGroupStateRequestModel(state, priority, requestingobject)
+                    new SignalGroupStateRequestModel(state, priority, requestingobject, reason)
                     {
                         HasValue = true
                     };

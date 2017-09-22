@@ -13,6 +13,7 @@ namespace CodingConnected.TLCProF.Models
 
         public readonly SignalGroupStateRequestEnum RequestedState;
         public readonly int Priority;
+	    public readonly string Reason;
         public object RequestingObject;
         public bool HasValue;
 
@@ -22,19 +23,20 @@ namespace CodingConnected.TLCProF.Models
 
         public override string ToString()
         {
-            return RequestingObject.GetType().Name + $":{RequestedState} [{Priority}]";
+            return RequestingObject.GetType().Name + (Reason != null ? $"({Reason})" : "") + $": {RequestedState} [{Priority}]";
         }
 
         #endregion // Overrides
 
         #region Constructor
 
-        public SignalGroupStateRequestModel(SignalGroupStateRequestEnum requestedstate, int priority, object requestingobject)
+        public SignalGroupStateRequestModel(SignalGroupStateRequestEnum requestedstate, int priority, object requestingobject, string reason = null)
         {
             RequestedState = requestedstate;
             Priority = priority;
             RequestingObject = requestingobject;
             HasValue = false;
+	        Reason = reason;
         }
 
         #endregion // Constructor

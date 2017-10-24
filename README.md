@@ -8,6 +8,8 @@ The framework has been written in C# (minimum version: 6.0) using the .NET Frame
 
 Contents of the README:
 
+{:toc}
+
 - [Using the library](#)
 	- [Programming a controller](#)
 	- [Settings and state: the ControllerModel class](#)

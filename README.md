@@ -8,7 +8,18 @@ The framework has been written in C# (minimum version: 6.0) using the .NET Frame
 
 Contents of the README:
 
-[TOC]
+- [Using the library](#)
+	- [Programming a controller](#)
+	- [Settings and state: the ControllerModel class](#)
+		- [Manually coding a controller](#)
+		- [Using XML to create a controller](#)
+			- [Using TLCGen to generate an XML](#)
+	- [Running the control process: the ControllerManager and SimpleControllerHost classes](#)
+		- [Hosting the controller](#)
+- [Building from source](#)
+	- [Retrieve the sources](#)
+	- [Restore dependencies: Paket](#)
+	- [Building](#)
 
 ## Using the library
 TLCProF consists of three parts:

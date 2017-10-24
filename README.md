@@ -1,5 +1,7 @@
 # TLCProF
-TLCProF is a new, open framework for programming vehicle dependent traffic light controller software. The abbreviation stands for: Traffic Light Controller Programming Framework. The project is currently in beta phase, and both its name and code base may undergo considerable changes in the near future.
+TLCProF is a new, open source framework for programming vehicle dependent traffic light controller software. The abbreviation stands for: Traffic Light Controller Programming Framework. The project is currently in beta phase, and both its name and code base may undergo considerable changes in the near future.
+
+> Please note: the project is currently in alfo state, and in active development. It's API and classes are likely to change occasianally until the project reaches a stable state.
 
 The framework has been written in C# (minimum version: 6.0) using the .NET Framework (minimum version: 4.5). It is compatible with Mono (tested with version 3.2.8), and can thus be used under Linux.
 > Note (10-09-2017): the current version of the UI has known issues when ran with Mono. A controller can however be ran on the command line without trouble.

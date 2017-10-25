@@ -8,18 +8,19 @@ The framework has been written in C# (minimum version: 6.0) using the .NET Frame
 
 Contents of the README:
 
-- [Using the library](#Using the library)
-	- [Programming a controller](#Programming a controller)
-	- [Settings and state: the ControllerModel class](#)
-		- [Manually coding a controller](#)
-		- [Using XML to create a controller](#)
-			- [Using TLCGen to generate an XML](#)
-	- [Running the control process: the ControllerManager and SimpleControllerHost classes](#)
-		- [Hosting the controller](#)
-- [Building from source](#)
-	- [Retrieve the sources](#)
-	- [Restore dependencies: Paket](#)
-	- [Building](#)
+- [TLCProF](#tlcprof)
+  * [Using the library](#using-the-library)
+    + [Programming a controller](#programming-a-controller)
+    + [Settings and state: the `ControllerModel` class](#settings-and-state--the--controllermodel--class)
+      - [Manually coding a controller](#manually-coding-a-controller)
+      - [Using XML to create a controller](#using-xml-to-create-a-controller)
+        * [Using TLCGen to generate an XML](#using-tlcgen-to-generate-an-xml)
+    + [Running the control process: the `ControllerManager` and `SimpleControllerHost` classes](#running-the-control-process--the--controllermanager--and--simplecontrollerhost--classes)
+      - [Hosting the controller](#hosting-the-controller)
+  * [Building from source](#building-from-source)
+    + [Retrieve the sources](#retrieve-the-sources)
+    + [Restore dependencies: Paket](#restore-dependencies--paket)
+    + [Building](#building)
 
 ## Using the library
 TLCProF consists of three parts:

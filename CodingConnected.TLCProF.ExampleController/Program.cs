@@ -43,7 +43,7 @@ namespace TLC_PROF_BmpUI_testAppl
             }
 
             // Initialize GUI
-            var mainGui = new TLCProFMain(controllerapplication, "tint1.png");
+            var mainGui = new BmpUIMain(controllerapplication, "tint1.png");
             mainGui.Initialize();
 
             // Run
@@ -91,11 +91,11 @@ namespace TLC_PROF_BmpUI_testAppl
                         break;
                 }
             };
-            mainGui.Halted += (o, e) =>
+            mainGui.HaltedChanged += (o, e) =>
             {
                 host.HaltController(e);
             };
-            mainGui.StepButtonPressed += (o, e) =>
+            mainGui.StepRequested += (o, e) =>
             {
                 if (!host.Running)
                 {

@@ -44,11 +44,11 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="TLCGen.EventManager">
-      <HintPath>..\Libs\TLCGen.EventManager.dll</HintPath>
-    </Reference>
     <Reference Include="TLCGen.Integrity">
       <HintPath>..\Libs\TLCGen.Integrity.dll</HintPath>
+    </Reference>
+    <Reference Include="TLCGen.Messaging">
+      <HintPath>..\Libs\TLCGen.Messaging.dll</HintPath>
     </Reference>
     <Reference Include="TLCGen.Models">
       <HintPath>..\Libs\TLCGen.Models.dll</HintPath>
@@ -93,8 +93,8 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5'">
       <ItemGroup>
-        <Reference Include="Microsoft.Practices.ServiceLocation">
-          <HintPath>..\packages\CommonServiceLocator\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+        <Reference Include="CommonServiceLocator">
+          <HintPath>..\packages\CommonServiceLocator\lib\net45\CommonServiceLocator.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

@@ -43,9 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitmapDetector.cs" />
+    <Compile Include="BmpUITools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TLCProFMain.cs" />
-    <Compile Include="TLCProForm.cs" />
+    <Compile Include="BmpUIMain.cs" />
+    <Compile Include="BmpUIForm.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />

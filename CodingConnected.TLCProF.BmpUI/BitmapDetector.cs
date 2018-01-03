@@ -2,25 +2,40 @@
 
 namespace CodingConnected.TLCProF.BmpUI
 {
-    public class BitmapDetector
-    {
-        #region Properties
+	public struct SimplePoint
+	{
+		public int X;
+		public int Y;
 
-        public readonly string Name;
+		public SimplePoint(int x, int y)
+		{
+			X = x;
+			Y = y;
+		}
+	}
+
+	public class BitmapDetector
+    {
+		#region Public Fields
+
+		public readonly string Name;
+	    public readonly SimplePoint [] Points;
+
+		#endregion // Public Fields
+        
+		#region Properties
+
         public bool Presence { get; set; }
-        public System.Drawing.Point Coordinate { get; }
-        public readonly Point [] Points;
 
         #endregion // Properties
 
         #region Constructor
 
-        public BitmapDetector(string name, bool presence, System.Drawing.Point coordinate, Point[] points)
+        public BitmapDetector(string name, bool presence, SimplePoint[] points)
         {
             Name = name;
             Presence = presence;
-            Coordinate = coordinate;
-            Points = points;
+	        Points = points;
         }
 
         #endregion // Constructor

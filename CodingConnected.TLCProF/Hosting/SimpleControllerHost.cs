@@ -198,7 +198,7 @@ namespace CodingConnected.TLCProF.Hosting
                     _fastTokenSource?.Cancel();
                     if(_winCycleTimer.IsRunning) _winCycleTimer.Stop();
                 }
-                else if (_winCycleTimer != null)
+                else if (_winCycleTimer != null && StepDelay)
                 {
                     if (!_winCycleTimer.IsRunning) _winCycleTimer.Start();
                     StepDelay = _stepDelay;

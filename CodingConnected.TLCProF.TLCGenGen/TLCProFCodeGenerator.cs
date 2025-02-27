@@ -156,10 +156,13 @@ namespace CodingConnected.TLCProF.TLCGenGen
                 case DetectorTypeEnum.KnopBinnen:
                 case DetectorTypeEnum.KnopBuiten:
                     return CodingConnected.TLCProF.Models.DetectorTypeEnum.Button;
-                case DetectorTypeEnum.VecomIngang:
+                case DetectorTypeEnum.VecomDetector:
                 case DetectorTypeEnum.OpticomIngang:
                 case DetectorTypeEnum.Overig:
                 case DetectorTypeEnum.Radar:
+                case DetectorTypeEnum.WisselDetector:
+                case DetectorTypeEnum.WisselStroomKringDetector:
+                case DetectorTypeEnum.WisselStandDetector:
                     return CodingConnected.TLCProF.Models.DetectorTypeEnum.Other;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(t), t, null);

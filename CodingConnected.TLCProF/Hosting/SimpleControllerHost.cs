@@ -11,7 +11,6 @@ using CodingConnected.TLCProF.Logging;
 using CodingConnected.TLCProF.Management;
 using CodingConnected.TLCProF.Models;
 using CodingConnected.TLCProF.Simulation;
-using JetBrains.Annotations;
 using NLog;
 
 namespace CodingConnected.TLCProF.Hosting
@@ -52,7 +51,8 @@ namespace CodingConnected.TLCProF.Hosting
 
         #region Properties
 
-        [UsedImplicitly]
+        public VLOGLogger VlogLogger { get; private set; }
+
         public SimpleControllerSim Simulator { private get; set; }
 
         public int StepSize
@@ -63,7 +63,7 @@ namespace CodingConnected.TLCProF.Hosting
 
         public bool StepDelay
         {
-            [UsedImplicitly] get => _stepDelay;
+            get => _stepDelay;
             set
             {
                 _stepDelay = value;
@@ -143,14 +143,12 @@ namespace CodingConnected.TLCProF.Hosting
 
         #region Public methods
 
-        [UsedImplicitly]
         public void TakeSingleStep()
         {
             Simulator?.SimulationStep(_stepSize);
             _manager.ExecuteStep(_stepSize);
         }
 
-        [UsedImplicitly]
         public void StartController()
         {
             _running = true;
@@ -173,7 +171,6 @@ namespace CodingConnected.TLCProF.Hosting
 
         }
 
-        [UsedImplicitly]
         public void HaltController(bool halt)
         {
             _halted = halt;
@@ -260,7 +257,7 @@ namespace CodingConnected.TLCProF.Hosting
 
             if (elapsed > _stepsizemargin)
             {
-                _logger.Warn("Control loop cycle took than 1.5 x the desired step size: {0} ms", elapsed);
+                _logger.Warn("Control loop cycle took longer than 1.5 x the desired step size: {0} ms", elapsed);
             }
 
             Simulator?.SimulationStep(elapsed);
@@ -268,7 +265,6 @@ namespace CodingConnected.TLCProF.Hosting
             StepTaken?.Invoke(this, EventArgs.Empty);
         }
 
-        [UsedImplicitly]
         public void StopController()
         {
             _fastTokenSource?.Cancel();
@@ -338,6 +334,12 @@ namespace CodingConnected.TLCProF.Hosting
             _stepDelay = stepDelay;
             _stepDelaySize = stepDelaySize;
             _realTime = realTime;
+
+            VlogLogger = new VLOGLogger(
+                manager.Controller.Data.EnableFileLogging,
+                manager.Controller.Data.EnableStreamingLogging, 
+                manager.Controller.Data.StreamingVlogPort);
+            manager.InsertFunctionality(VlogLogger.Update, ControllerFunctionalityEnum.Logging, 1000);
         }
 
         #endregion // Constructor

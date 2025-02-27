@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using CodingConnected.TLCProF.Models;
-using JetBrains.Annotations;
 
 namespace CodingConnected.TLCProF.Simulation
 {
-    [UsedImplicitly]
     public class SimpleControllerSim
     {
         #region Fields

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using CodingConnected.TLCProF.Management;
 using CodingConnected.TLCProF.Simulation;
 using CodingConnected.TLCProF.Testing;
@@ -29,7 +25,7 @@ namespace CodingConnected.TLCProF.Testing2
 				    var s = new SimpleControllerSim(c, 42 + i1);
 				    c.MaximumWaitingTimeExceeded += (o, e) => fault = true;
 				    s.SimulationInit(c.Clock.CurrentTime);
-				    for (long i2 = 0; i2 < 36000; ++i2)
+				    for (long i2 = 0; i2 < 360000; ++i2)
 				    {
 					    s.SimulationStep(100);
 					    m.ExecuteStep(100);
@@ -40,7 +36,7 @@ namespace CodingConnected.TLCProF.Testing2
 			dts.ForEach(x => x.Start());
 			dts.ForEach(x => x.Join());
 			
-			Assert.IsFalse(fault);
+			Assert.That(fault == false);
 		}
 
 		[Test]
@@ -58,7 +54,7 @@ namespace CodingConnected.TLCProF.Testing2
 					var s = new SimpleControllerSim(c, 42 + 4 + i1);
 					c.MaximumWaitingTimeExceeded += (o, e) => fault = true;
 					s.SimulationInit(c.Clock.CurrentTime);
-					for (long i2 = 0; i2 < 36000; ++i2)
+					for (long i2 = 0; i2 < 360000; ++i2)
 					{
 						s.SimulationStep(100);
 						m.ExecuteStep(100);
@@ -69,7 +65,7 @@ namespace CodingConnected.TLCProF.Testing2
 			dts.ForEach(x => x.Start());
 			dts.ForEach(x => x.Join());
 
-			Assert.IsFalse(fault);
+			Assert.That(fault == false);
 		}
 	}
 }

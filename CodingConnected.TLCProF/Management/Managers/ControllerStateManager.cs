@@ -5,7 +5,6 @@ using JetBrains.Annotations;
 namespace CodingConnected.TLCProF.Management.Managers
 {
     [ControllerManager]
-    [UsedImplicitly]
     public class ControllerStateManager : ManagerBase
     {
         #region Properties

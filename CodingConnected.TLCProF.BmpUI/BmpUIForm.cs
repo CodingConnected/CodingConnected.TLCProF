@@ -5,10 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Eto.Drawing;
-using Eto.Forms;
 using CodingConnected.TLCProF.Models;
 using CodingConnected.TLCProF.Logging;
+using Eto.Forms;
+using Eto.Drawing;
 
 namespace CodingConnected.TLCProF.BmpUI
 {
@@ -92,9 +92,9 @@ namespace CodingConnected.TLCProF.BmpUI
 	    private readonly TabControl _mainTab;
 	    private readonly CheckToolItem[] _speedCheckButtons;
 
-        private readonly List<BitmapDetector> _detectors = new List<BitmapDetector>();
-        private readonly List<SignalGroupState> _signalGroupStates = new List<SignalGroupState>();
-        private readonly List<DetectorState> _detectorStates = new List<DetectorState>();
+        private readonly List<BitmapDetector> _detectors = [];
+        private readonly List<SignalGroupState> _signalGroupStates = [];
+        private readonly List<DetectorState> _detectorStates = [];
 
 		private readonly CommandHandler _commandHandler;
 	    private readonly bool _updatealways;
@@ -140,9 +140,9 @@ namespace CodingConnected.TLCProF.BmpUI
                 if (_suspendUpdate || !value) return;
                 _suspendUpdate = true;
 
-                _application.Invoke(async () =>
+                _ = _application.Invoke(async () =>
                 {
-					// check state and floodfill where needed
+                    // check state and floodfill where needed
                     foreach (var sg in _signalGroupStates)
                     {
                         if (!sg.Changed) continue;
@@ -156,7 +156,7 @@ namespace CodingConnected.TLCProF.BmpUI
                         d.Changed = false;
                     }
 
-					// cause bitmap update
+                    // cause bitmap update
                     var w = _mainImage.Width;
                     if (Platform.IsGtk)
                     {
@@ -167,14 +167,14 @@ namespace CodingConnected.TLCProF.BmpUI
                         _mainImage.Width = w;
                     }
 
-					// if always update is true, or running at high speed, wait 100ms
+                    // if always update is true, or running at high speed, wait 100ms
                     if (_updatealways || _fast)
                         await Task.Delay(100);
 
                     _suspendUpdate = false;
 
-					// if always update is true, or running at high speed, set self (tail-recursion)
-					if (_updatealways || _fast)
+                    // if always update is true, or running at high speed, set self (tail-recursion)
+                    if (_updatealways || _fast)
                     {
                         NeedsUpdate = true;
                     }
@@ -255,6 +255,11 @@ namespace CodingConnected.TLCProF.BmpUI
 
         #region Public methods
         
+        public void TextToConsole(string text)
+        {
+            Application.Instance.Invoke(() => _parserArea.Append(text, true));
+        }
+
         public void AddDetector(string name, System.Drawing.Point p)
         {
             if (p.X <= 0 && p.Y <= 0)

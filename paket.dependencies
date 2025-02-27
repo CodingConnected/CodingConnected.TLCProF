@@ -1,12 +1,12 @@
-framework: net45
-source https://www.nuget.org/api/v2
+source https://api.nuget.org/v3/index.json
+framework: auto-detect
 
 nuget CommonServiceLocator
 nuget Eto.Platform.Windows
-nuget Eto.Platform.Gtk3
 nuget Eto.Forms
-nuget Jetbrains.Annotations
-nuget Mono.Posix
+nuget Mono.Posix.NETStandard
 nuget MvvmLightLibs
 nuget NLog
 nuget NUnit
+nuget NUnit3TestAdapter
+nuget System.Text.Encoding.CodePages

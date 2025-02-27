@@ -1,12 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using CodingConnected.TLCProF.Models;
-using JetBrains.Annotations;
 
 namespace CodingConnected.TLCProF.Management.Managers
 {
     [ControllerManager]
-    [UsedImplicitly]
     public class WaitGreenManager : ManagerBase
     {
         #region Fields

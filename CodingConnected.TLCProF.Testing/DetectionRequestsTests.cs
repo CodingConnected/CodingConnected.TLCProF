@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using CodingConnected.TLCProF.Hosting;
+﻿using System.Linq;
 using CodingConnected.TLCProF.Management;
 using CodingConnected.TLCProF.Models;
-using CodingConnected.TLCProF.Simulation;
 using NUnit.Framework;
 
 namespace CodingConnected.TLCProF.Testing
@@ -25,7 +20,7 @@ namespace CodingConnected.TLCProF.Testing
 			d021.Presence = true;
 			m.ExecuteStep(1);
 
-			Assert.IsTrue(sg02.HasGreenRequest);
+			Assert.That(sg02.HasGreenRequest);
 	    }
 
 	    [Test]
@@ -41,7 +36,7 @@ namespace CodingConnected.TLCProF.Testing
 		    d021.Presence = true;
 		    m.ExecuteStep(3000);
 
-		    Assert.IsTrue(sg02.HasGreenRequest);
+		    Assert.That(sg02.HasGreenRequest);
 	    }
 
 	    [Test]
@@ -57,7 +52,7 @@ namespace CodingConnected.TLCProF.Testing
 		    d021.Presence = true;
 		    m.ExecuteStep(2999);
 
-		    Assert.IsFalse(sg02.HasGreenRequest);
+		    Assert.That(!sg02.HasGreenRequest);
 	    }
 
 	    [Test]
@@ -72,7 +67,7 @@ namespace CodingConnected.TLCProF.Testing
 		    d021.Presence = true;
 		    m.ExecuteStep(1800);
 
-		    Assert.IsFalse(sg02.HasGreenRequest);
+		    Assert.That(!sg02.HasGreenRequest);
 	    }
 
 	    [Test]
@@ -87,7 +82,7 @@ namespace CodingConnected.TLCProF.Testing
 		    d021.Presence = true;
 		    m.ExecuteStep(2000);
 
-		    Assert.IsTrue(sg02.HasGreenRequest);
+		    Assert.That(sg02.HasGreenRequest);
 	    }
 	}
 }

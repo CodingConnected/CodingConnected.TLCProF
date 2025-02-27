@@ -94,9 +94,14 @@ namespace CodingConnected.TLCProF.BmpUI
             }
         }
 
-		/// <summary>
-		/// Initializes the UI, using data from the Controller object parsed to the constructor
-		/// </summary>
+        public void TextToConsole(string text)
+        {
+            _mainForm.TextToConsole(text);
+        }
+
+        /// <summary>
+        /// Initializes the UI, using data from the Controller object parsed to the constructor
+        /// </summary>
         public void Initialize()
         {
 			_mainForm.InitializeObjects();

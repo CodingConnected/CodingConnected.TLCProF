@@ -22,7 +22,7 @@ namespace TLC_PROF_BmpUI_testAppl
 
             // Read controller application data from XML
             var ser = new TLCPROFSerializer();
-            var filename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tint1_tlcprof.xml");
+            var filename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "123456_tlcprof.xml");
             if (File.Exists(filename))
             {
                 try
@@ -43,7 +43,7 @@ namespace TLC_PROF_BmpUI_testAppl
             }
 
             // Initialize GUI
-            var mainGui = new BmpUIMain(controllerapplication, "tint1.png");
+            var mainGui = new BmpUIMain(controllerapplication, "123456.png");
             mainGui.Initialize();
 
             // Run
@@ -110,7 +110,10 @@ namespace TLC_PROF_BmpUI_testAppl
             {
                 mainGui.ControllerInfo = controllerapplication.BlockStructure.CurrentBlock.Name;
             };
+            host.VlogLogger.MessageBroadcast += (_, t) => mainGui.TextToConsole(t);
             host.StartController();
+            host.VlogLogger.InitVLOG(controllerapplication);
+
             mainGui.StartUI();
         }
     }

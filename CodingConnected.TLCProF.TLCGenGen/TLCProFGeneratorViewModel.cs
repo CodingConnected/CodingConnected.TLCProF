@@ -32,7 +32,7 @@ namespace CodingConnected.TLCProF.TLCGenGen
 
         private void GenerateCodeCommand_Executed()
         {
-            var prepreq = new PrepareForGenerationRequest();
+            var prepreq = new PrepareForGenerationRequest(_plugin.Controller);
             MessengerInstance.Send(prepreq);
             var s = TLCGen.Integrity.TLCGenIntegrityChecker.IsControllerDataOK(_plugin.Controller);
             if (s == null)
@@ -54,7 +54,6 @@ namespace CodingConnected.TLCProF.TLCGenGen
         }
 
         #endregion // Command Functionality
-
 
         #region Constructor
 

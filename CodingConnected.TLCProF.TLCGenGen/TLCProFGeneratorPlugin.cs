@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using GalaSoft.MvvmLight.Messaging;
 using TLCGen.Messaging.Messages;
@@ -47,6 +48,11 @@ namespace CodingConnected.TLCProF.TLCGenGen
         public string GetGeneratorVersion()
         {
             return "0.0.1 (pre-alfa)";
+        }
+
+        public List<IOElementModel> GetAllIOElements(ControllerModel c)
+        {
+            return null;
         }
 
         public UserControl GeneratorView { get; }

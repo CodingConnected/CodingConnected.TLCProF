@@ -1,11 +1,9 @@
 ﻿using System;
 using CodingConnected.TLCProF.Models;
-using JetBrains.Annotations;
 
 namespace CodingConnected.TLCProF.Management.Managers
 {
     [ControllerManager]
-    [UsedImplicitly]
     public class SafetyGreenManager : ManagerBase
     {
         #region Fields

@@ -1,6 +1,4 @@
-﻿using Eto.Drawing;
-
-namespace CodingConnected.TLCProF.BmpUI
+﻿namespace CodingConnected.TLCProF.BmpUI
 {
 	public struct SimplePoint
 	{

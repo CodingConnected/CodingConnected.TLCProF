@@ -1,10 +1,15 @@
 # TLCProF
-TLCProF is a new, open source framework for programming vehicle dependent traffic light controller software. The abbreviation stands for: Traffic Light Controller Programming Framework. The project is currently in beta phase, and both its name and code base may undergo considerable changes in the near future.
+TLCProF is an open source framework for programming vehicle dependent traffic light controller software. The abbreviation *TLCProF* stands for: Traffic Light Controller Programming Framework. The project is currently in beta phase, and both its name and code base may undergo considerable changes in the near future.
 
-> Please note: the project is currently in alfo state, and in active development. It's API and classes are likely to change occasianally until the project reaches a stable state.
+The framework has been written in C#. It was originally made with .NET Framework and compatible with Mono, and was therefore from the onset compatible with Linux.
+The current version (as of 27th of Feb. 2025) targets .NET8. The controller UI was not tested on platforms other than Windows 11.
+The headless version runs fine on Linux (tested on Ubuntu).
 
-The framework has been written in C# (minimum version: 6.0) using the .NET Framework (minimum version: 4.5). It is compatible with Mono (tested with version 3.2.8), and can thus be used under Linux.
-> Note (10-09-2017): the current version of the UI has known issues when ran with Mono. A controller can however be ran on the command line without trouble.
+## Disclaimer
+Please note: the framework is the result of a pilot project, and has never been extensively used in a production environment.
+Use at your own risk, the authors of the framework assume no liability whatsoever; also refer to the LICENSE.
+
+---
 
 Contents of the README:
 
@@ -19,7 +24,7 @@ Contents of the README:
       - [Hosting the controller](#hosting-the-controller)
   * [Building from source](#building-from-source)
     + [Retrieve the sources](#retrieve-the-sources)
-    + [Restore dependencies: Paket](#restore-dependencies--paket)
+    + [Restore dependencies: Paket](#restore-dependencies-paket)
     + [Building](#building)
 
 ## Using the library
@@ -109,7 +114,8 @@ while (s != "exit") { s = Console.ReadLine(); }
 Please refer to the TLCProF specification for more details about this class and the meaning of it constructor arguments.
 
 ## Building from source
-Because the framework uses C# 6.0 features, it can be built only with a compiler that supports those, such as Microsoft Visual Studio 2017. The project has been created using Visual 2017 Community Edition. Compiling with Mono may work, but is untested (an unsupported). However, a binary compiled with Visual Studio can be ran with Mono under Linux.
+To build the project, download or clone the sources and use an IDE compatible with .NET8 to compile the project.
+Note that you need to restore dependencies first.
 
 ### Retrieve the sources
 The sources can be downloaded as a zip, but preferably are downloaded via git from within Visual Studio, so staying up to date is easier. To do this, click menu Team > Manage connections. In the Manage Connections dropdown menu, select Connect to Project. Sign in with your Visual Studio account, and close the CodingConnected.TLCProF project. This will create a local clone of the repository, which can be easily kept up to date with remote code changes.
@@ -117,8 +123,9 @@ The sources can be downloaded as a zip, but preferably are downloaded via git fr
 ### Restore dependencies: Paket
 The project uses [Paket](https://fsprojects.github.io/Paket/) as its package manager. To build from source, we first need to restore any dependencies.
 - Use the menu Tools > Nuget Packet Manager > Packet Manager Console, to open the console.
-- Type in the following command (without the quotes): ".paket\paket.bootstrapper.exe". This will download the latest version of Paket.
-- Use paket to restore any dependencies: ".paket/paket.exe update". Reload the solution if a Visual Studio prompt appears.
+- Follow the instructions on the Paket website to install Paket as a dotnet global tool
+- Use paket to restore any dependencies: `dotnet paket restore` (or install or update)
+- A `dotnet restore` might be needed beforehand
 
 ### Building
 Now that dependencies have been restored, we can build the solution.

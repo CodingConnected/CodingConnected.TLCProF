@@ -150,7 +150,9 @@
     <EnableStreamingLogging>true</EnableStreamingLogging>
     <MaximumWaitingTime>240</MaximumWaitingTime>
     <Name>123456</Name>
-    <StreamingVlogPort>18005</StreamingVlogPort>
+	<StreamingVlogPort>18005</StreamingVlogPort>
+    <FtpVlogPort>18006</FtpVlogPort>
+	<FtpRootFolder>/home/menno/TLCProF_123456</FtpRootFolder>
   </ControllerData>
   <Extras>
     <SafetyGreenSignalGroups />

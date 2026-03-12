@@ -6,66 +6,82 @@ using CodingConnected.TLCProF.Simulation;
 using NLog;
 using System.Text;
 
+Logger logger = LogManager.GetCurrentClassLogger();
+ControllerModel controllerModel;
+ControllerManager controllerManager;
+
 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-Logger _logger = LogManager.GetCurrentClassLogger();
-
-_logger.Info("BOOTING UP TLC-PROF");
+#region Command line args
 
 var cmdArgs = Environment.GetCommandLineArgs();
-var ftpPort = 8021;
-if (cmdArgs.Length > 1)
+if (cmdArgs.Any(x => x.StartsWith("-help")))
 {
-    ftpPort = int.Parse(cmdArgs[1]);
+    Console.WriteLine("TLC-PROF HEADLESS CONTROLLER >>> HELP !");
+    Console.WriteLine("Command line args:");
+    Console.WriteLine("  -xml=\"tlc1.xml\" > set xml configuration");
+    Console.WriteLine("  -streaming=8001 > set port for streaming (override xml setting)");
+    return;
 }
 
-var ftp = new SharpFtpServer.FtpServer(System.Net.IPAddress.Any, ftpPort);
-ftp.Start();
 
-ControllerModel controllerapplication;
-ControllerManager controllermanager;
+var streamingPort = -1;
+var xmlFile = "123456_tlcprof.xml";
+if (cmdArgs.Any(x => x.StartsWith("-streaming=")))
+{
+    streamingPort = int.Parse(cmdArgs.First(x => x.StartsWith("-streaming=")).Replace("-streaming=", ""));
+}
+if (cmdArgs.Any(x => x.StartsWith("-xml=")))
+{
+    xmlFile = cmdArgs.First(x => x.StartsWith("-xml=")).Replace("-xml=", "");
+}
+
+#endregion // Command line args
+
+#region Loading data
+
+logger.Info("BOOTING UP TLC-PROF");
 
 // Read controller application data from XML
 var ser = new TLCPROFSerializer();
-var filename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "123456_tlcprof.xml");
+var filename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, xmlFile);
 if (File.Exists(filename))
 {
     try
     {
-        controllerapplication = ser.DeserializeController(filename);
-        controllermanager = new ControllerManager(controllerapplication);
+        controllerModel = ser.DeserializeController(filename);
+        controllerManager = new ControllerManager(controllerModel);
     }
     catch (Exception e)
     {
-        _logger.Error(e, "Failed to load controller application from file {0}", filename);
+        logger.Error(e, "Failed to load controller application from file {0}", filename);
         throw;
     }
 }
 else
 {
-    _logger.Error("Failed to load controller application; could not find file {0}", filename);
+    logger.Error("Failed to load controller application; could not find file {0}", filename);
     throw new FileNotFoundException(filename);
 }
 
-_logger.Info("Loaded controller data from \"123456_tlcprof.xml\"");
-_logger.Info("Controller name: " + (controllerapplication.Data.Name ?? "UNDEFINED"));
-_logger.Info("VLOG filebased is: " + (controllerapplication.Data.EnableFileLogging ? "ON" : "OFF"));
-_logger.Info("VLOG streaming is: " + (controllerapplication.Data.EnableStreamingLogging ? "ON" : "OFF"));
-_logger.Info("VLOG streaming port: " + controllerapplication.Data.StreamingVlogPort);
+if (streamingPort > 0) controllerModel.Data.StreamingVlogPort = streamingPort;
+
+#endregion // Loading data
+
+logger.Info($"Loaded controller data from \"{xmlFile}\"");
+logger.Info("Controller name: " + (controllerModel.Data.Name ?? "UNDEFINED"));
+logger.Info("VLOG filebased is: " + (controllerModel.Data.EnableFileLogging ? "ON" : "OFF"));
+logger.Info("VLOG streaming is: " + (controllerModel.Data.EnableStreamingLogging ? "ON" : "OFF"));
+logger.Info("VLOG streaming port: " + controllerModel.Data.StreamingVlogPort);
 
 // Run
-var sim = new SimpleControllerSim(controllerapplication, 43);
-sim.SimulationInit(controllerapplication.Clock.CurrentTime);
-var host = new SimpleControllerHost(controllermanager, sim, 100, 100, true, true);
+var sim = new SimpleControllerSim(controllerModel, 43);
+sim.SimulationInit(controllerModel.Clock.CurrentTime);
+var host = new SimpleControllerHost(controllerManager, sim, 100, 100, stepDelay: true, realTime: true);
 
-void VlogLogger_MessageBroadcast(object? sender, string e)
-{
-    Console.Write(e);
-};
-
-host.VlogLogger.MessageBroadcast += VlogLogger_MessageBroadcast;
+host.VlogLogger.MessageBroadcast += VlogLoggerMessageBroadcast;
 host.StartController();
-host.VlogLogger.InitVLOG(controllerapplication);
+host.VlogLogger.InitVLOG(controllerModel);
 
 int k = 0;
 var streaming = true;
@@ -76,17 +92,24 @@ while (k != 'q')
     k = key.KeyChar;
     if (k == 's')
     {
-        if (streaming) host.VlogLogger.MessageBroadcast -= VlogLogger_MessageBroadcast;
-        else host.VlogLogger.MessageBroadcast += VlogLogger_MessageBroadcast;
+        if (streaming) host.VlogLogger.MessageBroadcast -= VlogLoggerMessageBroadcast;
+        else host.VlogLogger.MessageBroadcast += VlogLoggerMessageBroadcast;
         streaming = !streaming;
-        _logger.Info($"Streaming to console is: {(streaming ? "ON" : "OFF")}");
+        logger.Info($"Streaming to console is: {(streaming ? "ON" : "OFF")}");
     }
     else if (k == 'q')
     {
-        _logger.Info($"STOPPING TLC-PROF");
+        logger.Info("STOPPING TLC-PROF");
     }
     else if (k != '\r' && k != '\n')
     {
-        _logger.Warn($"Unknown command: {k}");
+        logger.Warn($"Unknown command: {k}");
     }
+}
+
+return;
+
+void VlogLoggerMessageBroadcast(object? sender, string e)
+{
+    Console.Write(e);
 }

@@ -62,6 +62,7 @@
     <MaximumWaitingTime>240</MaximumWaitingTime>
     <Name>TINT1</Name>
 	<StreamingVlogPort>18001</StreamingVlogPort>
+	<FtpVlogPort>18002</FtpVlogPort>
   </ControllerData>
   <Extras>
     <SafetyGreenSignalGroups />
